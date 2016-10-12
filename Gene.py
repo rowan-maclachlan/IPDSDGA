@@ -19,6 +19,10 @@ class Gene():
         self._gene = self.ProduceRandomGene()
 
     def ProduceRandomGene( self ):
+        """
+        Produce a randomly generated _gene of size 2^_sizeMem + 1
+        :return: A _gene sequence
+        """
         gene = ""
         gene = self._initChoice
         for x in xrange( 0, 2**self._sizeMem ):
@@ -26,6 +30,10 @@ class Gene():
         return gene
 
     def DisplayGene( self ):
+        """
+        :return: A string of the memory size of the Gene,
+         the initial choice, and the gene string.
+        """
         display = "\nmemory size: "
         display += str( self._sizeMem )
         display += "\ninitial choice: "
@@ -33,4 +41,15 @@ class Gene():
         display += "\ngene: "
         display += str( self._gene )
         return display
+
+    def GetPercentDefect( self ):
+        """
+        :return: The percentage of this Gene which is 'd'
+        """
+        countDefect = 0
+        for x in range( 0, len( self._gene )):
+            if( 'd' == self._gene(x)):
+                countDefect += 1
+        return countDefect / len( self._gene )
+
 
