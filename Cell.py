@@ -6,15 +6,12 @@ class Cell():
     _gene = None
     _score = 0
 
-    def __init__(self, gene=None):
+    def __init__(self, parentCell1=None, parentCell2=None):
         # generate a gene to match specifications
-        if gene is not None:
-            self._geneticCode = gene
+        if parentCell1 is None or parentCell2 is None:
+            self._gene = Gene.Gene(parentCell1._gene, parentCell2._gene)
         else:
-            self._geneticCode = Gene.Gene()
-
-    def isAlive(self):
-        return True
+            self._gene = Gene.Gene()
 
     def reproduce(self, partner):
         """
@@ -22,9 +19,7 @@ class Cell():
         :param partner: another Cell
         :return: a new Cell
         """
-        newGene = Gene(self, partner)
-        newCell = Cell(newGene)
-        return newCell
+        return Cell(self, partner)
 
     def __str__(self):
         string = self._gene.DisplayGene()

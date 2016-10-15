@@ -13,6 +13,11 @@ class Gene():
     _sizeMem = None
 
     def __init__(self, gene1=None, gene2=None, sizeMem=_DEFAULT_SIZE_MEM):
+        """
+        :type sizeMem: int
+        :type gene1: Gene
+        :type gene2: Gene
+        """
         # set the memory size of this gene
         self._sizeMem = sizeMem
         # produce a new genetic code if this Gene does not have 2 parents
