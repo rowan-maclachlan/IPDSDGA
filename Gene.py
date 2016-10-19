@@ -4,10 +4,10 @@ import math
 
 
 class Gene():
-    _DEFAULT_SIZE_MEM = 2
-    P_OF_INSERTION = 0.05
-    P_OF_DELETION = 0.05
-    P_OF_FLIPPING = 0.05
+    _DEFAULT_SIZE_MEM = 4
+    P_OF_INSERTION = 0.1
+    P_OF_DELETION = 0.1
+    P_OF_FLIPPING = 0.1
 
     _gene = []
     _sizeMem = None
@@ -25,7 +25,7 @@ class Gene():
         if gene1 is None or gene2 is None:
             self._gene = self.ProduceRandomGene()
         else:
-            self._gene = self.recombinate(gene1._gene, gene2._gene)
+            self.recombinate(gene1._gene, gene2._gene)
 
     def recombinate( self, parent2Code, parent1Code ):
         # type: (Gene._gene, Gene._gene) -> Gene._gene
@@ -46,18 +46,16 @@ class Gene():
         # Calculate the length of the new gene which can and
         # cannot be generated from both parents
         parentsLength = len(shorterParentCode)
-        remainingLength = newLength - parentsLength
         # Produce as much of the new gene from a combination of
         # both parent's _genes as is possible
-        for x in xrange( 0, parentsLength ):
-            newGeneticCode[x] = parent1Code[x] if ( random.randint(0,1) == 0 ) else parent2Code[x]
+        for x in xrange( 0, parentsLength-1 ):
+            newGeneticCode.append(parent1Code[x] if ( random.randint(0,1) == 0 ) else parent2Code[x])
         # produce the rest of the gene from the longer parent's _gene
         newGeneticCode[parentsLength:] = longerParentCode[parentsLength:newLength-1]
-        # apply mutations to the new gene
+        self._gene = newGeneticCode
         self.mutate()
-        return newGeneticCode
         
-    def mutate( self ):
+    def mutate(self):
         """
         Apply the simulation mutations to this Gene's _gene
         :return: None
@@ -73,6 +71,7 @@ class Gene():
         """
         for x in xrange( 1, len( self._gene )):
             if self.P_OF_FLIPPING > random.random():
+                print "flip" + str(x)
                 self._gene[x] = self.getOtherChoice(self._gene[x])
         return None
 
@@ -83,8 +82,9 @@ class Gene():
          the length of the Gene's _gene
         :return: None
         """
-        for x in xrange( 1, len( self._gene )):
+        for x in xrange( 1, len(self._gene)):
             if self.P_OF_DELETION > random.random():
+                print "del" + str(x)
                 self.removeChoice(x)
         return None
 
@@ -97,6 +97,7 @@ class Gene():
         """
         for x in xrange(1, len(self._gene)):
             if self.P_OF_INSERTION > random.random():
+                print "ins" + str(x)
                 self.insertChoice(x, auxiliaryGenetics.GetRandomChoice())
         return None
 
@@ -109,7 +110,7 @@ class Gene():
         :param pos: The position after which to insert the choice
         :return: None
         """
-        if not self.isValidPosition():
+        if not self.isValidPosition(pos):
             pos = 1
         if not self.isValidChoice(choice):
             choice = auxiliaryGenetics.GetRandomChoice()
@@ -136,7 +137,7 @@ class Gene():
         """
         if not self.isValidChoice(pos):
             pos = len(self._gene)-1
-        self._gene.remove(pos)
+        self._gene.remove(self._gene[pos])
         self.updateSizeMem()
 
     def updateSizeMem(self):
@@ -189,24 +190,27 @@ class Gene():
         else: self._sizeMem = sizeMem
         gene = []
 
-        gene[0] = 0
+        gene.append(0)
         for x in xrange(1, 2 ** sizeMem):
-            gene[x] = auxiliaryGenetics.GetRandomChoice()
+            gene.append(auxiliaryGenetics.GetRandomChoice())
         return gene
 
-    def DisplayGene(self):
+    def __str__(self):
         """
-        :return: A string of the memory size of the Gene,
-         the initial choice, and the gene string.
+        Prints a string representation of all
+        important information of the Gene
+        :return:
         """
         display = "\nmemory size: "
         display += str(self._sizeMem)
+        display += "\npercent defect: "
+        display += str(self.GetFractionDefect())
         display += "\ngene: "
         for x in xrange(1, len(self._gene)):
-            display += str(self._gene[x])
+            display +=str(self._gene[x])
         return display
 
-    def GetPercentDefect(self):
+    def GetFractionDefect(self):
         """
         :return: The percentage of this Gene which is 'd'
         """
@@ -214,4 +218,4 @@ class Gene():
         for x in range(1, len(self._gene)):
             if 'd' == self._gene[x]:
                 countDefect += 1
-        return countDefect / len(self._gene)-1
+        return float(countDefect) / float(len(self._gene)-1)

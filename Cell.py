@@ -8,7 +8,7 @@ class Cell():
 
     def __init__(self, parentCell1=None, parentCell2=None):
         # generate a gene to match specifications
-        if parentCell1 is None or parentCell2 is None:
+        if parentCell1 is not None and parentCell2 is not None:
             self._gene = Gene.Gene(parentCell1._gene, parentCell2._gene)
         else:
             self._gene = Gene.Gene()
@@ -22,7 +22,8 @@ class Cell():
         return Cell(self, partner)
 
     def __str__(self):
-        string = self._gene.DisplayGene()
-        string += "\nScore: " + str(self._score)
-        print string
+        display = str(self._gene)
+        display += "\nScore: "
+        display += str(self._score)
+        return display
 

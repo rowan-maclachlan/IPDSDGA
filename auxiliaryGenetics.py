@@ -6,4 +6,4 @@ def GetRandomChoice(chance=_CHANCE):
     depending on the random value _CHANCE
     :return:
     """
-    return 'd' if chance > random() else 'c'
+    return 'd' if chance > random.random() else 'c'

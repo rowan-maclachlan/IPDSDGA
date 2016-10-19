@@ -26,8 +26,8 @@ class ScoreMatrix():
         """
         return the corresponding scores for the 2 choices.
         Consider using a named tuple or dictionary for this method?
-        :param choice1:
-        :param choice2:
+        :param choice1: The choice of player 1
+        :param choice2: The choice of player 2
         :return: A tuple where (p1score, p2score)
         """
         if 'c' == choice1 and 'c' == choice2:
