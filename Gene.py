@@ -5,8 +5,8 @@ import math
 
 class Gene():
     _DEFAULT_SIZE_MEM = 4
-    P_OF_INSERTION = 0.1
-    P_OF_DELETION = 0.1
+    P_OF_INSERTION = 0.2
+    P_OF_DELETION = 0.05
     P_OF_FLIPPING = 0.1
 
     _gene = []
@@ -26,6 +26,32 @@ class Gene():
             self._gene = self.ProduceRandomGene()
         else:
             self.recombinate(gene1._gene, gene2._gene)
+
+    def getChoice(self, history):
+        """
+        Find the choice of this Gene's Cell depending on the
+        history provided.  If the move is a 'c', get the left
+        child.  If it a 'd', get the right child.  If we reach
+        a leaf node, return that value
+        :param history: The history or moves provided
+        :return: the choice dictated by the gene and history provided
+        """
+        offset = 1
+        choice = self._gene[1]
+        for x in range(0, len(history)):
+            # If c, get left child
+            if 'c' == history[x]:
+                if self.isValidPosition(2*offset):
+                    choice = self._gene[offset]
+                else:
+                    offset = 2*offset
+            # else its 'd', so get right child
+            else:
+                if self.isValidPosition(2*offset+1):
+                    choice = self._gene[offset]
+                else:
+                    offset = 2*offset+1
+        return choice
 
     def recombinate( self, parent2Code, parent1Code ):
         # type: (Gene._gene, Gene._gene) -> Gene._gene
@@ -71,7 +97,6 @@ class Gene():
         """
         for x in xrange( 1, len( self._gene )):
             if self.P_OF_FLIPPING > random.random():
-                print "flip" + str(x)
                 self._gene[x] = self.getOtherChoice(self._gene[x])
         return None
 
@@ -84,7 +109,6 @@ class Gene():
         """
         for x in xrange( 1, len(self._gene)):
             if self.P_OF_DELETION > random.random():
-                print "del" + str(x)
                 self.removeChoice(x)
         return None
 
@@ -97,7 +121,6 @@ class Gene():
         """
         for x in xrange(1, len(self._gene)):
             if self.P_OF_INSERTION > random.random():
-                print "ins" + str(x)
                 self.insertChoice(x, auxiliaryGenetics.GetRandomChoice())
         return None
 
@@ -137,32 +160,11 @@ class Gene():
         """
         if not self.isValidChoice(pos):
             pos = len(self._gene)-1
-        self._gene.remove(self._gene[pos])
+        del self._gene[pos]
         self.updateSizeMem()
 
     def updateSizeMem(self):
-        self._sizeMem = math.log(len(self._gene), 2)
-
-    def getOtherChoice(self, choice):
-        """
-        Return the opposite choice of the argument provided
-        :param choice: the choice character for which the opposite is desired
-        :return: the character of the opposite choice
-        """
-        otherChoice = 'd' if choice == 'c' else 'c'
-        return otherChoice
-
-    def isValidChoice(self, choice):
-        """
-        Return true if the 'choice' is a valid choice.
-        Return false otherwise.
-        :param choice: A choice 'c' or 'd'
-        :return: Boolean true or false
-        """
-        if choice != 'd' or choice != 'c':
-            return False
-        else:
-            return True
+        self._sizeMem = int(math.log(len(self._gene), 2))
 
     def isValidPosition(self, pos):
         """
@@ -174,7 +176,6 @@ class Gene():
         if 1 > pos: return False
         if len(self._gene) <= pos: return False
         return True
-
 
     def ProduceRandomGene(self, sizeMem=None):
         """

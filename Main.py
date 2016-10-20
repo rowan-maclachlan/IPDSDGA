@@ -3,17 +3,21 @@ import Cell
 import numpy as np
 import random
 
+GENERATIONS = 10
+SIMULATION_STEPS = 100
+
 if __name__ == "__main__":
 
-    cellA = Cell.Cell()
-    cellB = Cell.Cell()
+    cellA = Cell.Cell(0)
+    cellB = Cell.Cell(1)
 
     print str(cellA)
     print str(cellB)
 
-    cellC = Cell.Cell(cellA, cellB)
-    cellD = Cell.Cell(cellA, cellB)
+    cellC = Cell.Cell(2, cellA, cellB)
 
     print str(cellC)
-    print str(cellD)
+
+
+
 
