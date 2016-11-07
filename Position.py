@@ -1,32 +1,18 @@
-
 class Position():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
-    _position = None
+    def __add__(self, other):
+        return Position(self.x + other.x, self.y + other.y)
 
-    def __init__(x, y, pos=None):
-        if pos is None:
-            _position = (x, y)
-        else:
-            _position = pos
+    def __sub__(self, other):
+        return Position(self.x - other.x, self.y - other.y)
 
-    def getPositionRelativeTo(self, other):
-        """
-        Get the Position of the `other` Position relative to `self`
-        :param other: Position
-            The position desired in relative terms
-        :return: Position
-            A tuple (x,y) describing the relative Position
-        """
-        return ((self._position[0] - other._position[0]), (self._position[1] - other._position[1]))
+    def __repr__(self):
+        return "<%s instance at %s, x: %s, y: %s>" %\
+                (self.__class__.__name__, id(self), self.x, self.y)
 
-    def getPositionAbsolute(self, other):
-        """
-        Get the absolute value of a Position `other`,
-        described relative to self.
-        :param other: Position
-            A position described relative to self
-        :return: Position
-            An absolute Position
-        """
-        # Very not sure about this:
-        self.getPositionRelativeTo(other)
+    def __str__(self):
+        return "(%s, %s)" % (self.x, self.y)
+
