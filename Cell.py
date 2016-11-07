@@ -1,14 +1,29 @@
 import random
 import Gene
+import ScoreMatrix as sm
+import Memory
 
 class Cell():
+    """ The Cell is the entity which contains the rule-defining Gene.
+    The Cell hosts the Gene, and explicitly defines the vialibity of the
+    rule through realizing associated scores and health metrics. """
 
+    """ (int) For uniquely identifying cells """
     _id = 0;
-    _gene = None
+    """ (int) Possibly used for data or life-span related functions """
+    _age = 0;
+    """ (int) To measure the success of a gene """
     _score = 0
+    """ (Gene) The decision making entity of the cell."""
+    _gene = None
+    """ dic(Cell,Memory) To hold the memory of past interactions with other cells"""
     _memory = None
+    """ (Position) The location of the Cell within the toroidal world. """
+    currentPosition = None
+    """ (Position) The next location the Cell aspires to. """
+    nextPosition = None
 
-    def __init__(self, id, parentCell1=None, parentCell2=None):
+    def __init__(self, id, position, parentCell1=None, parentCell2=None):
         # generate a gene to match specifications
         if parentCell1 is not None and parentCell2 is not None:
             self._gene = Gene.Gene(parentCell1._gene, parentCell2._gene)
@@ -24,31 +39,52 @@ class Cell():
         """
         return Cell(self, partner)
 
-    def interact(self, partner, partnersChoice):
-        # If there is a memory of a previous interaction with this partner,
-        # retrieve it. Else, create a new memory with the first option.
-        if partner.getID() in self._memory:
-            memoryOfPartner = self._memory[partner.getID()]
-            self._memory[partner.getID()] = self.addToMemory(memoryOfPartner, partnersChoice)
+    def interact(self, neighbours):
+        """
+        Process the interaction stages for this cell interacting with all its neighbours.
+        :param neighbours: Set<Cell> The list of neighbouring cells this Cell will interact with.
+        :return: None
+        """
+        theirChoice = 'd' # <- where does this come from?
+        for neighbour in neighbours:
+            myChoice = self.decide(neighbour)
+            self.adjustScore(myChoice, theirChoice)
+            self.adjustMemory(neighbour, theirChoice)
+
+    def decide(self, neighbour):
+        return self._gene.getDecision(self._memory[neighbour.getID()])
+
+    def adjustScore(self, myChoice, theirChoice):
+        score = sm.getScore(myChoice,theirChoice)
+        self._score += score
+
+    def adjustMemory(self, neighbour, neighbourChoice):
+        """
+        Adjust the memory of this cell by looking at
+        the memory dictionary for a past relationship with the
+        neighbour, and adding the new interaction to that memory.
+        :param neighbour: Cell the cell involved in the interaction
+        :param neighbourChoice: a choice 'c' or 'd' from the other cell
+        :return: None
+        """
+        if neighbour.getID() in self._memory:
+            self._memory[neighbour.getID()].addToMemory(neighbourChoice, self._gene._sizeMem)
         else:
-            if 'd' == partnersChoice:
-                self._memory[partner.getID()] = 'd'
+            if 'd' == neighbourChoice:
+                self._memory[neighbour.getID()] = Memory.Memory('d')
             else:
-                self._memory[partner.getID()] = 'c'
-        response = self.getChoice(self._memory[partner.getID()])
-        print response
+                self._memory[neighbour.getID()] = Memory.Memory('c')
+        # record the interaction
+        self._memory[neighbour.getID()].recordInteraction()
 
     def getChoice(self, memory):
+        """
+        Retreive the correct response from the Cell's gene
+        :param memory: A list of characters defining a memory sequence
+        :return: A character 'c' or 'd'
+        """
         choice = self._gene.getChoice(memory)
-
-    def addToMemory(self, previousMemory, newChoice):
-        if len(previousMemory) < self._gene._sizeMem:
-            previousMemory.append(newChoice)
-        else:
-            previousMemory.pop[0]
-            previousMemory.append(newChoice)
-        return previousMemory
-
+        return choice
 
     def getID(self):
         return self._id

@@ -9,33 +9,27 @@ class ScoreMatrix():
         D [ 0, 5 ] [ 1, 1 ]
     """
 
-    SCORE_CC = (3, 3) # P1 = c, P2 = d
-    SCORE_CD = (0, 5) # P1 = c, P2 = d
-    SCORE_DD = (1, 1) # P1 = d, P2 = d
-    SCORE_DC = (5, 0) # P1 = d, P2 = c
+    SCORE_CC = 3 # myChoice = c, theirChoice = d
+    SCORE_CD = 0 # myChoice = c, theirChoice = d
+    SCORE_DD = 1 # myChoice = d, theirChoice = d
+    SCORE_DC = 5 # myChoice = d, theirChoice = c
 
-    _matrix = [[]]
+    """ The energy loss of a cell per simulation tick """
+    LOSS_PER_TICK = 2
 
-    def __init__(self):
-        self._matrix[0][0] = self.SCORE_CC
-        self._matrix[0][1] = self.SCORE_CD
-        self._matrix[1][0] = self.SCORE_DC
-        self._matrix[1][1] = self.SCORE_DD
-
-    def getScore(self, choice1, choice2):
+    def getScore(self, myChoice, theirChoice):
         """
         return the corresponding scores for the 2 choices.
         Consider using a named tuple or dictionary for this method?
         :param choice1: The choice of player 1
         :param choice2: The choice of player 2
-        :return: A tuple where (p1score, p2score)
+        :return: An integer value which is the score for the two choices
         """
-        if 'c' == choice1 and 'c' == choice2:
-            return self._matrix[0][0]
-        if 'c' == choice1 and 'd' == choice2:
-            return self._matrix[0][1]
-        if 'd' == choice1 and 'c' == choice2:
-            return self._matrix[1][0]
+        if 'c' == myChoice and 'c' == theirChoice:
+            return self.SCORE_CC
+        if 'c' == myChoice and 'd' == theirChoice:
+            return self.SCORE_CD
+        if 'd' == myChoice and 'c' == theirChoice:
+            return self.SCORE_DC
         else:
-            return self._matrix[1][1]
-
+            return self.SCORE_DD
