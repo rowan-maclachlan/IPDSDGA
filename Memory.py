@@ -8,12 +8,12 @@ class Memory():
     _hasInteracted = None
     """ The sequence of remembered moves. """
     _sequence = None
-    """"""
 
     def __init__(self, sequence=None):
-        self._hasInteracted = False
+        self._hasInteracted = True
         if sequence is not None:
             self._sequence = sequence
+
 
     def addToMemory(self, choice, memSize):
         """
@@ -25,6 +25,7 @@ class Memory():
         if len(self._sequence) >= memSize:
             self._sequence.pop[0]
         self._sequence.append(choice)
+        self.recordInteraction()
         return None
 
     def recordInteraction(self):

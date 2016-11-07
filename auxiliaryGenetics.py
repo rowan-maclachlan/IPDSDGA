@@ -2,7 +2,7 @@ import random
 
 _CHANCE = 0.5
 
-def recombinate(self, parentA, parentB):
+def recombinate(parentA, parentB):
     """
     :param parentA: Gene Parent A's Gene
     :param parentB: Gene Parent B's Gene
@@ -39,7 +39,7 @@ def getRandomChoice(chance=_CHANCE):
     """
     return 'd' if chance > random.random() else 'c'
 
-def getOtherChoice(self, choice):
+def getOtherChoice(choice):
     """
     Return the opposite choice of the argument provided
     :param choice: the choice character for which the opposite is desired
@@ -47,7 +47,7 @@ def getOtherChoice(self, choice):
     """
     return 'd' if choice == 'c' else 'c'
 
-def isValidChoice(self, choice):
+def isValidChoice(choice):
     """
     Return true if the 'choice' is a valid choice.
     Return false otherwise.
@@ -59,7 +59,7 @@ def isValidChoice(self, choice):
     else:
         return True
 
-def isValidPosition(self, code, pos):
+def isValidPosition(code, pos):
     """
     Return true if the 'pos' is a valid position.
     Return false otherwise.
@@ -71,7 +71,7 @@ def isValidPosition(self, code, pos):
     if len(code) <= pos: return False
     return True
 
-def mutate(self, code):
+def mutate(code):
     """
     Apply the simulation mutations to this Gene's _gene
     """
@@ -79,7 +79,7 @@ def mutate(self, code):
     self.applyDeletions(code)
     self.applyInsertions(code)
 
-def applyFlips(self, code):
+def applyFlips(code):
     """
     Proceed over the code and apply flip mutations
     according to the probabilty of a flip.
@@ -91,7 +91,7 @@ def applyFlips(self, code):
             code[x] = self.getOtherChoice(self._gene[x])
     return None
 
-def applyDeletions(self, code):
+def applyDeletions(code):
     """
     Apply deletions over this Gene's _gene according
      to the probability of a deletion per choice in
@@ -104,7 +104,7 @@ def applyDeletions(self, code):
             self.removeChoice(code, x)
     return None
 
-def applyInsertions(self, code):
+def applyInsertions(code):
     """
     Apply any mutational insertions to this Gene's _gene
     according to the probability of insertion per choice
@@ -117,7 +117,7 @@ def applyInsertions(self, code):
             self.insertChoice(code, self.getRandomChoice(), x)
     return None
 
-def insertChoice(self, code, choice, pos):
+def insertChoice(code, choice, pos):
     """
     insert the choice 'c' or 'd' into the position in the gene
     directly after 'pos'.
@@ -134,7 +134,7 @@ def insertChoice(self, code, choice, pos):
         code.insert(pos, choice)
     return None
 
-def appendChoice(self, code, choice):
+def appendChoice(code, choice):
     """
     Append the choice to the this gene
     :param code: List<char> a list of character as code
@@ -146,7 +146,7 @@ def appendChoice(self, code, choice):
     code.append(choice)
     return None
 
-def removeChoice(self, code, pos):
+def removeChoice(code, pos):
     """
     Remove the choice at position 'pos' in the code.
     If the position is not valid, the last choice is removed.

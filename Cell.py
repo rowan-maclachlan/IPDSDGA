@@ -29,6 +29,7 @@ class Cell():
             self._gene = Gene.Gene(parentCell1._gene, parentCell2._gene)
         else:
             self._gene = Gene.Gene()
+        self.currentPosition = position
         self._id = id
 
     def reproduce(self, partner):

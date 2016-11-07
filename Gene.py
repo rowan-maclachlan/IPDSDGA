@@ -69,10 +69,10 @@ class Gene():
         # If the size is provided, make sure
         # to update this gene's memory size
         else: self._sizeMem = sizeMem
-        code = list(0)
-
+        code = []
+        code.append(0)
         for x in xrange(1, 2 ** sizeMem):
-            code.append(ag.GetRandomChoice())
+            code.append(ag.getRandomChoice())
         return code
 
     def __str__(self):
@@ -88,8 +88,8 @@ class Gene():
         display += "\ninitial move: "
         display += self._code[1]
         display += "\ngene: "
-        for x in xrange(1, len(self._gene)):
-            display += str(self._gene[x])
+        for x in xrange(1, len(self._code)):
+            display += str(self._code[x])
         return display
 
     def GetFractionDefect(self):
@@ -97,7 +97,7 @@ class Gene():
         :return: The percentage of this Gene which is 'd'
         """
         countDefect = 0
-        for x in range(1, len(self._gene)):
-            if 'd' == self._gene[x]:
+        for x in range(1, len(self._code)):
+            if 'd' == self._code[x]:
                 countDefect += 1
-        return float(countDefect) / float(len(self._gene)-1)
+        return float(countDefect) / float(len(self._code)-1)
