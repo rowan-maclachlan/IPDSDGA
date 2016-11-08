@@ -5,9 +5,6 @@ import math
 class Gene():
 
     _DEFAULT_SIZE_MEM = 3
-    P_OF_INSERTION = 0.05
-    P_OF_DELETION = 0.05
-    P_OF_FLIPPING = 0.05
 
     _code = None
     _sizeMem = None
@@ -26,7 +23,8 @@ class Gene():
             self._code = self.ProduceRandomGene()
         else:
             self._code = ag.recombinate(gene1, gene2)
-            self.mutate(self._code)
+            ag.mutate(self._code)
+            self.updateSizeMem()
 
     def getDecision(self, history):
         """
@@ -34,28 +32,28 @@ class Gene():
         history provided.  If the move is a 'c', get the left
         child.  If it a 'd', get the right child.  If we reach
         a leaf node, return that value
-        :param history: List<Choice> The history or moves provided
+        :param history: Memory The history or moves provided
         :return: the choice dictated by the gene and history provided
         """
         offset = 1
         choice = self._code[1]
-        for x in range(0, len(history)):
+        for x in range(0, len(history.getSequence())):
             # If c, get left child
-            if 'c' == history[x]:
-                if not self.isValidPosition(2*offset):
+            if 'c' == history._sequence[x]:
+                if not ag.isValidPosition(self._code, 2*offset):
                     choice = self._code[offset]
                 else:
                     offset = 2*offset
             # else its 'd', so get right child
             else:
-                if not self.isValidPosition(2*offset+1):
-                    choice = self._gene[offset]
+                if not ag.isValidPosition(self._code, 2*offset+1):
+                    choice = self._code[offset]
                 else:
                     offset = 2*offset+1
         return choice
 
     def updateSizeMem(self):
-        self._sizeMem = int(math.log(len(self._gene), 2))
+        self._sizeMem = int(math.log(len(self._code), 2))
 
     def ProduceRandomGene(self, sizeMem=None):
         """
