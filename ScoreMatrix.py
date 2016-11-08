@@ -29,5 +29,5 @@ def getScore(myChoice, theirChoice):
         return SCORE_CD
     if 'd' == myChoice and 'c' == theirChoice:
         return SCORE_DC
-    else:
+    else: # 'd' == myChoice and 'd' == theirChoice
         return SCORE_DD

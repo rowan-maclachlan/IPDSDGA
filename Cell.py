@@ -15,8 +15,8 @@ class Cell():
     """ (int) To measure the success of a gene """
     _score = 0
     """ (Gene) The decision making entity of the cell."""
-    _gene = list()
-    """ dic(Cell,Memory) To hold the memory of past interactions with other cells"""
+    _gene = None
+    """ dict(Cell,Memory) To hold the memory of past interactions with other cells"""
     _memory = {}
     """ (Position) The location of the Cell within the toroidal world. """
     currentPosition = None
@@ -98,16 +98,19 @@ class Cell():
                 self._memory[neighbour.getID()] = Memory.Memory('d')
             else:
                 self._memory[neighbour.getID()] = Memory.Memory('c')
-        # record the interaction
-        self._memory[neighbour.getID()].recordInteraction()
 
     def getID(self):
         return self._id
 
     def __str__(self):
-        display = str(self._gene)
+        display = "\nID: "
+        display += str(self._id)
+        display += str(self._gene)
         display += "\nScore: "
         display += str(self._score)
+        display += "\nMemory: "
+        for mem in self._memory:
+            display += str(self._memory[mem])
         return display
 
     def hasInteracted(self, other):
@@ -116,5 +119,10 @@ class Cell():
         :param other: Cell Another cell who may have been interacted with
         :return: Boolean True if the other cell has been interacted with, false otherwise.
         """
-        return self._memory[other.getID()]._hasInteracted
+        if other.getID() in self._memory:
+            if self._memory[other.getID()]._hasInteracted:
+                return True;
+            else:
+                return False
+        else: return False
 

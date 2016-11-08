@@ -6,17 +6,18 @@ class Gene():
 
     _DEFAULT_SIZE_MEM = 3
 
-    _code = None
+    _code = list()
     _sizeMem = None
 
-    def __init__(self, gene1=None, gene2=None, sizeMem=_DEFAULT_SIZE_MEM):
+    def __init__(self, gene1=None, gene2=None, sizeMem=None):
         """
         :type sizeMem: int The initial memory size
         :type gene1: Gene Parent A's Gene
         :type gene2: Gene Parent B's Gene
         """
         # set the memory size of this gene
-        self._sizeMem = sizeMem
+        if sizeMem is not None: self._sizeMem = sizeMem
+        else: self._sizeMem = self._DEFAULT_SIZE_MEM
         # produce a new genetic code if this Gene does not have 2 parents
         # If it has parents, produce the code through recombination
         if gene1 is None or gene2 is None:

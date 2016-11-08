@@ -21,8 +21,8 @@ if __name__ == "__main__":
     print str(cellC)
     print str(cellD)
 
-    cellE = Cell.Cell(2, ps.Position(0, 0), cellA, cellB)
-    cellF = Cell.Cell(2, ps.Position(0, 1), cellC, cellD)
+    cellE = Cell.Cell(4, ps.Position(0, 0), cellA, cellB)
+    cellF = Cell.Cell(5, ps.Position(0, 1), cellC, cellD)
 
     print str(cellE)
     print str(cellF)
@@ -38,6 +38,13 @@ if __name__ == "__main__":
     if not cellA.hasInteracted(cellD): print "err: cellA, cellD"
     if cellA.hasInteracted(cellE): print "err: cellA, cellE"
     if cellA.hasInteracted(cellF): print "err: cellA, cellF"
+
+    print str(cellA)
+    print str(cellB)
+    print str(cellC)
+    print str(cellD)
+    print str(cellE)
+    print str(cellF)
 
     neighbours = [cellD, cellE, cellF]
     cellC.interact(neighbours)

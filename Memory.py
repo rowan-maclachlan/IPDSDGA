@@ -12,7 +12,7 @@ class Memory():
     def __init__(self, sequence=None):
         if sequence is not None:
             self._sequence = sequence
-        self._hasInteracted = True
+        self._hasInteracted = False
 
     def addToMemory(self, choice, memSize):
         """
@@ -47,5 +47,13 @@ class Memory():
         """Clear the interaction from memory"""
         self._hasInteracted = False
 
+    def __str__(self):
+        repr = "intctd: "
+        if 0 == self._hasInteracted:
+            repr += "no - "
+        else:
+            repr += "yes - "
+        repr += "seq: " + str(self._sequence) + " | "
+        return repr
 
 
