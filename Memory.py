@@ -5,15 +5,14 @@ class Memory():
     """
 
     """ A boolean to define whether the Cell of this memory has been interacted with. """
-    _hasInteracted = None
+    _hasInteracted = False
     """ The sequence of remembered moves. """
-    _sequence = None
+    _sequence = list()
 
     def __init__(self, sequence=None):
-        self._hasInteracted = True
         if sequence is not None:
             self._sequence = sequence
-
+        self._hasInteracted = True
 
     def addToMemory(self, choice, memSize):
         """
@@ -23,10 +22,22 @@ class Memory():
         :return: None
         """
         if len(self._sequence) >= memSize:
-            self._sequence.pop[0]
+            self._sequence.pop(0)
         self._sequence.append(choice)
         self.recordInteraction()
         return None
+
+    def getSequence(self):
+        """
+        :return: list<char> the code sequence of this memory
+        """
+        return self._sequence
+
+    def hasInteracted(self):
+        """
+        :return: Boolean Whether or not this cell has interacted.
+        """
+        return self._hasInteracted
 
     def recordInteraction(self):
         """Record the interaction in memory"""
