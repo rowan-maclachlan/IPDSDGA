@@ -1,6 +1,6 @@
 import random
 import Gene
-import ScoreMatrix as sm
+import ScoreMatrix
 import Memory
 
 class Cell():
@@ -15,9 +15,9 @@ class Cell():
     """ (int) To measure the success of a gene """
     _score = 0
     """ (Gene) The decision making entity of the cell."""
-    _gene = None
+    _gene = list()
     """ dic(Cell,Memory) To hold the memory of past interactions with other cells"""
-    _memory = None
+    _memory = {}
     """ (Position) The location of the Cell within the toroidal world. """
     currentPosition = None
     """ (Position) The next location the Cell aspires to. """
@@ -32,13 +32,15 @@ class Cell():
         self.currentPosition = position
         self._id = id
 
-    def reproduce(self, partner):
+    def reproduce(self, id, position, partner):
         """
         Produce a new Cell by combining this cell and another
-        :param partner: another Cell
+        :param id: int The ID for the new Cell
+        :param position: Position The new Cell's Position in the world
+        :param partner: Cell another Cell to reproduce with
         :return: a new Cell
         """
-        return Cell(self, partner)
+        return Cell(id, position, self, partner)
 
     def interact(self, neighbours):
         """
@@ -46,17 +48,38 @@ class Cell():
         :param neighbours: Set<Cell> The list of neighbouring cells this Cell will interact with.
         :return: None
         """
-        theirChoice = 'd' # <- where does this come from?
         for neighbour in neighbours:
-            myChoice = self.decide(neighbour)
-            self.adjustScore(myChoice, theirChoice)
-            self.adjustMemory(neighbour, theirChoice)
+            myChoice = self.getMyDecision(neighbour)
+            theirChoice = neighbour.getMyDecision(self)
 
-    def decide(self, neighbour):
-        return self._gene.getDecision(self._memory[neighbour.getID()])
+            self.adjustScore(myChoice, theirChoice)
+            neighbour.adjustScore(theirChoice, myChoice)
+
+            self.adjustMemory(neighbour, theirChoice)
+            neighbour.adjustMemory(self, myChoice)
+
+    def getMyDecision(self, neighbour):
+        """
+        :param neighbour: Cell Another cell to interact with
+        :param choice: char A choice 'c' or 'd'
+        :return: char The response of this cell to its memory
+        of the neighbour cell.
+        """
+        if not neighbour.getID() in self._memory:
+            self._memory[neighbour.getID()] = Memory.Memory()
+        myChoice = self._gene.getDecision(self._memory[neighbour.getID()])
+        self._memory[neighbour.getID()].recordInteraction()
+        return myChoice
 
     def adjustScore(self, myChoice, theirChoice):
-        score = sm.getScore(myChoice,theirChoice)
+        """
+        Adjust the score of this Cell according to the
+        score matrix values and the two input choices.
+        :param myChoice: char A choice 'c' or 'd'
+        :param theirChoice: char A choice 'c' or 'd'
+        :return: None
+        """
+        score = ScoreMatrix.getScore(myChoice,theirChoice)
         self._score += score
 
     def adjustMemory(self, neighbour, neighbourChoice):
@@ -78,15 +101,6 @@ class Cell():
         # record the interaction
         self._memory[neighbour.getID()].recordInteraction()
 
-    def getChoice(self, memory):
-        """
-        Retreive the correct response from the Cell's gene
-        :param memory: A list of characters defining a memory sequence
-        :return: A character 'c' or 'd'
-        """
-        choice = self._gene.getChoice(memory)
-        return choice
-
     def getID(self):
         return self._id
 
@@ -96,4 +110,11 @@ class Cell():
         display += str(self._score)
         return display
 
+    def hasInteracted(self, other):
+        """
+        Check for interaction between this cell and the other cell.
+        :param other: Cell Another cell who may have been interacted with
+        :return: Boolean True if the other cell has been interacted with, false otherwise.
+        """
+        return self._memory[other.getID()]._hasInteracted
 
