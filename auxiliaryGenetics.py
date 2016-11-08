@@ -1,6 +1,10 @@
 import random
+import Gene
 
 _CHANCE = 0.5
+P_OF_INSERTION = 0.05
+P_OF_DELETION = 0.05
+P_OF_FLIPPING = 0.05
 
 def recombinate(parentA, parentB):
     """
@@ -75,9 +79,9 @@ def mutate(code):
     """
     Apply the simulation mutations to this Gene's _gene
     """
-    self.applyFlips(code)
-    self.applyDeletions(code)
-    self.applyInsertions(code)
+    applyFlips(code)
+    applyDeletions(code)
+    applyInsertions(code)
 
 def applyFlips(code):
     """
@@ -87,8 +91,8 @@ def applyFlips(code):
     :return: None
     """
     for x in xrange(1, len(code)):
-        if self.P_OF_FLIPPING > random.random():
-            code[x] = self.getOtherChoice(self._gene[x])
+        if P_OF_FLIPPING > random.random():
+            code[x] = getOtherChoice(code[x])
     return None
 
 def applyDeletions(code):
@@ -100,8 +104,8 @@ def applyDeletions(code):
     :return: None
     """
     for x in xrange(1, len(code)):
-        if self.P_OF_DELETION > random.random():
-            self.removeChoice(code, x)
+        if P_OF_DELETION > random.random():
+            removeChoice(code, x)
     return None
 
 def applyInsertions(code):
@@ -113,8 +117,8 @@ def applyInsertions(code):
     :return: None
     """
     for x in xrange(1, len(code)):
-        if self.P_OF_INSERTION > random.random():
-            self.insertChoice(code, self.getRandomChoice(), x)
+        if P_OF_INSERTION > random.random():
+            insertChoice(code, getRandomChoice(), x)
     return None
 
 def insertChoice(code, choice, pos):
@@ -126,9 +130,9 @@ def insertChoice(code, choice, pos):
     :param pos: int The position after which to insert the choice
     :return: None
     """
-    if not self.isValidChoice(choice):
-        choice = self.getRandomChoice()
-    if not self.isValidPosition(code, pos):
+    if not isValidChoice(choice):
+        choice = getRandomChoice()
+    if not isValidPosition(code, pos):
         code.append(choice)
     else:
         code.insert(pos, choice)
@@ -154,7 +158,7 @@ def removeChoice(code, pos):
     :param pos: the position of the choice to remove
     :return: None
     """
-    if not self.isValidPosition(code, pos):
+    if not isValidPosition(code, pos):
         pos = len(code) - 1
     del code[pos]
     return None
