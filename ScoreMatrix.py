@@ -15,7 +15,7 @@ SCORE_DC = 5 # myChoice = d, theirChoice = c
 """ The energy loss of a cell per simulation tick """
 LOSS_PER_TICK = 2
 
-def getScore(myChoice, theirChoice):
+def getScore(my_choice, their_choice):
     """
     return the corresponding scores for the 2 choices.
     Consider using a named tuple or dictionary for this method?
@@ -23,11 +23,11 @@ def getScore(myChoice, theirChoice):
     :param choice2: The choice of player 2
     :return: An integer value which is the score for the two choices
     """
-    if 'c' == myChoice and 'c' == theirChoice:
+    if 'c' == my_choice and 'c' == their_choice:
         return SCORE_CC
-    if 'c' == myChoice and 'd' == theirChoice:
+    if 'c' == my_choice and 'd' == their_choice:
         return SCORE_CD
-    if 'd' == myChoice and 'c' == theirChoice:
+    if 'd' == my_choice and 'c' == their_choice:
         return SCORE_DC
-    else: # 'd' == myChoice and 'd' == theirChoice
+    else: # 'd' == my_choice and 'd' == their_choice
         return SCORE_DD

@@ -6,24 +6,27 @@ class Gene():
 
     _DEFAULT_SIZE_MEM = 3
 
-    _code = list()
-    _sizeMem = None
+    def __init__(self, gene_a=None, gene_b=None, size_mem=None):
+        """
+        :type size_mem: int The initial memory size
+        :type gene_a: Gene Parent A's Gene
+        :type gene_b: Gene Parent B's Gene
+        """
 
-    def __init__(self, gene1=None, gene2=None, sizeMem=None):
-        """
-        :type sizeMem: int The initial memory size
-        :type gene1: Gene Parent A's Gene
-        :type gene2: Gene Parent B's Gene
-        """
+        """ list(char): The genetic sequence """
+        self._code = list()
+        """ int: the depth of the genetic sequence tree, or log2(len(_code)) """
+        self._size_mem = None
+
         # set the memory size of this gene
-        if sizeMem is not None: self._sizeMem = sizeMem
-        else: self._sizeMem = self._DEFAULT_SIZE_MEM
+        if size_mem is not None: self._size_mem = size_mem
+        else: self._size_mem = self._DEFAULT_SIZE_MEM
         # produce a new genetic code if this Gene does not have 2 parents
         # If it has parents, produce the code through recombination
-        if gene1 is None or gene2 is None:
+        if gene_a is None or gene_b is None:
             self._code = self.ProduceRandomGene()
         else:
-            self._code = ag.recombinate(gene1, gene2)
+            self._code = ag.recombinate(gene_a, gene_b)
             ag.mutate(self._code)
             self.updateSizeMem()
 
@@ -40,7 +43,7 @@ class Gene():
         choice = self._code[1]
         for x in range(0, len(history.getSequence())):
             # If c, get left child
-            if 'c' == history._sequence[x]:
+            if 'c' == history.getSequence()[x]:
                 if not ag.isValidPosition(self._code, 2*offset):
                     choice = self._code[offset]
                 else:
@@ -54,23 +57,23 @@ class Gene():
         return choice
 
     def updateSizeMem(self):
-        self._sizeMem = int(math.log(len(self._code), 2))
+        self._size_mem = int(math.log(len(self._code), 2))
 
-    def ProduceRandomGene(self, sizeMem=None):
+    def ProduceRandomGene(self, size_mem=None):
         """
-        Produce a randomly generated _gene of size 2^_sizeMem.
+        Produce a randomly generated _gene of size 2^_size_mem.
         The relevant portions of the gene extend from offset
-        0 through 2^_sizeMem ( inclusive )
+        0 through 2^_size_mem ( inclusive )
         :return: A _gene sequence
         """
         # If a size is not provided, use this gene's size
-        if sizeMem is None: sizeMem = self._sizeMem
+        if size_mem is None: size_mem = self._size_mem
         # If the size is provided, make sure
         # to update this gene's memory size
-        else: self._sizeMem = sizeMem
+        else: self._size_mem = size_mem
         code = []
         code.append(0)
-        for x in xrange(1, 2 ** sizeMem):
+        for x in xrange(1, 2 ** size_mem):
             code.append(ag.getRandomChoice())
         return code
 
@@ -81,7 +84,7 @@ class Gene():
         :return:
         """
         display = "\nmemory size: "
-        display += str(self._sizeMem)
+        display += str(self._size_mem)
         display += "\npercent defect: "
         display += str(self.GetFractionDefect())
         display += "\ninitial move: "
@@ -95,8 +98,8 @@ class Gene():
         """
         :return: The percentage of this Gene which is 'd'
         """
-        countDefect = 0
+        count_defect = 0
         for x in range(1, len(self._code)):
             if 'd' == self._code[x]:
-                countDefect += 1
-        return float(countDefect) / float(len(self._code)-1)
+                count_defect += 1
+        return float(count_defect) / float(len(self._code)-1)

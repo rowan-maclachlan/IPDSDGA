@@ -4,24 +4,27 @@ class Memory():
     It is the member which is held in the _memory dictionary of a Cell.
     """
 
-    """ A boolean to define whether the Cell of this memory has been interacted with. """
-    _hasInteracted = False
-    """ The sequence of remembered moves. """
-    _sequence = list()
-
     def __init__(self, sequence=None):
+        """
+
+        :param sequence:
+        """
+        """ Boolean: Defines whether the Cell of this memory has been interacted with. """
+        self._has_interacted = False
+        """ list(char): The sequence of remembered moves. """
+        self._sequence = list()
         if sequence is not None:
             self._sequence = sequence
-        self._hasInteracted = False
+        self._has_interacted = False
 
-    def addToMemory(self, choice, memSize):
+    def addToMemory(self, choice, mem_size):
         """
         Adds the choice to this memory making adjustments for memory size
         :param choice: a choice 'c' or 'd'
-        :param memSize: the length of memory
+        :param mem_size: the length of memory
         :return: None
         """
-        if len(self._sequence) >= memSize:
+        if len(self._sequence) >= mem_size:
             self._sequence.pop(0)
         self._sequence.append(choice)
         self.recordInteraction()
@@ -37,23 +40,18 @@ class Memory():
         """
         :return: Boolean Whether or not this cell has interacted.
         """
-        return self._hasInteracted
+        return self._has_interacted
 
     def recordInteraction(self):
         """Record the interaction in memory"""
-        self._hasInteracted = True
+        self._has_interacted = True
 
     def clearInteraction(self):
         """Clear the interaction from memory"""
-        self._hasInteracted = False
+        self._has_interacted = False
 
     def __str__(self):
-        repr = "intctd: "
-        if 0 == self._hasInteracted:
-            repr += "no - "
-        else:
-            repr += "yes - "
-        repr += "seq: " + str(self._sequence) + " | "
+        repr = str(self._sequence)
         return repr
 
 
