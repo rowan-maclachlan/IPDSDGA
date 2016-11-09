@@ -12,7 +12,7 @@ class Surface:
         return self.map[pos.y % self.height][pos.x % self.width]
 
     def set(self, pos, cell):
-        return self.map[pos.y % self.height][pos.x % self.width] = cell
+        self.map[pos.y % self.height][pos.x % self.width] = cell
 
     def __map(self, method):
         for column in self.map:

@@ -14,6 +14,8 @@ SCORE_DC = 5 # myChoice = d, theirChoice = c
 
 """ The energy loss of a cell per simulation tick """
 LOSS_PER_TICK = 2
+""" The initial energy level of a Cell """
+INITIAL_SCORE = 100
 
 def getScore(my_choice, their_choice):
     """

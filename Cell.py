@@ -20,7 +20,7 @@ class Cell():
         """ int: Possibly used for data or life-span related functions """
         self._age = 0;
         """ int: To measure the success of a gene """
-        self._score = 0
+        self._score = ScoreMatrix.INITIAL_SCORE
         """ Gene: The decision making entity of the cell."""
         self._gene = None
         """ dict(Cell,Memory): To hold the memory of past interactions with other cells"""
@@ -57,14 +57,32 @@ class Cell():
         :return: None
         """
         for neighbour in neighbours:
-            my_choice = self.getMyDecision(neighbour)
-            their_choice = neighbour.getMyDecision(self)
+            if not self.__eq__(neighbour):
+                my_choice = self.getMyDecision(neighbour)
+                their_choice = neighbour.getMyDecision(self)
 
-            self.adjustScore(my_choice, their_choice)
-            neighbour.adjustScore(their_choice, my_choice)
+                self.adjustScore(my_choice, their_choice)
+                neighbour.adjustScore(their_choice, my_choice)
 
-            self.adjustMemory(neighbour, their_choice)
-            neighbour.adjustMemory(self, my_choice)
+                self.adjustMemory(neighbour, their_choice)
+                neighbour.adjustMemory(self, my_choice)
+
+    def clearInteractions(self):
+        """
+        Clear the memory of previous tick's
+        interactions with other Cells.
+        """
+        for key in self._memory.keys():
+            self._memory[key].clearInteraction()
+
+
+    def isDead(self):
+        """
+        Is this Cell dead?
+        :return: True if this Cell's energy is 0 or lower,
+        and False otherwise.
+        """
+        return True if 0 >= self._score else False
 
     def getMyDecision(self, neighbour):
         """
@@ -87,12 +105,14 @@ class Cell():
         """
         Adjust the score of this Cell according to the
         score matrix values and the two input choices.
+        Also subtract the energy bleed from this Cell
         :param my_choice: char A choice 'c' or 'd'
         :param their_choice: char A choice 'c' or 'd'
         :return: None
         """
         score = ScoreMatrix.getScore(my_choice, their_choice)
         self._score += score
+        self._score -= ScoreMatrix.LOSS_PER_TICK
 
     def adjustMemory(self, neighbour, neighbour_choice):
         """
@@ -111,6 +131,11 @@ class Cell():
                   + str(neighbour.getID())
 
     def getID(self):
+        """
+        Get the unique identifier self._id from
+        this cell.
+        :return: int This Cell's unique ID
+        """
         return self._id
 
     def getMemory(self, cell):
@@ -143,10 +168,18 @@ class Cell():
             return 0
         else: return 1
 
+    def __eq__(self, other):
+        """
+        :param other: Cell The Cell being compared to.
+        :return: True if the ID of this Cell is
+        equal to the ID of the other Cell, False otherwise
+        """
+        return True if self._id == other._id else False
 
     def hasInteracted(self, other):
         """
         Check for interaction between this cell and the other cell.
+        Test function only.
         :param other: Cell Another cell who may have been interacted with
         :return: Boolean True if the other cell has been 
         interacted with, false otherwise.
