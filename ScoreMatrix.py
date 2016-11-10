@@ -7,13 +7,13 @@ P2  C [ 3, 3 ] [ 5, 0 ]
     D [ 0, 5 ] [ 1, 1 ]
 """
 
-SCORE_CC = 3 # myChoice = c, theirChoice = d
+SCORE_CC = 3 # myChoice = c, theirChoice = c
 SCORE_CD = 0 # myChoice = c, theirChoice = d
 SCORE_DD = 1 # myChoice = d, theirChoice = d
 SCORE_DC = 5 # myChoice = d, theirChoice = c
 
 """ The energy loss of a cell per simulation tick """
-LOSS_PER_TICK = 2
+LOSS_PER_TICK = 1.5
 """ The initial energy level of a Cell """
 INITIAL_SCORE = 100
 

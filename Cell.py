@@ -1,10 +1,9 @@
-import random
 import Gene
 import ScoreMatrix
 import Memory
-import itertools as iter
 
-class Cell():
+
+class Cell:
     """ The Cell is the entity which contains the rule-defining Gene.
     The Cell hosts the Gene, and explicitly defines the vialibity of the
     rule through realizing associated scores and health metrics. """
@@ -14,7 +13,6 @@ class Cell():
         Generate a Cell with a new Gene.  The Gene is formed
         through recombination if parent cells are provided.
         """
-
         """ int: For uniquely identifying cells """
         self._id = 0
         """ int: Possibly used for data or life-span related functions """
@@ -31,7 +29,7 @@ class Cell():
         self.next_position = None
 
         if parent_a is not None and parent_b is not None:
-            self._gene = Gene.Gene(parent_a._gene, parent_b._gene)
+            self._gene = Gene.Gene(parent_a.getGene(), parent_b.getGene())
         else:
             self._gene = Gene.Gene()
         self.currentPosition = position
@@ -75,12 +73,11 @@ class Cell():
         for key in self._memory.keys():
             self._memory[key].clearInteraction()
 
-
     def isDead(self):
         """
         Is this Cell dead?
-        :return: True if this Cell's energy is 0 or lower,
-        and False otherwise.
+        :return: True if this Cell's energy is 0
+        or lower, and False otherwise.
         """
         return True if 0 >= self._score else False
 
@@ -95,11 +92,11 @@ class Cell():
         :return: char The response of this cell to its memory
         of the neighbour cell.
         """
-        if not neighbour in self._memory:
+        if neighbour not in self._memory:
             self._memory[neighbour] = Memory.Memory()
-        myChoice = self._gene.getDecision(self.getMemory(neighbour))
+        my_choice = self.getGene().getDecision(self.getMemory(neighbour))
         self.getMemory(neighbour).recordInteraction()
-        return myChoice
+        return my_choice
 
     def adjustScore(self, my_choice, their_choice):
         """
@@ -113,6 +110,9 @@ class Cell():
         score = ScoreMatrix.getScore(my_choice, their_choice)
         self._score += score
         self._score -= ScoreMatrix.LOSS_PER_TICK
+
+    def clearScore(self):
+        self._score = ScoreMatrix.INITIAL_SCORE
 
     def adjustMemory(self, neighbour, neighbour_choice):
         """
@@ -146,6 +146,9 @@ class Cell():
         :return: Memory A memory of a Cell cell
         """
         return self._memory[cell]
+
+    def getGene(self):
+        return self._gene
 
     def __str__(self):
         display = "\nID: "

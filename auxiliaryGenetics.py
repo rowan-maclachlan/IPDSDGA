@@ -1,39 +1,57 @@
 import random
-import Gene
+
 
 _CHANCE = 0.5
-P_OF_INSERTION = 0.1
+P_OF_INSERTION = 0.2
 P_OF_DELETION = 0.05
 P_OF_FLIPPING = 0.05
 
-def recombinate(parentA, parentB):
+
+def recombinate(parent_a, parent_b):
     """
-    :param parentA: Gene Parent A's Gene
-    :param parentB: Gene Parent B's Gene
+    :param parent_a: Gene Parent A's Gene
+    :param parent_b: Gene Parent B's Gene
     :return: A new code formed from parent A' gene's
     code and parent B's gene's code.
     """
-    codeA = parentA._code
-    codeB = parentB._code
-    newCodeLength = (len(codeA) + len(codeB)) // 2
+    code_a = parent_a._code
+    code_b = parent_b._code
+    # Do not let the length of a gene fall less that 2
+    new_code_length = max(((len(code_a) + len(code_b)) // 2), 2)
+    assert new_code_length > 1
     # Find out which is the longer gene
-    if len(codeA) < len(codeB):
-        shorterParentCode = codeA
-        longerParentCode = codeB
+    if len(code_a) < len(code_b):
+        shorter_parent_code = code_a
+        longer_parent_code = code_b
     else:
-        shorterParentCode = codeB
-        longerParentCode = codeA
-    newGeneticCode = []
+        shorter_parent_code = code_b
+        longer_parent_code = code_a
+    new_gen_code = []
     # Calculate the length of the new gene which can and
     # cannot be generated from both parents
-    sharedParentsLength = len(shorterParentCode)
+    shared_parent_length = len(shorter_parent_code)
     # Produce as much of the new gene from a combination of
     # both parent's _genes as is possible
-    for x in xrange(0, sharedParentsLength - 1):
-        newGeneticCode.append(codeA[x] if (random.randint(0, 1) == 0) else codeB[x])
+    for x in xrange(0, shared_parent_length):
+        new_gen_code.append(code_a[x] if random.choice([True,False]) else code_b[x])
     # produce the rest of the gene from the longer parent's _gene
-    newGeneticCode[sharedParentsLength:] = longerParentCode[sharedParentsLength:newCodeLength - 1]
-    return newGeneticCode
+    new_gen_code[shared_parent_length:] = longer_parent_code[shared_parent_length:new_code_length - 1]
+    return new_gen_code
+
+def ProduceRandomGene(size_mem):
+    """
+    Produce a randomly generated _gene of size 2^_size_mem.
+    The relevant portions of the gene extend from offset
+    0 through 2^_size_mem ( inclusive )
+    :return: A _gene sequence
+    """
+    # If the size is provided, make sure
+    # to update this gene's memory size
+    code = []
+    code.append(0)
+    for x in xrange(1, 2 ** size_mem):
+        code.append(getRandomChoice())
+    return code
 
 def getRandomChoice(chance=_CHANCE):
     """
@@ -101,12 +119,14 @@ def applyDeletions(code):
      to the probability of a deletion per choice in
      the length of the Gene's _gene
     :param code: List<char> a list of character as code
-    :return: None
     """
-    for x in xrange(1, len(code)):
-        if P_OF_DELETION > random.random():
-            removeChoice(code, x)
-    return None
+    # We cannot delete a choice if the length of the
+    # code is already only 2 long. 2 long is just
+    # 1 choice.
+    if not 2 >= len(code):
+        for x in xrange(1, len(code)):
+            if P_OF_DELETION > random.random():
+                removeChoice(code, x)
 
 def applyInsertions(code):
     """

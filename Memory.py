@@ -36,6 +36,15 @@ class Memory():
         """
         return self._sequence
 
+    def getCharacter(self, x):
+        """
+        Retrieve the character at offset x from this Memory's
+        sequence.
+        :param x: (int) The offset in the Memory's sequence
+        :return: the character at offset x
+        """
+        return self._sequence[x]
+
     def hasInteracted(self):
         """
         :return: Boolean Whether or not this cell has interacted.
