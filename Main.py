@@ -71,44 +71,55 @@ if __name__ == "__main__":
     if cell_d.hasInteracted(cell_b): print "err: cell_d, cell_b"
     if cell_d.hasInteracted(cell_c): print "err: cell_d, cell_c"
 
+    avg_def = 0
+    initial_move_percent = 0
+    totalScore = 0
+    for cell in allCells:
+        avg_def += cell.getGene().GetFractionDefect()
+        if 'd' == cell.getGene().getCharacter(1):
+            initial_move_percent += 1
+        totalScore += cell._score
+    if not 0 == len(allCells):
+        print "\nAverage %defect: " + str(avg_def / len(allCells))
+        print "Initial move %defect: " + str(float(initial_move_percent) / float(len(allCells)))
+        print "Average score: " + str(float(totalScore) / float(len(allCells)))
+
     for i in xrange(GENERATIONS):
         for cell in allCells:
             cell.clearScore()
         for x in xrange(SIMULATION_STEPS):
             for cell in allCells:
                 cell.clearInteractions()
-                if len(cell.getGene()._code) <= 1:
-                    print "small Gene: cell: " + str(cell._id)
-                    print str(cell)
             for cell in allCells:
                     cell.interact(allCells)
-            for cell in allCells:
-                if cell.isDead():
-                    allCells.remove(cell)
-        if 1 == len(allCells):
-            print str(allCells[0])
-        elif 0 == len(allCells):
-            print "\nDead.\n"
-        else:
-            best_cell_a, best_cell_b = getLargest(allCells)
-            allCells.append(Cell.Cell(cellID, cellID, best_cell_a, best_cell_b))
-            cellID += 1
+            #for cell in allCells:
+                #if cell.isDead():
+                #    allCells.remove(cell)
+        allCells.sort(key=lambda c: c._score)
+        allCells.remove(allCells[0])
+        best_cell_a, best_cell_b = getLargest(allCells)
+        allCells.append(Cell.Cell(cellID, cellID, best_cell_a, best_cell_b))
+        cellID += 1
 
     print "\nALL CELLS:\n"
-    for cell in allCells:
-        print str(cell)
 
     avg_def = 0
     initial_move_percent = 0
+    totalScore = 0
     for cell in allCells:
         avg_def += cell.getGene().GetFractionDefect()
         if 'd' == cell.getGene().getCharacter(1):
             initial_move_percent += 1
+        totalScore += cell._score
     if not 0 == len(allCells):
         print "\nAverage %defect: " + str(avg_def/len(allCells))
-        print "Initial move %defect: " + str(initial_move_percent/len(allCells))
+        print "Initial move %defect: " + str(float(initial_move_percent)/float(len(allCells)))
+        print "Average score: " + str(float(totalScore)/float(len(allCells)))
 
     allCells.sort(key=lambda c: c._score)
+    for cell in allCells:
+        print str(cell)
+
     if 2 <= len(allCells):
         cell_1, cell_2 = getLargest(allCells)
         print "\nBest Cells: \n"
