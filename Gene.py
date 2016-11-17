@@ -38,21 +38,20 @@ class Gene():
         :return: the choice dictated by the gene and history provided
         """
         offset = 1
-        choice = self.getCharacter(offset)
-        for x in range(0, len(history.getSequence())):
+        for x in history.getSequence():
             # If c, get left child
-            if 'c' == history.getCharacter(x):
+            if 'c' == x:
                 if not ag.isValidPosition(self._code, 2*offset):
-                    choice = self.getCharacter(offset)
+                    return self.getCharacter(offset)
                 else:
                     offset = 2*offset
             # else its 'd', so get right child
             else:
                 if not ag.isValidPosition(self._code, 2*offset+1):
-                    choice = self.getCharacter(offset)
+                    return self.getCharacter(offset)
                 else:
-                    offset = 2*offset+1
-        return choice
+                    offset = (2*offset)+1
+        return self.getCharacter(offset)
 
     def getCharacter(self, x):
         """
@@ -85,6 +84,8 @@ class Gene():
         display += "\ngene: "
         for x in xrange(1, len(self._code)):
             display += str(self._code[x])
+        #display += "\n"
+
         return display
 
     def GetFractionDefect(self):

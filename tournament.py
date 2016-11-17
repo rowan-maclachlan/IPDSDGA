@@ -6,9 +6,9 @@ import json
 # Default parameters
 params = dict()
 params['random_seed'] = 0
-params['number_of_cells'] = 8
+params['number_of_cells'] = 2
 params['number_of_iterations'] = 8
-params['number_of_generations'] = 8
+params['number_of_generations'] = 1
 
 # Load parameter file if 
 if len(sys.argv) == 2:

@@ -2,7 +2,7 @@ import random
 
 
 _CHANCE = 0.5
-P_OF_INSERTION = 0.2
+P_OF_INSERTION = 0.05
 P_OF_DELETION = 0.05
 P_OF_FLIPPING = 0.05
 

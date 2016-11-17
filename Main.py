@@ -1,13 +1,12 @@
 import Cell
 import Position as ps
 
-GENERATIONS = 30
-SIMULATION_STEPS = 50
+GENERATIONS = 8
+SIMULATION_STEPS = 4
 
 
 def get_largest(cells):
     return cells[len(cells)-1], cells[len(cells)-2]
-
 
 def interaction_tests( cell_a, cell_b, cell_c, cell_d, cell_e, cell_f ):
 
@@ -116,6 +115,7 @@ if __name__ == "__main__":
         print "Initial move %defect: " + str(float(initial_move_percent)/float(len(allCells)))
         print "Average score: " + str(float(totalScore)/float(len(allCells)))
 
+    allCells.sort(key=lambda c: c._score)
     cell_1, cell_2 = get_largest(allCells)
     print "\nBest Cells: \n"
     print "a:" + str(cell_1)

@@ -5,7 +5,7 @@ import Memory
 
 class Cell:
     """ The Cell is the entity which contains the rule-defining Gene.
-    The Cell hosts the Gene, and explicitly defines the vialibity of the
+    The Cell hosts the Gene, and explicitly defines the viability of the
     rule through realizing associated scores and health metrics. """
 
     def __init__(self, id, position, parent_a=None, parent_b=None):
