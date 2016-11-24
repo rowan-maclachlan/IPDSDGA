@@ -32,7 +32,7 @@ class Cell:
             self._gene = Gene.Gene(parent_a.get_gene(), parent_b.get_gene())
         else:
             self._gene = Gene.Gene()
-        self.currentPosition = position
+        self.current_position = position
         self._id = id
 
     def reproduce(self, id, position, partner):
@@ -160,6 +160,12 @@ class Cell:
         return self._gene
 
     def __str__(self):
+        return "ID: {}\nGene: {}\nScore: {}\nMemory: {}".format(
+                self._id,
+                self._gene,
+                self._score,
+                [ str(mem[1]) for mem in self._memory.items() ]
+                )
         display = "\nID: "
         display += str(self._id)
         display += str(self._gene)
@@ -197,6 +203,8 @@ class Cell:
         :return: True if the ID of this Cell is
         equal to the ID of the other Cell, False otherwise
         """
+        if other == None:
+            return False
         return True if self._id == other._id else False
 
     def has_interacted(self, other):
