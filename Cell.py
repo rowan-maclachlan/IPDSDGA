@@ -98,6 +98,9 @@ class Cell:
         self.get_memory_of(neighbour).record_interaction()
         return my_choice
 
+    def get_score(self):
+        return self._score
+
     def adjust_score(self, my_choice, their_choice):
         """
         Adjust the score of this Cell according to the

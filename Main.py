@@ -35,7 +35,7 @@ if __name__ == "__main__":
     totalScore = 0
     for cell in allCells:
         avg_def += cell.get_gene().get_defect_fraction()
-        if 'd' == cell.get_gene().get_char_from_mem(1):
+        if 'd' == cell.get_gene().get_choice_at(1):
             initial_move_percent += 1
         totalScore += cell._score
     if not 0 == len(allCells):
@@ -50,10 +50,10 @@ if __name__ == "__main__":
             for cell in allCells:
                 cell.clear_interactions()
             for cell in allCells:
-                    cell.interact(allCells)
-            # for cell in allCells:
-            #     if cell.isDead():
-            #         allCells.remove(cell)
+                cell.interact(allCells)
+            for cell in allCells:
+                if cell.is_dead():
+                    allCells.remove(cell)
         allCells.sort(key=lambda c: c._score)
         allCells.remove(allCells[0])
         best_cell_a, best_cell_b = get_largest(allCells)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     totalScore = 0
     for cell in allCells:
         avg_def += cell.get_gene().get_defect_fraction()
-        if 'd' == cell.get_gene().get_char_from_mem(1):
+        if 'd' == cell.get_gene().get_choice_at(1):
             initial_move_percent += 1
         totalScore += cell._score
     if not 0 == len(allCells):

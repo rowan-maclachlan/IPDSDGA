@@ -61,6 +61,7 @@ class Surface:
     def get_neighbours(self, cell):
         neighbours = set()
         for offset in neighbour_offsets:
+            print(cell.current_position+offset)
             neighbour = self.get(cell.current_position + offset)
             if neighbour != None:
                neighbours.add(self.get(cell.current_position + offset))
@@ -77,15 +78,11 @@ class Surface:
                 print(self.map[y][x]._score)
                 if self.map[y][x]._score <= 0:
                     self.map[y][x] = None
-        #self.__map(lambda c: self.set(c.current_position, None if c._score <= 0 else c))
     
     def reproduction_tick(self):
         ratio = 0.25 # TODO: move to paramater
         top_cells = sorted(self._all_cells, key=lambda c: -c._score)[:round(len(self._all_cells) * ratio)]
         chosen_cells = set()
-        for cell in top_cells:
-            print(cell.__repr__())
-            print(cell)
 
         print("-" * 80)
 
@@ -120,7 +117,7 @@ if __name__ == "__main__":
         surface.set(cell.current_position, cell)
     print(surface)
 
-    for i in range(5):
+    for i in range(1):
         surface.tick()
 
     surface.reproduction_tick()
@@ -129,6 +126,6 @@ if __name__ == "__main__":
     for cell in cells:
         print(cell.__repr__())
         print(cell)
-    """
+        """
 
     print(surface)
