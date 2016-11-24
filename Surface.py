@@ -1,3 +1,4 @@
+from Cell import Cell
 from Position import Position
 import statistics as stats
 
@@ -5,15 +6,18 @@ neighbour_offsets = [Position(-1, 1), Position( 0, 1), Position( 1, 1),
                      Position(-1, 0), Position( 0, 0), Position( 1, 0),
                      Position(-1,-1), Position( 0,-1), Position( 1,-1)]
 
-
 class Surface:
     def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self._all_cells = set()
         self.map = [ [ None ] * width ] * height
 
     def get(self, pos):
         return self.map[pos.y % self.height][pos.x % self.width]
 
     def set(self, pos, cell):
+        self._all_cells.add(cell);
         self.map[pos.y % self.height][pos.x % self.width] = cell
 
     def __map(self, method):
@@ -57,21 +61,33 @@ class Surface:
     def get_neighbours(self, cell):
         neighbours = set()
         for offset in neighbour_offsets:
-            neighbour = self.get(cell.position + offset)
+            neighbour = self.get(cell.current_position + offset)
             if neighbour != None:
-               neighbours.add(self.get(cell.position + offset))
+               neighbours.add(self.get(cell.current_position + offset))
 
         return neighbours
 
     def __interaction_tick(self):
-        self.__map(lambda c: c.clear_interractions())
-        self.__map(lambda c: c.interract(self.get_neighbours(c)))
+        self.__map(lambda c: c.clear_interactions())
+        self.__map(lambda c: c.interact(self.get_neighbours(c)))
     
     def __death_tick(self):
-        self.__map(lambda c: self.set(c.position, None if c.is_dead() else c))
+        for y in range(self.height):
+            for x in range(self.width):
+                print(self.map[y][x]._score)
+                if self.map[y][x]._score <= 0:
+                    self.map[y][x] = None
+        #self.__map(lambda c: self.set(c.current_position, None if c._score <= 0 else c))
     
-    def __reproduction_tick(self):
-        pass
+    def reproduction_tick(self):
+        ratio = 0.25 # TODO: move to paramater
+        top_cells = sorted(self._all_cells, key=lambda c: -c._score)[:round(len(self._all_cells) * ratio)]
+        chosen_cells = set()
+        for cell in top_cells:
+            print(cell.__repr__())
+            print(cell)
+
+        print("-" * 80)
 
     def __movement_tick(self):
         pass
@@ -79,10 +95,40 @@ class Surface:
     def tick(self):
         self.__interaction_tick()
         self.__death_tick()
-        self.__reproduction_tick()
+        #self.__reproduction_tick()
         self.__movement_tick()
 
     def draw(self):
         pass
 
+    def __str__(self):
+        out = ""
+        for y in range(self.height):
+            for x in range(self.width):
+                out += "c" if self.get(Position(x,y)) != None else " "
+            out += "\n"
+        return out
 
+
+
+
+if __name__ == "__main__":  
+    surface = Surface(5, 5);
+    print(surface)
+    cells = [ Cell(i, Position(i // 5, i % 5)) for i in range(25) ]
+    for cell in cells:
+        surface.set(cell.current_position, cell)
+    print(surface)
+
+    for i in range(5):
+        surface.tick()
+
+    surface.reproduction_tick()
+
+    """
+    for cell in cells:
+        print(cell.__repr__())
+        print(cell)
+    """
+
+    print(surface)

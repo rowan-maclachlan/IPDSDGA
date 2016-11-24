@@ -86,10 +86,10 @@ if __name__ == "__main__":
         print "Initial move %defect: " + str(float(initial_move_percent) / float(len(allCells)))
         print "Average score: " + str(float(totalScore) / float(len(allCells)))
 
-    for i in xrange(GENERATIONS):
+    for i in range(GENERATIONS):
         for cell in allCells:
             cell.clear_score()
-        for x in xrange(SIMULATION_STEPS):
+        for x in range(SIMULATION_STEPS):
             for cell in allCells:
                 cell.clear_interactions()
             for cell in allCells:

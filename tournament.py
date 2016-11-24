@@ -28,7 +28,7 @@ random.seed(params['random_seed'])
 def create_cell(generation_index, cell_index, parent_a=None, parent_b=None):
     return Cell(uuid4().int, Position(generation_index, cell_index), parent_a, parent_b)
 
-generation = [[create_cell(0, i) for i in range(params['number_of_cells'])]]
+generation = [[create_cell(0, i) for i in xrange(params['number_of_cells'])]]
 
 def tournament(cells):
     neighbours = dict()
@@ -36,7 +36,7 @@ def tournament(cells):
         cell.clear_score()
         neighbours[cell] = set([c for c in cells if c is not cell])
 
-    for i in range(params['number_of_iterations']):
+    for i in xrange(params['number_of_iterations']):
         for cell in cells:
             cell.clear_interactions()
 
@@ -49,7 +49,7 @@ def next_generation(cells):
     boundary = params['number_of_cells'] / 2
     survivors = cells[:boundary]
 
-    for i in range(boundary):
+    for i in xrange(boundary):
         survivors.append(create_cell(
                 1,
                 i, 
@@ -61,7 +61,7 @@ def next_generation(cells):
     return survivors
 
 
-for i in range(params['number_of_generations']):
+for i in xrange(params['number_of_generations']):
         tournament(generation[i])
         generation[i].sort(key=lambda c: -c._score)
         generation.append(next_generation(generation[i]))

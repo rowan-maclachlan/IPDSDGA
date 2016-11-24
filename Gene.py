@@ -99,7 +99,7 @@ class Gene():
         display += "\ninitial move: "
         display += self.get_choice_at(1)
         display += "\ngene: "
-        for x in xrange(1, len(self._code)):
-            display += str(self._code[x])
+        for x in self._code:
+            display += str(x)
 
         return display

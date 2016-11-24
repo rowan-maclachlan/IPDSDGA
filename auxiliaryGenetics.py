@@ -32,7 +32,7 @@ def recombinate(parent_a, parent_b):
     shared_parent_length = len(shorter_parent_code)
     # Produce as much of the new gene from a combination of
     # both parent's _genes as is possible
-    for x in xrange(0, shared_parent_length):
+    for x in range(0, shared_parent_length):
         new_gen_code.append(code_a[x] if random.choice([True,False]) else code_b[x])
     # produce the rest of the gene from the longer parent's _gene
     new_gen_code[shared_parent_length:] = longer_parent_code[shared_parent_length:new_code_length - 1]
@@ -49,7 +49,7 @@ def ProduceRandomGene(size_mem):
     # to update this gene's memory size
     code = []
     code.append(0)
-    for x in xrange(1, 2 ** size_mem):
+    for x in range(1, 2 ** size_mem):
         code.append(getRandomChoice())
     return code
 
@@ -108,7 +108,7 @@ def applyFlips(code):
     :param code: List<char> a list of character as code
     :return: None
     """
-    for x in xrange(1, len(code)):
+    for x in range(1, len(code)):
         if P_OF_FLIPPING > random.random():
             code[x] = getOtherChoice(code[x])
     return None
@@ -124,7 +124,7 @@ def applyDeletions(code):
     # code is already only 2 long. 2 long is just
     # 1 choice.
     if not 2 >= len(code):
-        for x in xrange(1, len(code)):
+        for x in range(1, len(code)):
             if P_OF_DELETION > random.random():
                 removeChoice(code, x)
 
@@ -136,7 +136,7 @@ def applyInsertions(code):
     :param code: List<char> a list of character as code
     :return: None
     """
-    for x in xrange(1, len(code)):
+    for x in range(1, len(code)):
         if P_OF_INSERTION > random.random():
             insertChoice(code, getRandomChoice(), x)
     return None

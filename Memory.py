@@ -67,6 +67,6 @@ class Memory():
         self._has_interacted = False
 
     def __str__(self):
-        return "\n" + str(self._sequence)
+        return "".join(self._sequence)
 
 
