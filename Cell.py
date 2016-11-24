@@ -79,7 +79,7 @@ class Cell:
         :return: True if this Cell's energy is 0
         or lower, and False otherwise.
         """
-        return True if 0 >= self._score else False
+        return True if 0 > self._score else False
 
     def get_my_decision(self, neighbour):
         """
@@ -129,11 +129,11 @@ class Cell:
         :return: None
         """
         if neighbour in self._memory:
-            self.get_memory_of(neighbour).add_choice_to_memory( \
+            self.get_memory_of(neighbour).add_choice_to_memory(
                     neighbour_choice, self.get_gene().get_mem_size())
         else:
-            print "err: getMemory: no memory of subjectID " \
-                  + str(neighbour.get_id())
+            print ("err: getMemory: no memory of subjectID "
+                  + str(neighbour.get_id()))
 
     def get_id(self):
         """

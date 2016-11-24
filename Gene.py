@@ -2,6 +2,7 @@ import auxiliaryGenetics as ag
 import random
 import math
 
+
 class Gene():
 
     _DEFAULT_SIZE_MEM = 3
