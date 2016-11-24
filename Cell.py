@@ -29,7 +29,7 @@ class Cell:
         self.next_position = None
 
         if parent_a is not None and parent_b is not None:
-            self._gene = Gene.Gene(parent_a.getGene(), parent_b.getGene())
+            self._gene = Gene.Gene(parent_a.get_gene(), parent_b.get_gene())
         else:
             self._gene = Gene.Gene()
         self.currentPosition = position
@@ -56,24 +56,24 @@ class Cell:
         """
         for neighbour in neighbours:
             if not self.__eq__(neighbour):
-                my_choice = self.getMyDecision(neighbour)
-                their_choice = neighbour.getMyDecision(self)
+                my_choice = self.get_my_decision(neighbour)
+                their_choice = neighbour.get_my_decision(self)
 
-                self.adjustScore(my_choice, their_choice)
-                neighbour.adjustScore(their_choice, my_choice)
+                self.adjust_score(my_choice, their_choice)
+                neighbour.adjust_score(their_choice, my_choice)
 
-                self.adjustMemory(neighbour, their_choice)
-                neighbour.adjustMemory(self, my_choice)
+                self.adjust_memory(neighbour, their_choice)
+                neighbour.adjust_memory(self, my_choice)
 
-    def clearInteractions(self):
+    def clear_interactions(self):
         """
         Clear the memory of previous tick's
         interactions with other Cells.
         """
         for key in self._memory.keys():
-            self._memory[key].clearInteraction()
+            self._memory[key].clear_interaction()
 
-    def isDead(self):
+    def is_dead(self):
         """
         Is this Cell dead?
         :return: True if this Cell's energy is 0
@@ -81,7 +81,7 @@ class Cell:
         """
         return True if 0 >= self._score else False
 
-    def getMyDecision(self, neighbour):
+    def get_my_decision(self, neighbour):
         """
         Retrieve a decision based on the history of this Cell
         with its neighbour.  The decision is retrieved from the gene
@@ -94,11 +94,11 @@ class Cell:
         """
         if neighbour not in self._memory:
             self._memory[neighbour] = Memory.Memory()
-        my_choice = self.getGene().getDecision(self.getMemory(neighbour))
-        self.getMemory(neighbour).recordInteraction()
+        my_choice = self.get_gene().get_decision(self.get_memory_of(neighbour))
+        self.get_memory_of(neighbour).record_interaction()
         return my_choice
 
-    def adjustScore(self, my_choice, their_choice):
+    def adjust_score(self, my_choice, their_choice):
         """
         Adjust the score of this Cell according to the
         score matrix values and the two input choices.
@@ -107,14 +107,19 @@ class Cell:
         :param their_choice: char A choice 'c' or 'd'
         :return: None
         """
-        score = ScoreMatrix.getScore(my_choice, their_choice)
-        self._score += score
+        inc = ScoreMatrix.getScore(my_choice, their_choice)
+        self._score += inc
         self._score -= ScoreMatrix.LOSS_PER_TICK
 
-    def clearScore(self):
+    def clear_score(self):
+        """
+        Resets the score of this Cell to the
+        default score
+        :return: None
+        """
         self._score = ScoreMatrix.INITIAL_SCORE
 
-    def adjustMemory(self, neighbour, neighbour_choice):
+    def adjust_memory(self, neighbour, neighbour_choice):
         """
         Adjust the memory of this cell by looking at
         the memory dictionary for a past relationship with the
@@ -124,13 +129,13 @@ class Cell:
         :return: None
         """
         if neighbour in self._memory:
-            self.getMemory(neighbour).addToMemory( \
-                    neighbour_choice, self._gene._size_mem)
+            self.get_memory_of(neighbour).add_choice_to_memory( \
+                    neighbour_choice, self.get_gene().get_mem_size())
         else:
             print "err: getMemory: no memory of subjectID " \
-                  + str(neighbour.getID())
+                  + str(neighbour.get_id())
 
-    def getID(self):
+    def get_id(self):
         """
         Get the unique identifier self._id from
         this cell.
@@ -138,16 +143,20 @@ class Cell:
         """
         return self._id
 
-    def getMemory(self, cell):
+    def get_memory_of(self, cell):
         """
         Retrieve the memory associated with the Cell cell
         :param cell: Cell The Cell who is the subject
          of the memory that is wanted.
-        :return: Memory A memory of a Cell cell
+        :return: Memory A memory of a Cell cell, or
+        None if no memory of 'cell' exists
         """
-        return self._memory[cell]
+        if cell not in self._memory:
+            return None
+        else:
+            return self._memory[cell]
 
-    def getGene(self):
+    def get_gene(self):
         return self._gene
 
     def __str__(self):
@@ -165,11 +174,22 @@ class Cell:
         return self._id
 
     def __cmp__(self, other):
-        if self.getID() < other.getID():
+        """
+        Return -1 if self._id < other._id,
+        return 0 if self._id == other._id,
+        and return 1 if self._id > other._id
+        :param other: Another Cell
+        :return: Return
+        -1 if self._id < other._id,
+        0 if self._id == other._id,
+        1 if self._id > other._id
+        """
+        if self.get_id() < other.get_id():
             return -1
-        elif self.getID() == self.getID():
+        elif self.get_id() == self.get_id():
             return 0
-        else: return 1
+        else:
+            return 1
 
     def __eq__(self, other):
         """
@@ -179,17 +199,17 @@ class Cell:
         """
         return True if self._id == other._id else False
 
-    def hasInteracted(self, other):
+    def has_interacted(self, other):
         """
-        Check for interaction between this cell and the other cell.
+        Check for interaction between this Cell and the other Cell.
         Test function only.
         :param other: Cell Another cell who may have been interacted with
-        :return: Boolean True if the other cell has been 
-        interacted with, false otherwise.
+        :return: True if the other cell has been
+        interacted with, False otherwise.
         """
         if other in self._memory:
-            if self.getMemory(other).hasInteracted():
-                return True;
+            if self.get_memory_of(other).has_interacted():
+                return True
             else:
                 return False
         else:

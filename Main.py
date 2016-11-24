@@ -1,53 +1,54 @@
 import Cell
 import Position as ps
 
-GENERATIONS = 8
-SIMULATION_STEPS = 4
+GENERATIONS = 2
+SIMULATION_STEPS = 8
 
 
 def get_largest(cells):
     return cells[len(cells)-1], cells[len(cells)-2]
 
-def interaction_tests( cell_a, cell_b, cell_c, cell_d, cell_e, cell_f ):
 
-    neighbours = [cell_b, cell_c, cell_d]
-    cell_a.interact(neighbours)
-    if not cell_a.hasInteracted(cell_b): print "err: cell_a, cell_b"
-    if not cell_a.hasInteracted(cell_c): print "err: cell_a, cell_c"
-    if not cell_a.hasInteracted(cell_d): print "err: cell_a, cell_d"
-    if cell_a.hasInteracted(cell_e): print "err: cell_a, cell_e"
-    if cell_a.hasInteracted(cell_f): print "err: cell_a, cell_f"
+def interaction_tests( c_a, c_b, c_c, c_d, c_e, c_f):
 
-    neighbours = [cell_d, cell_e, cell_f]
-    cell_c.interact(neighbours)
-    if not cell_c.hasInteracted(cell_a): print "err: cell_c, cell_a"
-    if cell_c.hasInteracted(cell_b): print "err: cell_c, cell_b"
-    if not cell_c.hasInteracted(cell_d): print "err: cell_c, cell_d"
-    if not cell_c.hasInteracted(cell_e): print "err: cell_c, cell_e"
-    if not cell_c.hasInteracted(cell_f): print "err: cell_c, cell_f"
+    neighbours = [c_b, c_c, c_d]
+    c_a.interact(neighbours)
+    if not c_a.has_interacted(c_b): print "err: c_a, c_b"
+    if not c_a.has_interacted(c_c): print "err: c_a, c_c"
+    if not c_a.has_interacted(c_d): print "err: c_a, c_d"
+    if c_a.has_interacted(c_e): print "err: c_a, c_e"
+    if c_a.has_interacted(c_f): print "err: c_a, c_f"
 
-    neighbours = [cell_a, cell_b, cell_c]
-    cell_d.interact(neighbours)
-    if not cell_d.hasInteracted(cell_a): print "err: cell_d, cell_a"
-    if not cell_d.hasInteracted(cell_b): print "err: cell_d, cell_b"
-    if not cell_d.hasInteracted(cell_c): print "err: cell_d, cell_c"
-    if cell_d.hasInteracted(cell_e): print "err: cell_d, cell_e"
-    if cell_d.hasInteracted(cell_f): print "err: cell_d, cell_f"
+    neighbours = [c_d, c_e, c_f]
+    c_c.interact(neighbours)
+    if not c_c.has_interacted(c_a): print "err: c_c, c_a"
+    if c_c.has_interacted(c_b): print "err: c_c, c_b"
+    if not c_c.has_interacted(c_d): print "err: c_c, c_d"
+    if not c_c.has_interacted(c_e): print "err: c_c, c_e"
+    if not c_c.has_interacted(c_f): print "err: c_c, c_f"
+
+    neighbours = [c_a, c_b, c_c]
+    c_d.interact(neighbours)
+    if not c_d.has_interacted(c_a): print "err: c_d, c_a"
+    if not c_d.has_interacted(c_b): print "err: c_d, c_b"
+    if not c_d.has_interacted(c_c): print "err: c_d, c_c"
+    if c_d.has_interacted(c_e): print "err: c_d, c_e"
+    if c_d.has_interacted(c_f): print "err: c_d, c_f"
 
     for cell in allCells:
-        cell.clearInteractions()
+        cell.clear_interactions()
 
-    if cell_a.hasInteracted(cell_b): print "err: cell_a, cell_b"
-    if cell_a.hasInteracted(cell_c): print "err: cell_a, cell_c"
-    if cell_a.hasInteracted(cell_d): print "err: cell_a, cell_d"
+    if c_a.has_interacted(c_b): print "err: c_a, c_b"
+    if c_a.has_interacted(c_c): print "err: c_a, c_c"
+    if c_a.has_interacted(c_d): print "err: c_a, c_d"
 
-    if cell_c.hasInteracted(cell_d): print "err: cell_c, cell_d"
-    if cell_c.hasInteracted(cell_e): print "err: cell_c, cell_e"
-    if cell_c.hasInteracted(cell_f): print "err: cell_c, cell_f"
+    if c_c.has_interacted(c_d): print "err: c_c, c_d"
+    if c_c.has_interacted(c_e): print "err: c_c, c_e"
+    if c_c.has_interacted(c_f): print "err: c_c, c_f"
 
-    if cell_d.hasInteracted(cell_a): print "err: cell_d, cell_a"
-    if cell_d.hasInteracted(cell_b): print "err: cell_d, cell_b"
-    if cell_d.hasInteracted(cell_c): print "err: cell_d, cell_c"
+    if c_d.has_interacted(c_a): print "err: c_d, c_a"
+    if c_d.has_interacted(c_b): print "err: c_d, c_b"
+    if c_d.has_interacted(c_c): print "err: c_d, c_c"
 
 if __name__ == "__main__":
 
@@ -76,8 +77,8 @@ if __name__ == "__main__":
     initial_move_percent = 0
     totalScore = 0
     for cell in allCells:
-        avg_def += cell.getGene().GetFractionDefect()
-        if 'd' == cell.getGene().getCharacter(1):
+        avg_def += cell.get_gene().get_defect_fraction()
+        if 'd' == cell.get_gene().get_char_from_mem(1):
             initial_move_percent += 1
         totalScore += cell._score
     if not 0 == len(allCells):
@@ -87,10 +88,10 @@ if __name__ == "__main__":
 
     for i in xrange(GENERATIONS):
         for cell in allCells:
-            cell.clearScore()
+            cell.clear_score()
         for x in xrange(SIMULATION_STEPS):
             for cell in allCells:
-                cell.clearInteractions()
+                cell.clear_interactions()
             for cell in allCells:
                     cell.interact(allCells)
             # for cell in allCells:
@@ -106,8 +107,8 @@ if __name__ == "__main__":
     initial_move_percent = 0
     totalScore = 0
     for cell in allCells:
-        avg_def += cell.getGene().GetFractionDefect()
-        if 'd' == cell.getGene().getCharacter(1):
+        avg_def += cell.get_gene().get_defect_fraction()
+        if 'd' == cell.get_gene().get_char_from_mem(1):
             initial_move_percent += 1
         totalScore += cell._score
     if not 0 == len(allCells):

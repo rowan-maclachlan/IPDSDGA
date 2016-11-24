@@ -33,12 +33,12 @@ generation = [[create_cell(0, i) for i in range(params['number_of_cells'])]]
 def tournament(cells):
     neighbours = dict()
     for cell in cells:
-        cell.clearScore()
+        cell.clear_score()
         neighbours[cell] = set([c for c in cells if c is not cell])
 
     for i in range(params['number_of_iterations']):
         for cell in cells:
-            cell.clearInteractions()
+            cell.clear_interactions()
 
         for cell in cells:
             cell.interact(neighbours[cell])
