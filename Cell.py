@@ -160,12 +160,14 @@ class Cell:
         return self._gene
 
     def __str__(self):
-        return "ID: {}\nGene: {}\nScore: {}\nMemory: {}".format(
+        return "ID: {}\nPosition: {}{}\nScore: {}\nMemory: {}".format(
                 self._id,
+                self.current_position,
                 self._gene,
                 self._score,
-                [ str(mem[1]) for mem in self._memory.items() ]
+                [ str(mem) for mem in self._memory.values() ]
                 )
+        """
         display = "\nID: "
         display += str(self._id)
         display += str(self._gene)
@@ -175,6 +177,7 @@ class Cell:
         for key in self._memory.keys():
             display += str(self._memory[key])
         return display
+        """
 
     def __hash__(self):
         return self._id

@@ -1,23 +1,29 @@
 from Cell import Cell
 from Position import Position
 import statistics as stats
+import random
 
-neighbour_offsets = [Position(-1, 1), Position( 0, 1), Position( 1, 1),
+neighbour_offsets = [Position(-1,-1), Position( 0,-1), Position( 1,-1),
                      Position(-1, 0), Position( 0, 0), Position( 1, 0),
-                     Position(-1,-1), Position( 0,-1), Position( 1,-1)]
+                     Position(-1, 1), Position( 0, 1), Position( 1, 1)]
 
 class Surface:
     def __init__(self, width, height):
         self.width = width
         self.height = height
         self._all_cells = set()
-        self.map = [ [ None ] * width ] * height
+        self.map = [];
+        for i in range(height):
+            self.map.append([ None ] * width)
 
     def get(self, pos):
-        return self.map[pos.y % self.height][pos.x % self.width]
+        return self.map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width]
 
     def set(self, pos, cell):
-        self._all_cells.add(cell);
+        if cell == None:
+            self._all_cells.remove(self.map[pos.y][pos.x])
+        else:
+            self._all_cells.add(cell);
         self.map[pos.y % self.height][pos.x % self.width] = cell
 
     def __map(self, method):
@@ -63,29 +69,49 @@ class Surface:
         for offset in neighbour_offsets:
             neighbour = self.get(cell.current_position + offset)
             if neighbour != None:
-               neighbours.add(self.get(cell.current_position + offset))
-
+                neighbours.add(neighbour)
         return neighbours
+    
+    def get_empty_neighbour_position(self, cell):
+        candidates = []
+        for offset in neighbour_offsets:
+            neighbour = self.get(cell.current_position + offset)
+            if neighbour == None:
+                candidates.append(cell.current_position + offset)
+        if len(candidates) == 0:
+            return None
+        return random.choice(candidates)
 
     def __interaction_tick(self):
         self.__map(lambda c: c.clear_interactions())
         self.__map(lambda c: c.interact(self.get_neighbours(c)))
     
     def __death_tick(self):
-        for y in range(self.height):
-            for x in range(self.width):
-                print(self.map[y][x]._score)
-                if self.map[y][x]._score <= 0:
-                    self.map[y][x] = None
-        #self.__map(lambda c: self.set(c.current_position, None if c._score <= 0 else c))
+        self.__map(lambda c: self.set(c.current_position, None if c._score <= 0 else c))
     
     def reproduction_tick(self):
         ratio = 0.25 # TODO: move to paramater
         top_cells = sorted(self._all_cells, key=lambda c: -c._score)[:round(len(self._all_cells) * ratio)]
         chosen_cells = set()
+
         for cell in top_cells:
-            print(cell.__repr__())
-            print(cell)
+            if not cell in chosen_cells:
+                # find best neighbour
+                open_position = self.get_empty_neighbour_position(cell)
+                if open_position == None:
+                    continue
+                neighbours = self.get_neighbours(cell)
+                best_neighbour = max(neighbours, key=lambda c: -c._score)
+                if not best_neighbour in chosen_cells:
+                    chosen_cells.add(cell)
+                    chosen_cells.add(best_neighbour)
+                    self.set(open_position, Cell(
+                        cell._id + best_neighbour._id,
+                        open_position,
+                        cell,
+                        best_neighbour
+                    ))
+
 
         print("-" * 80)
 
@@ -114,21 +140,17 @@ class Surface:
 
 if __name__ == "__main__":  
     surface = Surface(5, 5);
-    print(surface)
-    cells = [ Cell(i, Position(i // 5, i % 5)) for i in range(25) ]
+    cells = []
+    for i in range(25):
+        cells.append(Cell(i, Position(i // 5, i % 5)))
     for cell in cells:
         surface.set(cell.current_position, cell)
+
     print(surface)
 
-    for i in range(5):
+    for i in range(10):
         surface.tick()
+        surface.reproduction_tick()
+        print(surface)
 
-    surface.reproduction_tick()
 
-    """
-    for cell in cells:
-        print(cell.__repr__())
-        print(cell)
-    """
-
-    print(surface)
