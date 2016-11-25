@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     for i in range(GENERATIONS):
         for cell in allCells:
-            cell.clear_score()
+            cell.reset_score()
         for x in range(SIMULATION_STEPS):
             for cell in allCells:
                 cell.clear_interactions()

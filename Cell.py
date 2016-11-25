@@ -114,7 +114,7 @@ class Cell:
         self._score += inc
         self._score -= ScoreMatrix.LOSS_PER_TICK
 
-    def clear_score(self):
+    def reset_score(self):
         """
         Resets the score of this Cell to the
         default score

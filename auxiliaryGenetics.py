@@ -18,7 +18,6 @@ def recombinate(parent_a, parent_b):
     code_b = parent_b._code
     # Do not let the length of a gene fall less that 2
     new_code_length = max(((len(code_a) + len(code_b)) // 2), 2)
-    assert new_code_length > 1
     # Find out which is the longer gene
     if len(code_a) < len(code_b):
         shorter_parent_code = code_a
@@ -26,7 +25,7 @@ def recombinate(parent_a, parent_b):
     else:
         shorter_parent_code = code_b
         longer_parent_code = code_a
-    new_gen_code = []
+    new_gen_code = list()
     # Calculate the length of the new gene which can and
     # cannot be generated from both parents
     shared_parent_length = len(shorter_parent_code)

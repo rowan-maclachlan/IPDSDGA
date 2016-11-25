@@ -13,7 +13,7 @@ SCORE_DD = 1 # myChoice = d, theirChoice = d
 SCORE_DC = 5 # myChoice = d, theirChoice = c
 
 """ The energy loss of a cell per simulation tick """
-LOSS_PER_TICK = 2
+LOSS_PER_TICK = 2.9
 """ The initial energy level of a Cell """
 INITIAL_SCORE = 10
 
