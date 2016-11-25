@@ -24,15 +24,13 @@ class Cell:
         """ dict(Cell,Memory): To hold the memory of past interactions with other cells"""
         self._memory = {}
         """ Position: The location of the Cell within the toroidal world. """
-        self.current_position = None
-        """ Position: The next location the Cell aspires to. """
-        self.next_position = None
+        self._position = None
 
         if parent_a is not None and parent_b is not None:
             self._gene = Gene.Gene(parent_a.get_gene(), parent_b.get_gene())
         else:
             self._gene = Gene.Gene()
-        self.current_position = position
+        self._position = position
         self._id = id
 
     def reproduce(self, id, position, partner):
@@ -97,6 +95,12 @@ class Cell:
         my_choice = self.get_gene().get_decision(self.get_memory_of(neighbour))
         self.get_memory_of(neighbour).record_interaction()
         return my_choice
+
+    def get_position(self):
+        return self._position
+
+    def set_position(self, new_pos):
+        self._position = new_pos
 
     def get_score(self):
         return self._score
@@ -165,22 +169,11 @@ class Cell:
     def __str__(self):
         return "ID: {}\nPosition: {}{}\nScore: {}\nMemory: {}".format(
                 self._id,
-                self.current_position,
+                self._position,
                 self._gene,
                 self._score,
                 [ str(mem) for mem in self._memory.values() ]
                 )
-        """
-        display = "\nID: "
-        display += str(self._id)
-        display += str(self._gene)
-        display += "\nScore: "
-        display += str(self._score)
-        display += "\nMemory: "
-        for key in self._memory.keys():
-            display += str(self._memory[key])
-        return display
-        """
 
     def __hash__(self):
         return self._id

@@ -82,7 +82,7 @@ def isValidChoice(choice):
 
 def isValidPosition(code, pos):
     """
-    Return true if the 'pos' is a valid position.
+    Return true if the 'pos' is a valid _position.
     Return false otherwise.
     :param pos: An offset in this code
     :param code: A list of choices
@@ -142,11 +142,11 @@ def applyInsertions(code):
 
 def insertChoice(code, choice, pos):
     """
-    insert the choice 'c' or 'd' into the position in the gene
+    insert the choice 'c' or 'd' into the _position in the gene
     directly after 'pos'.
     :param code: List<char> a list of character as code
     :param choice: char The choice of 'c' or 'd'
-    :param pos: int The position after which to insert the choice
+    :param pos: int The _position after which to insert the choice
     :return: None
     """
     if not isValidChoice(choice):
@@ -171,10 +171,10 @@ def appendChoice(code, choice):
 
 def removeChoice(code, pos):
     """
-    Remove the choice at position 'pos' in the code.
-    If the position is not valid, the last choice is removed.
+    Remove the choice at _position 'pos' in the code.
+    If the _position is not valid, the last choice is removed.
     :param code: List<char> a list of character as code
-    :param pos: the position of the choice to remove
+    :param pos: the _position of the choice to remove
     :return: None
     """
     if not isValidPosition(code, pos):

@@ -4,11 +4,9 @@
     <list default="true" id="eecafff8-a0b6-423c-8035-e5e48673c127" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Cell.py" afterPath="$PROJECT_DIR$/Cell.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main.py" afterPath="$PROJECT_DIR$/Main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ScoreMatrix.py" afterPath="$PROJECT_DIR$/ScoreMatrix.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Surface.py" afterPath="$PROJECT_DIR$/Surface.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/auxiliaryGenetics.py" afterPath="$PROJECT_DIR$/auxiliaryGenetics.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tournament.py" afterPath="$PROJECT_DIR$/tournament.py" />
     </list>
     <ignored path="PythonWork.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,8 +29,8 @@
       <file leaf-file-name="ScoreMatrix.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ScoreMatrix.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+            <state relative-caret-position="283">
+              <caret line="16" column="35" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -41,7 +39,7 @@
       <file leaf-file-name="Gene.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Gene.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
+            <state relative-caret-position="0">
               <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
               <folding />
             </state>
@@ -51,11 +49,27 @@
       <file leaf-file-name="Surface.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Surface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="191" column="39" selection-start-line="191" selection-start-column="39" selection-end-line="191" selection-end-column="39" />
+            <state relative-caret-position="334">
+              <caret line="245" column="25" selection-start-line="245" selection-start-column="25" selection-end-line="245" selection-end-column="25" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <element signature="e#2325#2805#0" expanded="false" />
+                <element signature="e#2598#3078#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Cell.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Cell.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="99" column="29" selection-start-line="99" selection-start-column="29" selection-end-line="99" selection-end-column="29" />
+              <folding>
+                <element signature="e#63#270#1" expanded="false" />
+                <element signature="e#348#484#1" expanded="false" />
+                <element signature="e#7230#7713#0" expanded="false" />
+                <element signature="e#7230#7506#1" expanded="false" />
+                <element signature="e#7553#7674#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -64,7 +78,7 @@
       <file leaf-file-name="statistics.py" pinned="false" current-in-tab="false">
         <entry file="file:///Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/statistics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
+            <state relative-caret-position="0">
               <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
               <folding />
             </state>
@@ -74,7 +88,7 @@
       <file leaf-file-name="auxiliaryGenetics.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auxiliaryGenetics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
+            <state relative-caret-position="0">
               <caret line="37" column="23" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
               <folding />
             </state>
@@ -84,7 +98,7 @@
       <file leaf-file-name="Main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
+            <state relative-caret-position="0">
               <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="43" selection-end-column="80" />
               <folding />
             </state>
@@ -94,7 +108,7 @@
       <file leaf-file-name="tournament.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tournament.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
+            <state relative-caret-position="0">
               <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
               <folding />
             </state>
@@ -128,10 +142,10 @@
         <option value="$PROJECT_DIR$/tournament.py" />
         <option value="$PROJECT_DIR$/Memory.py" />
         <option value="$PROJECT_DIR$/Main.py" />
-        <option value="$PROJECT_DIR$/Cell.py" />
-        <option value="$PROJECT_DIR$/ScoreMatrix.py" />
         <option value="$PROJECT_DIR$/Gene.py" />
         <option value="$PROJECT_DIR$/auxiliaryGenetics.py" />
+        <option value="$PROJECT_DIR$/ScoreMatrix.py" />
+        <option value="$PROJECT_DIR$/Cell.py" />
         <option value="$PROJECT_DIR$/Surface.py" />
       </list>
     </option>
@@ -193,7 +207,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="FullScreen" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Python.Surface">
@@ -530,7 +544,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480028679371</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Added some statistics stuff">
+      <created>1480033240398</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1480033240398</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -546,7 +567,7 @@
     <frame x="1440" y="-978" width="2560" height="1440" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.053958252" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10476565" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329602" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3220339" sideWeight="0.50528544" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919708" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -588,7 +609,8 @@
     <MESSAGE value="small edits to Main" />
     <MESSAGE value="I dont' know" />
     <MESSAGE value="Merge branch 'master' of https://github.com/Dudro/cmpt394PythonTest&#10;&#10;# Conflicts:&#10;#&#9;ScoreMatrix.py&#10;#&#9;Surface.py&#10;&#10;Fixed bug with key not in set.  Made better to string for Surface" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/Dudro/cmpt394PythonTest&#10;&#10;# Conflicts:&#10;#&#9;ScoreMatrix.py&#10;#&#9;Surface.py&#10;&#10;Fixed bug with key not in set.  Made better to string for Surface" />
+    <MESSAGE value="Added some statistics stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some statistics stuff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -604,6 +626,65 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/ScoreMatrix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Gene.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Surface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2730">
+          <caret line="197" column="22" selection-start-line="197" selection-start-column="22" selection-end-line="197" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#2598#3078#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/statistics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4875">
+          <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auxiliaryGenetics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="37" column="23" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="43" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tournament.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Cell.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -611,9 +692,9 @@
           <folding>
             <element signature="e#63#270#1" expanded="false" />
             <element signature="e#348#484#1" expanded="false" />
-            <element signature="e#7547#8030#0" expanded="false" />
-            <element signature="e#7547#7823#1" expanded="false" />
-            <element signature="e#7870#7991#0" expanded="false" />
+            <element signature="e#7230#7713#0" expanded="false" />
+            <element signature="e#7230#7506#1" expanded="false" />
+            <element signature="e#7553#7674#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -632,7 +713,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#2325#2805#0" expanded="false" />
+            <element signature="e#2598#3078#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -657,9 +738,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1815">
           <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -670,9 +749,9 @@
           <folding>
             <element signature="e#63#270#1" expanded="false" />
             <element signature="e#348#484#1" expanded="false" />
-            <element signature="e#7547#8030#0" expanded="false" />
-            <element signature="e#7547#7823#1" expanded="false" />
-            <element signature="e#7870#7991#0" expanded="false" />
+            <element signature="e#7230#7713#0" expanded="false" />
+            <element signature="e#7230#7506#1" expanded="false" />
+            <element signature="e#7553#7674#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -691,7 +770,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#2325#2805#0" expanded="false" />
+            <element signature="e#2598#3078#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -716,9 +795,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1800">
           <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -729,9 +806,9 @@
           <folding>
             <element signature="e#63#270#1" expanded="false" />
             <element signature="e#348#484#1" expanded="false" />
-            <element signature="e#7547#8030#0" expanded="false" />
-            <element signature="e#7547#7823#1" expanded="false" />
-            <element signature="e#7870#7991#0" expanded="false" />
+            <element signature="e#7230#7713#0" expanded="false" />
+            <element signature="e#7230#7506#1" expanded="false" />
+            <element signature="e#7553#7674#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -763,9 +840,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1800">
           <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -778,7 +853,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tournament.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
+        <state relative-caret-position="0">
           <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
           <folding />
         </state>
@@ -796,7 +871,7 @@
     </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/statistics.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
+        <state relative-caret-position="0">
           <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
           <folding />
         </state>
@@ -804,37 +879,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
+        <state relative-caret-position="0">
           <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="43" selection-end-column="80" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="177" column="35" selection-start-line="177" selection-start-column="35" selection-end-line="177" selection-end-column="35" />
-          <folding>
-            <element signature="e#63#270#1" expanded="false" />
-            <element signature="e#348#484#1" expanded="false" />
-            <element signature="e#7547#8030#0" expanded="false" />
-            <element signature="e#7547#7823#1" expanded="false" />
-            <element signature="e#7870#7991#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ScoreMatrix.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auxiliaryGenetics.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
+        <state relative-caret-position="0">
           <caret line="37" column="23" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
           <folding />
         </state>
@@ -842,19 +895,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Gene.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
+        <state relative-caret-position="0">
           <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="99" column="29" selection-start-line="99" selection-start-column="29" selection-end-line="99" selection-end-column="29" />
+          <folding>
+            <element signature="e#63#270#1" expanded="false" />
+            <element signature="e#348#484#1" expanded="false" />
+            <element signature="e#7230#7713#0" expanded="false" />
+            <element signature="e#7230#7506#1" expanded="false" />
+            <element signature="e#7553#7674#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ScoreMatrix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="16" column="35" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Surface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="191" column="39" selection-start-line="191" selection-start-column="39" selection-end-line="191" selection-end-column="39" />
+        <state relative-caret-position="334">
+          <caret line="245" column="25" selection-start-line="245" selection-start-column="25" selection-end-line="245" selection-end-column="25" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#2325#2805#0" expanded="false" />
+            <element signature="e#2598#3078#0" expanded="false" />
           </folding>
         </state>
       </provider>

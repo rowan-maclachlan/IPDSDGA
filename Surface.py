@@ -17,6 +17,14 @@ class Surface:
         for i in range(height):
             self.map.append([ None ] * width)
 
+    def get_all(self):
+        living_cells = list()
+        for y in range(self.height):
+            for x in range(self.width):
+                if self.get(Position(x, y)) is not None:
+                    living_cells.append(self.get(Position(x, y)))
+        return living_cells
+
     def get(self, pos):
         return self.map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width]
 
@@ -29,9 +37,9 @@ class Surface:
 
     def __map(self, method):
         for column in self.map:
-            for cell in column:
-                if cell is not None:
-                    method(cell)
+            for c in column:
+                if c is not None:
+                    method(c)
 
     def get_scores(self):
         scores = set()
@@ -87,17 +95,23 @@ class Surface:
     def get_neighbours(self, cell):
         neighbours = set()
         for offset in neighbour_offsets:
-            neighbour = self.get(cell.current_position + offset)
+            neighbour = self.get(cell.get_position() + offset)
             if neighbour is not None:
                 neighbours.add(neighbour)
         return neighbours
     
     def get_empty_neighbour_position(self, c):
+        """
+        Return the _position of a neighbouring empty cell
+        :param c: A cell
+        :return: A random open _position from among neighbouring
+        open _position, or None if there are no open positions.
+        """
         candidates = []
         for offset in neighbour_offsets:
-            neighbour = self.get(c.current_position + offset)
+            neighbour = self.get(c.get_position() + offset)
             if neighbour is None:
-                candidates.append(c.current_position + offset)
+                candidates.append(c.get_position() + offset)
         if len(candidates) == 0:
             return None
         return random.choice(candidates)
@@ -114,7 +128,7 @@ class Surface:
                         self.map[x][y] = None
     
     def __reproduction_tick(self):
-        ratio = 0.25 # TODO: move to paramater
+        ratio = 0.1 # TODO: move to paramater
         top_cells = sorted(self._all_cells, key=lambda c: -c.get_score())[:round(len(self._all_cells) * ratio)]
         chosen_cells = set()
 
@@ -139,8 +153,35 @@ class Surface:
                     ))
                     self.ID += 1
 
+    def __move_cell(self, c, destination):
+        assert self.get(destination) is None
+        assert c is not None
+
+        self.set(c.get_position(), None)
+        c.set_position(destination)
+        self.set(destination, c)
+
     def __movement_tick(self):
-        pass
+        """
+        This method could be expanded in functionality to encourage moving
+        when performing poorly.  Right now it will just have a random chance
+        to move.
+        :return:
+        """
+        move_chance = 0.1 # TODO: move to parameter
+        # shuffle so that priority is not given to cells at map[0][0]
+        # This could be made to favour well performing cells
+        live_cells = self.get_all()
+        random.shuffle(live_cells)
+        for c in live_cells:
+            if random.random() > move_chance:
+                continue
+            # find neighbouring open spots
+            open_position = self.get_empty_neighbour_position(c)
+            # If there is a _position, move the cell c from
+            # its current _position to its new _position
+            if open_position is not None:
+                self.__move_cell(c, open_position)
 
     def tick(self):
         self.__interaction_tick()
@@ -174,9 +215,9 @@ class Surface:
         for x in range(self.width):
             out += "----"
         out += "*\n"
-        out += "avg. def.:" + "{0:.4}".format(self.get_avg_defection_stats()[0]) + "\n"
-        out += "init. move 'd': " + "{0:.4}".format(self.get_init_move_stats()) + "\n"
-        out += "score stats: " + "{0:.4}".format(self.get_score_stats()[0]) + "\n"
+        out += "avg. def.:" + "{0:.4}".format(float(self.get_avg_defection_stats()[0])) + "\n"
+        out += "init. move 'd': " + "{0:.4}".format(float(self.get_init_move_stats())) + "\n"
+        out += "score stats: " + "{0:.4}".format(float(self.get_score_stats()[0])) + "\n"
 
         return out
 
@@ -184,7 +225,7 @@ if __name__ == "__main__":
 
     surface_w = 10
     surface_h = 10
-    gens = 25
+    gens = 50
 
     surface = Surface(surface_w, surface_h)
     cells = []
@@ -192,7 +233,7 @@ if __name__ == "__main__":
         cells.append(Cell(surface.ID, Position(i // surface_w, i % surface_h)))
         surface.ID += 1
     for cell in cells:
-        surface.set(cell.current_position, cell)
+        surface.set(cell.get_position(), cell)
 
     mean_scores = list()
     mean_def_fracs = list()
@@ -200,7 +241,7 @@ if __name__ == "__main__":
 
     for i in range(gens):
         surface.tick()
-        #print(surface)
+        print(surface)
         mean_scores.append(surface.get_score_stats()[0])
         mean_def_fracs.append(surface.get_avg_defection_stats()[0])
         mean_init_moves.append(surface.get_init_move_stats())
@@ -210,13 +251,13 @@ if __name__ == "__main__":
     init_moves = ""
 
     for s in mean_scores:
-        scores += "{0:.4}".format(s) + " - "
+        scores += "{0:.4}".format(float(s)) + " - "
 
     for d in mean_def_fracs:
-        def_frac += "{0:.4}".format(d) + " - "
+        def_frac += "{0:.4}".format(float(d)) + " - "
 
     for m in mean_init_moves:
-        init_moves += "{0:.4}".format(m) + " - "
+        init_moves += "{0:.4}".format(float(m)) + " - "
 
     print("scores: ")
     print(scores)
