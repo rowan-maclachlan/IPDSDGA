@@ -29,6 +29,9 @@ class Gene():
             ag.mutate(self._code)
             self.update_mem_size()
 
+    def get_seq(self):
+        return self._code
+
     def get_decision(self, history):
         """
         Find the choice of this Gene's Cell depending on the

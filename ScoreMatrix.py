@@ -15,9 +15,9 @@ SCORE_DC = 5 # myChoice = d, theirChoice = c
 """ The energy loss of a cell per simulation tick """
 LOSS_PER_TICK = 2
 """ The initial energy level of a Cell """
-INITIAL_SCORE = 50
+INITIAL_SCORE = 20
 
-def getScore(my_choice, their_choice):
+def get_score(my_choice, their_choice):
     """
     return the corresponding scores for the 2 choices.
     Consider using a named tuple or dictionary for this method?

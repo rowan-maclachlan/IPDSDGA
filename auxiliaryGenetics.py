@@ -14,8 +14,8 @@ def recombinate(parent_a, parent_b):
     :return: A new code formed from parent A' gene's
     code and parent B's gene's code.
     """
-    code_a = parent_a._code
-    code_b = parent_b._code
+    code_a = parent_a.get_seq()
+    code_b = parent_b.get_seq()
     # Do not let the length of a gene fall less that 2
     new_code_length = max(((len(code_a) + len(code_b)) // 2), 2)
     # Find out which is the longer gene
@@ -122,10 +122,12 @@ def applyDeletions(code):
     # We cannot delete a choice if the length of the
     # code is already only 2 long. 2 long is just
     # 1 choice.
-    if not 2 >= len(code):
-        for x in range(1, len(code)):
-            if P_OF_DELETION > random.random():
-                removeChoice(code, x)
+
+    for x in range(1, len(code)):
+        if len(code) <= 2:
+            break;
+        if P_OF_DELETION > random.random():
+            removeChoice(code, x)
 
 def applyInsertions(code):
     """

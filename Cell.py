@@ -114,7 +114,7 @@ class Cell:
         :param their_choice: char A choice 'c' or 'd'
         :return: None
         """
-        inc = ScoreMatrix.getScore(my_choice, their_choice)
+        inc = ScoreMatrix.get_score(my_choice, their_choice)
         self._score += inc
         self._score -= ScoreMatrix.LOSS_PER_TICK
 

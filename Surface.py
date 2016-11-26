@@ -117,7 +117,6 @@ class Surface:
         return random.choice(candidates)
 
     def __interaction_tick(self):
-        self.__map(lambda c: c.clear_interactions())
         self.__map(lambda c: c.interact(self.get_neighbours(c)))
     
     def __death_tick(self):
@@ -183,16 +182,21 @@ class Surface:
             if open_position is not None:
                 self.__move_cell(c, open_position)
 
-    def tick(self):
-        self.__interaction_tick()
+    def tick(self, interactions):
+        self.__clean()
+        for x in range(interactions):
+            self.__interaction_tick()
         self.__death_tick()
         self.__reproduction_tick()
         self.__movement_tick()
 
-    def run(self, generations):
-        for x in range(generations):
-            self.tick()
-        self.__map(lambda c: c.reset_scores())
+    def __clean(self):
+        """
+        Clear and reset the scores of all Cells alive
+        :return:
+        """
+        self.__map(lambda c: c.clear_interactions())
+        self.__map(lambda c: c.reset_score())
 
     def draw(self):
         pass
@@ -200,20 +204,20 @@ class Surface:
     def __str__(self):
         out = "*"
         for x in range(self.width):
-            out += "----"
+            out += "-----"
         out += "*\n"
         for y in range(self.height):
             out += "|"
             for x in range(self.width):
                 c = self.get(Position(x, y))
                 if c is None:
-                    out += "    "
+                    out += "     "
                 else:
-                    out += '{:3}'.format(c.get_id()) + " "
+                    out += '{:4}'.format(c.get_id()) + " "
             out += "|\n"
         out += "*"
         for x in range(self.width):
-            out += "----"
+            out += "-----"
         out += "*\n"
         out += "avg. def.:" + "{0:.4}".format(float(self.get_avg_defection_stats()[0])) + "\n"
         out += "init. move 'd': " + "{0:.4}".format(float(self.get_init_move_stats())) + "\n"
@@ -225,7 +229,8 @@ if __name__ == "__main__":
 
     surface_w = 10
     surface_h = 10
-    gens = 50
+    gens = 400
+    interactions = 50
 
     surface = Surface(surface_w, surface_h)
     cells = []
@@ -240,7 +245,7 @@ if __name__ == "__main__":
     mean_init_moves = list()
 
     for i in range(gens):
-        surface.tick()
+        surface.tick(interactions)
         print(surface)
         mean_scores.append(surface.get_score_stats()[0])
         mean_def_fracs.append(surface.get_avg_defection_stats()[0])
@@ -260,9 +265,9 @@ if __name__ == "__main__":
         init_moves += "{0:.4}".format(float(m)) + " - "
 
     print("scores: ")
-    print(scores)
+    print(str(mean_scores.pop(0)) + " : " + str(mean_scores.pop()))
     print("def fracs: ")
-    print(def_frac)
+    print(str(mean_def_fracs.pop(0)) + " : " + str(mean_def_fracs.pop()))
     print("init moves: ")
-    print(init_moves)
+    print(str(mean_init_moves.pop(0)) + " : " + str(mean_init_moves.pop()))
 
