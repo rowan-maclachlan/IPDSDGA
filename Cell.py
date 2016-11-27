@@ -166,6 +166,16 @@ class Cell:
     def get_gene(self):
         return self._gene
 
+    def is_tft(self):
+        g = self.get_gene().get_seq()
+        if 'c' != g[1]:
+            return False
+        for x in range(2, len(g)):
+            dec = 'c' if x % 2 == 0 else 'd'
+            if dec != g[x]:
+                return False
+        return True
+
     def __str__(self):
         return "ID: {}\nPosition: {}{}\nScore: {}\nMemory: {}".format(
                 self._id,
