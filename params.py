@@ -1,4 +1,5 @@
 import json
+import random
 
 params = dict()
 
@@ -31,8 +32,9 @@ def get_score(me, them):
 
 
 def init(path):
-    with open(path) as f:
-        params.update(json.load(f))
+    if path != None:
+        with open(path) as f:
+            params.update(json.load(f))
 
     random.seed(params['random_seed'])
 
