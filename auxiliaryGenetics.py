@@ -1,11 +1,5 @@
 import random
-
-
-_CHANCE = 0.5
-P_OF_INSERTION = 0.05
-P_OF_DELETION = 0.05
-P_OF_FLIPPING = 0.05
-
+from params import params
 
 def recombinate(parent_a, parent_b):
     """
@@ -52,10 +46,10 @@ def ProduceRandomGene(size_mem):
         code.append(getRandomChoice())
     return code
 
-def getRandomChoice(chance=_CHANCE):
+def getRandomChoice(chance=0.5):
     """
     Produce a choice, 'c' or 'd',
-    depending on the random value _CHANCE
+    depending on the random value chance
     :return:
     """
     return 'd' if chance > random.random() else 'c'
@@ -108,7 +102,7 @@ def applyFlips(code):
     :return: None
     """
     for x in range(1, len(code)):
-        if P_OF_FLIPPING > random.random():
+        if params['mutation_chance_flip'] > random.random():
             code[x] = getOtherChoice(code[x])
     return None
 
@@ -126,7 +120,7 @@ def applyDeletions(code):
     for x in range(1, len(code)):
         if len(code) <= 2:
             break;
-        if P_OF_DELETION > random.random():
+        if params['mutation_chance_delete'] > random.random():
             removeChoice(code, x)
 
 def applyInsertions(code):
@@ -138,7 +132,7 @@ def applyInsertions(code):
     :return: None
     """
     for x in range(1, len(code)):
-        if P_OF_INSERTION > random.random():
+        if params['mutation_chance_insert'] > random.random():
             insertChoice(code, getRandomChoice(), x)
     return None
 

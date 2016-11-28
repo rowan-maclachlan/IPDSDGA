@@ -1,7 +1,6 @@
 import Gene
-import ScoreMatrix
 import Memory
-
+import params as p
 
 class Cell:
     """ The Cell is the entity which contains the rule-defining Gene.
@@ -18,7 +17,7 @@ class Cell:
         """ int: Possibly used for data or life-span related functions """
         self._age = 0;
         """ int: To measure the success of a gene """
-        self._score = ScoreMatrix.INITIAL_SCORE
+        self._score =  p.params['initial_score']
         """ Gene: The decision making entity of the cell."""
         self._gene = None
         """ dict(Cell,Memory): To hold the memory of past interactions with other cells"""
@@ -114,9 +113,8 @@ class Cell:
         :param their_choice: char A choice 'c' or 'd'
         :return: None
         """
-        inc = ScoreMatrix.get_score(my_choice, their_choice)
-        self._score += inc
-        self._score -= ScoreMatrix.LOSS_PER_TICK
+        self._score += p.params['score_matrix'][my_choice][their_choice]
+        self._score -= p.params['loss_per_tick']
 
     def reset_score(self):
         """
@@ -124,7 +122,7 @@ class Cell:
         default score
         :return: None
         """
-        self._score = ScoreMatrix.INITIAL_SCORE
+        self._score = p.params['initial_score']
 
     def adjust_memory(self, neighbour, neighbour_choice):
         """

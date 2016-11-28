@@ -3,6 +3,8 @@ from Position import Position
 import statistics as stats
 import random
 
+import params as p
+
 neighbour_offsets = [Position(-1,-1), Position( 0,-1), Position( 1,-1),
                      Position(-1, 0), Position( 0, 0), Position( 1, 0),
                      Position(-1, 1), Position( 0, 1), Position( 1, 1)]
@@ -289,13 +291,20 @@ class Surface:
         return out
 
 if __name__ == "__main__":
+    import sys
 
-    surface_w = 20
-    surface_h = 20
-    gens = 200
-    interactions = 10
+    if len(sys.argv) == 2:
+        p.init(sys.argv[1])
+    else:
+        p.init(None)
+
+    surface_w = p.params['surface']['width']
+    surface_h = p.params['surface']['height']
+    gens = p.params['generations']
+    interactions = p.params['interactions']
 
     surface = Surface(surface_w, surface_h)
+
     cells = []
     for i in range(surface_w * surface_h):
         cells.append(Cell(surface.ID, Position(i // surface_w, i % surface_h)))
@@ -314,7 +323,6 @@ if __name__ == "__main__":
         mean_scores.append(surface.get_score_stats()[0])
         mean_def_fracs.append(surface.get_avg_defection_stats()[0])
         mean_init_moves.append(surface.get_init_move_stats())
-
 
     for c in surface.get_best_x(0.05):
         print(str(c))

@@ -2,11 +2,9 @@ import auxiliaryGenetics as ag
 import random
 import math
 
+from params import params
 
 class Gene():
-
-    _DEFAULT_SIZE_MEM = 3
-
     def __init__(self, gene_a=None, gene_b=None):
         """
         :type gene_a: Gene Parent A's Gene
@@ -16,7 +14,7 @@ class Gene():
         """ list(char): The genetic sequence """
         self._code = list()
         """ int: the depth of the genetic sequence tree, or log2(len(_code)) """
-        self._size_mem = self._DEFAULT_SIZE_MEM
+        self._size_mem = params['default_memory_size']
 
         # produce a new genetic code if this Gene does not have 2 parents
         # If it has parents, produce the code through recombination
