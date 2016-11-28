@@ -17,6 +17,8 @@ class Surface:
         self._all_cells = set()
         self.map = [];
         self.ID = 0
+        self.total_alive = width * height
+        self.total_dead = 0
         for i in range(height):
             self.map.append([ None ] * width)
 
@@ -151,6 +153,7 @@ class Surface:
                     if self.map[x][y].is_dead():
                         self.map[x][y] = None
                         self.population -= 1
+                        self.total_dead += 1
     
     def __reproduction_tick(self):
         ratio = p.params['reproduction_ratio']        
@@ -180,6 +183,7 @@ class Surface:
                     ))
                     self.ID += 1
                     self.population += 1
+                    self.total_alive += 1
 
     def __move_cell(self, c, destination):
         """ 
@@ -283,7 +287,7 @@ class Surface:
                 if c is None:
                     out += "     "
                 else:
-                    out += '{:4}'.format(c.get_id()) + " "
+                    out += c.draw() + " "
             out += "|\n"
         out += "*"
         for x in range(self.width):
@@ -295,7 +299,9 @@ class Surface:
                 float(self.get_init_move_stats())) + "\n"
         out += "score stats: " + "{0:.4}".format(
                 float(self.get_score_stats()[0])) + "\n"
-        out += "population: " + str(self.population)
+        out += "population: " + str(self.population) + "\n"
+        out += "total born: " + str(self.total_alive) + "\n"
+        out += "total died: " + str(self.total_dead) + "\n"
         return out
 
 if __name__ == "__main__":

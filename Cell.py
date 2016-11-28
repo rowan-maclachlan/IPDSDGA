@@ -173,6 +173,28 @@ class Cell:
             if dec != g[x]:
                 return False
         return True
+    
+    def draw(self):
+        """
+        Return a string that represents the Cell and its rule
+        :return: String A string that represent's this Cell's rule
+        """
+        drawing = ""
+        
+        if self.get_gene().get_choice_at(1) is 'c':
+            drawing += 'o'
+        else:
+            drawing += 'x'
+        
+        if self.is_tft():
+            drawing += "tft"
+            return drawing
+        
+        if self.get_gene().get_defect_fraction() > 0.5:
+            drawing += "ddd"
+        else:
+            drawing += "ccc"
+        return drawing
 
     def __str__(self):
         return "ID: {}\nPosition: {}{}\nScore: {}\nMemory: {}".format(

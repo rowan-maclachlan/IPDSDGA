@@ -17,17 +17,17 @@ params['score_matrix'] = {
     'c': { 'c': 3, 'd': 0 },
     'd': { 'c': 5, 'd': 1 }
 }
-params['loss_per_tick'] = 2.9
-params['initial_score'] = 50
+params['loss_per_tick'] = 2.5
+params['initial_score'] = 20
 
-params['default_memory_size'] = 2
+params['default_memory_size'] = 3
 
-params['mutation_chance_insert'] = 0.05
-params['mutation_chance_delete'] = 0.05
-params['mutation_chance_flip'] = 0.05
+params['mutation_chance_insert'] = 0.1
+params['mutation_chance_delete'] = 0.1
+params['mutation_chance_flip'] = 0.2
 
 params['move_chance'] = 0.1
-params['move_ratio'] = 0.25
+params['move_ratio'] = 0.1
 
 params['reproduction_ratio'] = 0.05
 
