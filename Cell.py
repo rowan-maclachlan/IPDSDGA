@@ -190,10 +190,17 @@ class Cell:
             drawing += "tft"
             return drawing
         
-        if self.get_gene().get_defect_fraction() > 0.5:
+        rule = self.get_gene().get_defect_fraction()
+        
+        if rule > 0.75:
             drawing += "ddd"
+        elif rule > 0.5:
+            drawing += "ddc"
+        elif rule > 0.25:
+            drawing += "ccd"
         else:
             drawing += "ccc"
+
         return drawing
 
     def __str__(self):

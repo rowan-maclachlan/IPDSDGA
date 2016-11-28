@@ -11,7 +11,7 @@ params['surface'] = {
 }
 
 params['generations'] = 200
-params['interactions'] = 20
+params['interactions'] = 10
 
 params['score_matrix'] = {
     'c': { 'c': 3, 'd': 0 },
