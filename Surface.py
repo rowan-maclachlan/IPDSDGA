@@ -153,9 +153,10 @@ class Surface:
                         self.population -= 1
     
     def __reproduction_tick(self):
-        ratio = 0.1 # TODO: move to paramater
+        ratio = p.params['reproduction_ratio']        
         top_cells = sorted(
-                self._all_cells, key=lambda c: -c.get_score())[:round(len(self._all_cells) * ratio)]
+                self._all_cells, 
+                key=lambda c: -c.get_score())[:round(len(self._all_cells) * ratio)]
         chosen_cells = set()
 
         for c in top_cells:
@@ -199,7 +200,7 @@ class Surface:
         to move.
         :return:
         """
-        move_chance = 0.1 # TODO: move to parameter
+        move_chance = p.params['move_chance']        
         # shuffle so that priority is not given to cells at map[0][0]
         # This could be made to favour well performing cells
         live_cells = self.get_all()
@@ -220,8 +221,8 @@ class Surface:
         only Cells are more likely to move if they are performing
         poorly.
         """
-        ratio = 0.25
-        move_chance = 0.2
+        ratio = p.params['move_ratio']
+        move_chance = p.params['move_chance']
         # get the bottom 'ratio' cells
         all_cells = self.get_all()
         sorted_cells = sorted(all_cells, key=lambda c: c.get_score())
