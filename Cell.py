@@ -77,7 +77,7 @@ class Cell:
         :return: True if this Cell's energy is 0
         or lower, and False otherwise.
         """
-        return True if 0 > self._score else False
+        return True if 0 >= self._score else False
 
     def get_my_decision(self, neighbour):
         """

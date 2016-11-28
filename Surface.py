@@ -290,10 +290,10 @@ class Surface:
 
 if __name__ == "__main__":
 
-    surface_w = 20
-    surface_h = 20
+    surface_w = 30
+    surface_h = 30
     gens = 200
-    interactions = 10
+    interactions = 20
 
     surface = Surface(surface_w, surface_h)
     cells = []
