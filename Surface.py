@@ -244,9 +244,16 @@ class Surface:
         sorted_cells = sorted(all_cells, key=lambda c: -c.get_score())
         return sorted_cells[:round(len(all_cells) * ratio)]
 
-    def tick(self, interactions):
+    def tick(self, inters):
+        """
+        Run a tick.  Reset scores and memories, and run
+        the interaction tick, death tick, and movement tick
+        for inters times.  Then, run the reproduction tick.
+        :param inters: int the number of interactions per tick
+        :return: None
+        """
         self.__clean()
-        for x in range(interactions):
+        for x in range(inters):
             self.__interaction_tick()
             self.__death_tick()
             self.__alt_movement_tick()
@@ -324,7 +331,7 @@ if __name__ == "__main__":
         mean_def_fracs.append(surface.get_avg_defection_stats()[0])
         mean_init_moves.append(surface.get_init_move_stats())
 
-    for c in surface.get_best_x(0.05):
+    for c in surface.get_best_x(0.02):
         print(str(c))
     
     scores = ""
