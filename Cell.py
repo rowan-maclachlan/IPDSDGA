@@ -53,14 +53,14 @@ class Cell:
         """
         for neighbour in neighbours:
             if not self.__eq__(neighbour):
-                my_choice = self.get_my_decision(neighbour)
-                their_choice = neighbour.get_my_decision(self)
+                my_choice = self._get_my_decision(neighbour)
+                their_choice = neighbour._get_my_decision(self)
 
-                self.adjust_score(my_choice, their_choice)
-                neighbour.adjust_score(their_choice, my_choice)
+                self._adjust_score(my_choice, their_choice)
+                neighbour._adjust_score(their_choice, my_choice)
 
-                self.adjust_memory(neighbour, their_choice)
-                neighbour.adjust_memory(self, my_choice)
+                self._adjust_memory(neighbour, their_choice)
+                neighbour._adjust_memory(self, my_choice)
 
     def clear_interactions(self):
         """
@@ -78,7 +78,7 @@ class Cell:
         """
         return True if 0 >= self._score else False
 
-    def get_my_decision(self, neighbour):
+    def _get_my_decision(self, neighbour):
         """
         Retrieve a decision based on the history of this Cell
         with its neighbour.  The decision is retrieved from the gene
@@ -104,7 +104,7 @@ class Cell:
     def get_score(self):
         return self._score
 
-    def adjust_score(self, my_choice, their_choice):
+    def _adjust_score(self, my_choice, their_choice):
         """
         Adjust the score of this Cell according to the
         score matrix values and the two input choices.
@@ -124,7 +124,7 @@ class Cell:
         """
         self._score = p.params['initial_score']
 
-    def adjust_memory(self, neighbour, neighbour_choice):
+    def _adjust_memory(self, neighbour, neighbour_choice):
         """
         Adjust the memory of this cell by looking at
         the memory dictionary for a past relationship with the

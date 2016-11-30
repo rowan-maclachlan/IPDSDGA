@@ -105,7 +105,6 @@ def applyFlips(code):
     for x in range(1, len(code)):
         if params['mutation_chance_flip'] > random.random():
             code[x] = getOtherChoice(code[x])
-    return None
 
 def applyDeletions(code):
     """
@@ -135,7 +134,6 @@ def applyInsertions(code):
     for x in range(1, len(code)):
         if params['mutation_chance_insert'] > random.random():
             insertChoice(code, getRandomChoice(), x)
-    return None
 
 def insertChoice(code, choice, pos):
     """
