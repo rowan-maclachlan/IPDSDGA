@@ -31,11 +31,13 @@ params['move_ratio'] = 0.1
 
 params['reproduction_ratio'] = 0.05
 
+
 def get_score(me, them):
-    return score_matrix[me][them]
+    return params['score_matrix'][me][them]
+
 
 def init(path):
-    if path != None:
+    if path is not None:
         with open(path) as f:
             params.update(json.load(f))
 
