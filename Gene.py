@@ -19,11 +19,11 @@ class Gene():
         # produce a new genetic code if this Gene does not have 2 parents
         # If it has parents, produce the code through recombination
         if gene_a is None or gene_b is None:
-            self._code = ag.ProduceRandomGene(self._size_mem)
+            self._code = ag.produce_random_gene(self._size_mem)
             ag.mutate(self._code)
             self.update_mem_size()
         else:
-            self._code = ag.recombinate(gene_a, gene_b)
+            self._code = ag.recombine(gene_a, gene_b)
             ag.mutate(self._code)
             self.update_mem_size()
 
@@ -43,13 +43,13 @@ class Gene():
         for x in history.get_mem_seq():
             # If c, get left child
             if 'c' == x:
-                if not ag.isValidPosition(self._code, 2*offset):
+                if not ag.is_valid_position(self._code, 2*offset):
                     return self.get_choice_at(offset)
                 else:
                     offset = 2*offset
             # else its 'd', so get right child
             else:
-                if not ag.isValidPosition(self._code, 2*offset+1):
+                if not ag.is_valid_position(self._code, 2*offset+1):
                     return self.get_choice_at(offset)
                 else:
                     offset = (2*offset)+1

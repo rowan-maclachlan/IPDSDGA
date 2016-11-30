@@ -9,13 +9,14 @@ neighbour_offsets = [Position(-1,-1), Position( 0,-1), Position( 1,-1),
                      Position(-1, 0), Position( 0, 0), Position( 1, 0),
                      Position(-1, 1), Position( 0, 1), Position( 1, 1)]
 
+
 class Surface:
     def __init__(self, width, height):
         self.population = 0
         self.width = width
         self.height = height
         self._all_cells = set()
-        self.map = [];
+        self.map = []
         self.ID = 0
         self.total_alive = width * height
         self.total_dead = 0

@@ -2,7 +2,7 @@ import random
 from params import params
 
 
-def recombinate(parent_a, parent_b):
+def recombine(parent_a, parent_b):
     """
     :param parent_a: Gene Parent A's Gene
     :param parent_b: Gene Parent B's Gene
@@ -32,7 +32,8 @@ def recombinate(parent_a, parent_b):
     new_gen_code[shared_parent_length:] = longer_parent_code[shared_parent_length:new_code_length - 1]
     return new_gen_code
 
-def ProduceRandomGene(size_mem):
+
+def produce_random_gene(size_mem):
     """
     Produce a randomly generated _gene of size 2^_size_mem.
     The relevant portions of the gene extend from offset
@@ -44,10 +45,11 @@ def ProduceRandomGene(size_mem):
     code = []
     code.append(0)
     for x in range(1, 2 ** size_mem):
-        code.append(getRandomChoice())
+        code.append(get_random_choice())
     return code
 
-def getRandomChoice(chance=0.5):
+
+def get_random_choice(chance=0.5):
     """
     Produce a choice, 'c' or 'd',
     depending on the random value chance
@@ -55,7 +57,8 @@ def getRandomChoice(chance=0.5):
     """
     return 'd' if chance > random.random() else 'c'
 
-def getOtherChoice(choice):
+
+def get_other_choice(choice):
     """
     Return the opposite choice of the argument provided
     :param choice: the choice character for which the opposite is desired
@@ -63,7 +66,8 @@ def getOtherChoice(choice):
     """
     return 'd' if choice == 'c' else 'c'
 
-def isValidChoice(choice):
+
+def is_valid_choice(choice):
     """
     Return true if the 'choice' is a valid choice.
     Return false otherwise.
@@ -75,7 +79,8 @@ def isValidChoice(choice):
     else:
         return True
 
-def isValidPosition(code, pos):
+
+def is_valid_position(code, pos):
     """
     Return true if the 'pos' is a valid _position.
     Return false otherwise.
@@ -87,15 +92,17 @@ def isValidPosition(code, pos):
     if len(code) <= pos: return False
     return True
 
+
 def mutate(code):
     """
     Apply the simulation mutations to this Gene's _gene
     """
-    applyFlips(code)
+    apply_flips(code)
     applyDeletions(code)
-    applyInsertions(code)
+    apply_insertions(code)
 
-def applyFlips(code):
+
+def apply_flips(code):
     """
     Proceed over the code and apply flip mutations
     according to the probabilty of a flip.
@@ -104,7 +111,7 @@ def applyFlips(code):
     """
     for x in range(1, len(code)):
         if params['mutation_chance_flip'] > random.random():
-            code[x] = getOtherChoice(code[x])
+            code[x] = get_other_choice(code[x])
 
 def applyDeletions(code):
     """
@@ -116,14 +123,14 @@ def applyDeletions(code):
     # We cannot delete a choice if the length of the
     # code is already only 2 long. 2 long is just
     # 1 choice.
-
     for x in range(1, len(code)):
         if len(code) <= 2:
             break;
         if params['mutation_chance_delete'] > random.random():
-            removeChoice(code, x)
+            remove_choice(code, x)
 
-def applyInsertions(code):
+
+def apply_insertions(code):
     """
     Apply any mutational insertions to this Gene's _gene
     according to the probability of insertion per choice
@@ -133,9 +140,10 @@ def applyInsertions(code):
     """
     for x in range(1, len(code)):
         if params['mutation_chance_insert'] > random.random():
-            insertChoice(code, getRandomChoice(), x)
+            insert_choice(code, get_random_choice(), x)
 
-def insertChoice(code, choice, pos):
+
+def insert_choice(code, choice, pos):
     """
     insert the choice 'c' or 'd' into the _position in the gene
     directly after 'pos'.
@@ -144,27 +152,29 @@ def insertChoice(code, choice, pos):
     :param pos: int The _position after which to insert the choice
     :return: None
     """
-    if not isValidChoice(choice):
-        choice = getRandomChoice()
-    if not isValidPosition(code, pos):
+    if not is_valid_choice(choice):
+        choice = get_random_choice()
+    if not is_valid_position(code, pos):
         code.append(choice)
     else:
         code.insert(pos, choice)
     return None
 
-def appendChoice(code, choice):
+
+def append_choice(code, choice):
     """
     Append the choice to the this gene
     :param code: List<char> a list of character as code
     :param choice: the choice to append
     :return: None
     """
-    if not self.isValidChoice(choice):
-        choice = self.getRandomChoice()
+    if not is_valid_choice(choice):
+        choice = get_random_choice()
     code.append(choice)
     return None
 
-def removeChoice(code, pos):
+
+def remove_choice(code, pos):
     """
     Remove the choice at _position 'pos' in the code.
     If the _position is not valid, the last choice is removed.
@@ -172,7 +182,7 @@ def removeChoice(code, pos):
     :param pos: the _position of the choice to remove
     :return: None
     """
-    if not isValidPosition(code, pos):
+    if not is_valid_position(code, pos):
         pos = len(code) - 1
     del code[pos]
     return None
