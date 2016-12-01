@@ -17,7 +17,7 @@ params['score_matrix'] = {
     'c': { 'c': 3, 'd': 0 },
     'd': { 'c': 5, 'd': 1 }
 }
-params['loss_per_tick'] = 2.5
+params['loss_per_tick'] = 2
 params['initial_score'] = 20
 
 params['default_memory_size'] = 3
@@ -31,6 +31,8 @@ params['move_ratio'] = 0.1
 
 params['reproduction_ratio'] = 0.05
 
+params['aging'] = False
+params['age_of_death'] = 10
 
 def get_score(me, them):
     return params['score_matrix'][me][them]

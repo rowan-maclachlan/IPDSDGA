@@ -74,9 +74,14 @@ class Cell:
         """
         Is this Cell dead?
         :return: True if this Cell's energy is 0
-        or lower, and False otherwise.
+        or lower, and False otherwise.  If the
+        cell is past the age of death, it is also dead.
         """
-        return True if 0 >= self._score else False
+        dead = True if 0 >= self._score else False
+        if p.params['aging']:
+            dead = True if self._age > p.params['age_of_death'] else dead
+        return dead
+
 
     def _get_my_decision(self, neighbour):
         """
@@ -139,6 +144,14 @@ class Cell:
         else:
             print ("err: getMemory: no memory of subjectID "
                   + str(neighbour.get_id()))
+
+    def age(self):
+        """ Age this cell by 1. """
+        self._age += 1
+
+    def get_age(self):
+        """Get the age of this Cell"""
+        return self._age
 
     def get_id(self):
         """

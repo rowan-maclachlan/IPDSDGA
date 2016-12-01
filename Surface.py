@@ -250,6 +250,9 @@ class Surface:
         sorted_cells = sorted(all_cells, key=lambda c: -c.get_score())
         return sorted_cells[:round(len(all_cells) * ratio)]
 
+    def __age_tick(self):
+        self.__map(lambda c: c.age())
+
     def tick(self, inters):
         """
         Run a tick.  Reset scores and memories, and run
@@ -259,6 +262,8 @@ class Surface:
         :return: None
         """
         self.__clean()
+        if p.params['aging']:
+            self.__age_tick()
         for x in range(inters):
             self.__interaction_tick()
             self.__death_tick()
