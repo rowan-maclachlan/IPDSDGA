@@ -1,8 +1,8 @@
 from Cell import Cell
 from Position import Position
-import statistics as stats
 import random
 
+import my_stats as s 
 import params as p
 
 neighbour_offsets = [Position(-1,-1), Position( 0,-1), Position( 1,-1),
@@ -41,84 +41,11 @@ class Surface:
             self._all_cells.add(c)
         self.map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width] = c
 
-    def __map(self, method):
+    def my_map(self, method):
         for column in self.map:
             for c in column:
                 if c is not None:
                     method(c)
-
-    def get_scores(self):
-        scores = list()
-        self.__map(lambda c: scores.append(c.get_score()))
-        return scores
-
-    def get_rule_stats(self):
-        """
-        Get statistics about the genetic makeup of 
-        the Cell's on this surface 
-        """
-        num_tfts = 0
-        for c in self.get_all():
-            if c.is_tft():
-                num_tfts += 1
-        return num_tfts / self.population
-
-    def get_length_stats(self):
-        """
-        Return statistics about the lengths of the Gene's 
-        of the Cell's on this surface 
-        """
-        lengths = list()
-        self.__map(lambda c: lengths.append(len(c.get_gene())-1))
-        mean_length = stats.mean(lengths)
-
-        return mean_length
-
-    def get_score_stats(self):
-        """
-        Get the statistics for the scores of all cells
-        :return: mean, mode, stddev
-        """
-        scores = self.get_scores()
-        if 0 == len(scores):
-            return 0, 0, 0
-        mean_score = stats.mean(scores)
-        med_score = stats.median(scores)
-        stddev_score = stats.pstdev(scores, mean_score)
-
-        return mean_score, med_score, stddev_score
-
-    def get_avg_defection_stats(self):
-        """
-        Get the statistics for the fraction of defect choice in Cells' genes
-        :return: mean, mode, stddev
-        """
-        fraction_defect = list()
-        self.__map(lambda c: fraction_defect.append(c.get_gene().get_defect_fraction()))
-        if 0 == len(fraction_defect):
-            return 0, 0, 0
-        mean_def_fraction = stats.mean(fraction_defect)
-        med_def_fraction = stats.median(fraction_defect)
-        stddev_def_fraction = stats.pstdev(fraction_defect, mean_def_fraction)
-
-        return mean_def_fraction, med_def_fraction, stddev_def_fraction
-
-    def get_init_move_stats(self):
-        """
-        Get the statistics for the initial move of the Cells
-        :return: mean, mode, stddev
-        """
-        initial_moves = list()
-        self.__map(lambda c: initial_moves.append(c.get_gene().get_choice_at(1)))
-        if 0 == len(initial_moves):
-            return 0
-
-        initial_move_fraction = 0
-        for move in initial_moves:
-            if 'd' == move:
-                initial_move_fraction += 1
-
-        return initial_move_fraction/len(initial_moves)
 
     def get_neighbours(self, cell):
         neighbours = set()
@@ -145,7 +72,7 @@ class Surface:
         return random.choice(candidates)
 
     def __interaction_tick(self):
-        self.__map(lambda c: c.interact(self.get_neighbours(c)))
+        self.my_map(lambda c: c.interact(self.get_neighbours(c)))
     
     def __death_tick(self):
         for y in range(self.height):
@@ -251,7 +178,7 @@ class Surface:
         return sorted_cells[:round(len(all_cells) * ratio)]
 
     def __age_tick(self):
-        self.__map(lambda c: c.age())
+        self.my_map(lambda c: c.age())
 
     def tick(self, inters):
         """
@@ -269,14 +196,14 @@ class Surface:
             self.__death_tick()
             self.__alt_movement_tick()
         self.__reproduction_tick()
-       
+
     def __clean(self):
         """
         Clear and reset the scores of all Cells alive
         :return:
         """
-        self.__map(lambda c: c.clear_interactions())
-        self.__map(lambda c: c.reset_score())
+        self.my_map(lambda c: c.clear_interactions())
+        self.my_map(lambda c: c.reset_score())
 
     def draw(self):
         pass
@@ -299,15 +226,10 @@ class Surface:
         for x in range(self.width):
             out += "-----"
         out += "*\n"
-        out += "avg. def.:" + "{0:.4}".format(
-                float(self.get_avg_defection_stats()[0])) + "\n"
-        out += "init. move 'd': " + "{0:.4}".format(
-                float(self.get_init_move_stats())) + "\n"
-        out += "score stats: " + "{0:.4}".format(
-                float(self.get_score_stats()[0])) + "\n"
-        out += "population: " + str(self.population) + "\n"
-        out += "total born: " + str(self.total_alive) + "\n"
-        out += "total died: " + str(self.total_dead) + "\n"
+        out += " | population: "    + str(self.population) \
+                + " | born: "       + str(self.total_alive) \
+                + " | died: "       + str(self.total_dead) + "\n"
+        
         return out
 
 if __name__ == "__main__":
@@ -325,45 +247,20 @@ if __name__ == "__main__":
 
     surface = Surface(surface_w, surface_h)
 
-    cells = []
     for i in range(surface_w * surface_h):
-        cells.append(Cell(surface.ID, Position(i // surface_w, i % surface_h)))
+        c_init = Cell(surface.ID, Position(i // surface_w, i % surface_h))
         surface.ID += 1
         surface.population += 1
-    for cell in cells:
-        surface.set(cell.get_position(), cell)
-
-    mean_scores = list()
-    mean_def_fracs = list()
-    mean_init_moves = list()
+        surface.set(c_init.get_position(), c_init)
+    
+    sim_stats = list()
 
     for i in range(gens):
         print(surface)
         surface.tick(interactions)
-        mean_scores.append(surface.get_score_stats()[0])
-        mean_def_fracs.append(surface.get_avg_defection_stats()[0])
-        mean_init_moves.append(surface.get_init_move_stats())
+        sim_stats.append(s.get_stats(surface))
 
     for c in surface.get_best_x(0.02):
         print(str(c))
-    
-    scores = ""
-    def_frac = ""
-    init_moves = ""
 
-    for s in mean_scores:
-        scores += "{0:.4}".format(float(s)) + " - "
 
-    for d in mean_def_fracs:
-        def_frac += "{0:.4}".format(float(d)) + " - "
-
-    for m in mean_init_moves:
-        init_moves += "{0:.4}".format(float(m)) + " - "
-
-    print("scores: ")
-    print(str(mean_scores.pop(0)) + " : " + str(mean_scores.pop()))
-    print("def fracs: ")
-    print(str(mean_def_fracs.pop(0)) + " : " + str(mean_def_fracs.pop()))
-    print("init moves: ")
-    print(str(mean_init_moves.pop(0)) + " : " + str(mean_init_moves.pop()))
-    print("rules: " + str(surface.get_rule_stats()))

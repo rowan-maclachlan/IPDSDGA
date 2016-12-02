@@ -22,8 +22,8 @@ params['initial_score'] = 20
 
 params['default_memory_size'] = 3
 
-params['mutation_chance_insert'] = 0.2
-params['mutation_chance_delete'] = 0.2
+params['mutation_chance_insert'] = 0.1
+params['mutation_chance_delete'] = 0.1
 params['mutation_chance_flip'] = 0.2
 
 params['move_chance'] = 0.1

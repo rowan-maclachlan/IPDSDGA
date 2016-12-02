@@ -76,7 +76,11 @@ class Cell:
         :return: True if this Cell's energy is 0
         or lower, and False otherwise.
         """
-        return True if 0 >= self._score else False
+        dead = True if 0 >= self._score else False
+        if p.params['ageing'] and self._age > p.params['age_of_death']:
+            print("ageing")
+            dead = True
+        return dead
 
     def _get_my_decision(self, neighbour):
         """
@@ -160,6 +164,12 @@ class Cell:
             return None
         else:
             return self._memory[cell]
+
+    def age(self):
+        self._age += 1
+
+    def get_age(self):
+        return self._age
 
     def get_gene(self):
         return self._gene
