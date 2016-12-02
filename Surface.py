@@ -234,6 +234,10 @@ class Surface:
 
 if __name__ == "__main__":
     import sys
+    import json
+    from time import strftime
+
+    start = strftime("%Y-%m-%dT%H:%M:%S")
 
     if len(sys.argv) == 2:
         p.init(sys.argv[1])
@@ -262,5 +266,8 @@ if __name__ == "__main__":
 
     for c in surface.get_best_x(0.02):
         print(str(c))
+
+    with open("out/" + start + ".json", "w+") as out:
+        json.dump(sim_stats, out, indent=4)
 
 
