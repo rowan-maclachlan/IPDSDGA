@@ -16,12 +16,12 @@ class Surface:
         self.width = width
         self.height = height
         self._all_cells = set()
-        self.__map = []
+        self.map = []
         self.ID = 0
         self.total_alive = width * height
         self.total_dead = 0
         for i in range(height):
-            self.__map.append([ None ] * width)
+            self.map.append([ None ] * width)
 
     def get_all(self):
         living_cells = list()
@@ -32,16 +32,16 @@ class Surface:
         return living_cells
 
     def get(self, pos):
-        return self.__map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width]
+        return self.map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width]
 
     def set(self, pos, c):
         if c is None:
             self._all_cells.remove(self.get(pos))
         else:
             self._all_cells.add(c)
-        self.__map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width] = c
+        self.map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width] = c
 
-    def map(self, method):
+    def __map(self, method):
         for column in self.map:
             for c in column:
                 if c is not None:
@@ -49,7 +49,7 @@ class Surface:
 
     def get_scores(self):
         scores = list()
-        self.map(lambda c: scores.append(c.get_score()))
+        self.__map(lambda c: scores.append(c.get_score()))
         return scores
 
     def get_rule_stats(self):
@@ -69,7 +69,7 @@ class Surface:
         of the Cell's on this surface 
         """
         lengths = list()
-        self.map(lambda c: lengths.append(len(c.get_gene())-1))
+        self.__map(lambda c: lengths.append(len(c.get_gene())-1))
         mean_length = stats.mean(lengths)
 
         return mean_length
@@ -94,7 +94,7 @@ class Surface:
         :return: mean, mode, stddev
         """
         fraction_defect = list()
-        self.map(lambda c: fraction_defect.append(c.get_gene().get_defect_fraction()))
+        self.__map(lambda c: fraction_defect.append(c.get_gene().get_defect_fraction()))
         if 0 == len(fraction_defect):
             return 0, 0, 0
         mean_def_fraction = stats.mean(fraction_defect)
@@ -109,7 +109,7 @@ class Surface:
         :return: mean, mode, stddev
         """
         initial_moves = list()
-        self.map(lambda c: initial_moves.append(c.get_gene().get_choice_at(1)))
+        self.__map(lambda c: initial_moves.append(c.get_gene().get_choice_at(1)))
         if 0 == len(initial_moves):
             return 0
 
@@ -145,7 +145,7 @@ class Surface:
         return random.choice(candidates)
 
     def __interaction_tick(self):
-        self.map(lambda c: c.interact(self.get_neighbours(c)))
+        self.__map(lambda c: c.interact(self.get_neighbours(c)))
     
     def __death_tick(self):
         for y in range(self.height):
@@ -251,7 +251,7 @@ class Surface:
         return sorted_cells[:round(len(all_cells) * ratio)]
 
     def __age_tick(self):
-        self.map(lambda c: c.age())
+        self.__map(lambda c: c.age())
 
     def tick(self, inters):
         """
@@ -262,7 +262,7 @@ class Surface:
         :return: None
         """
         self.__clean()
-        if p.params['aging']:
+        if p.params['ageing']:
             self.__age_tick()
         for x in range(inters):
             self.__interaction_tick()
@@ -275,8 +275,8 @@ class Surface:
         Clear and reset the scores of all Cells alive
         :return:
         """
-        self.map(lambda c: c.clear_interactions())
-        self.map(lambda c: c.reset_score())
+        self.__map(lambda c: c.clear_interactions())
+        self.__map(lambda c: c.reset_score())
 
     def draw(self):
         pass

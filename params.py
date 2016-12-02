@@ -31,6 +31,8 @@ params['move_ratio'] = 0.1
 
 params['reproduction_ratio'] = 0.05
 
+params['age_of_death'] = 10
+params['ageing'] = False
 
 def get_score(me, them):
     return params['score_matrix'][me][them]
