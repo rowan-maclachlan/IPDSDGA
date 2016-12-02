@@ -9,10 +9,11 @@ EMAIL=$(cat .secret/email)
 
 mkdir -p out
 
-params=${1:-params/default.json}
-output="out/$(date -u +"%Y-%m-%dT%H:%M:%S")"
+params_file=${1:-params/default.json}
+params=$(basename -s .json ${params_file})
+output="out/${params}_$(date +"%Y-%m-%d_%H:%M:%S")"
 
-python3 Surface.py ${params} | tee ${output}.log
+python3 Surface.py ${params_file} | tee ${output}.log
 
 log_url=$(sprunge < ${output}.log)
 json_url=$(sprunge < ${output}.json)
@@ -24,6 +25,6 @@ json_url=$(sprunge < ${output}.json)
 python3 pushbullet-notify.py \
     -a $TOKEN \
     -e $EMAIL \
-    -t "Simulation Done" \
+    -t "Simulation Done: ${params}" \
        "log: $log_url json: $json_url"
 

@@ -235,13 +235,16 @@ class Surface:
 if __name__ == "__main__":
     import sys
     import json
+    from os import path
     from time import strftime
 
-    start = strftime("%Y-%m-%dT%H:%M:%S")
+    start = strftime("%Y-%m-%d_%H:%M:%S")
 
     if len(sys.argv) == 2:
+        file_start = path.splitext(path.basename(sys.argv[1]))[0]
         p.init(sys.argv[1])
     else:
+        file_start = 'default'
         p.init(None)
 
     surface_w = p.params['surface']['width']
@@ -267,7 +270,7 @@ if __name__ == "__main__":
     for c in surface.get_best_x(0.02):
         print(str(c))
 
-    with open("out/" + start + ".json", "w+") as out:
+    with open("out/{}_{}.json".format(file_start, start), "w+") as out:
         json.dump(sim_stats, out, indent=4)
 
 

@@ -37,7 +37,6 @@ params['ageing'] = False
 def get_score(me, them):
     return params['score_matrix'][me][them]
 
-
 def init(path):
     if path is not None:
         with open(path) as f:
@@ -46,3 +45,8 @@ def init(path):
     random.seed(params['random_seed'])
 
     print("parameters: {}".format(params))
+
+if __name__ == "__main__":
+    with open('params/default.json', 'w+') as f:
+        json.dump(params, f, sort_keys=True, indent=4)
+        f.write('\n')
