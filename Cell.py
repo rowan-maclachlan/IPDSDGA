@@ -241,12 +241,21 @@ class Cell:
             return drawing
 
         rule = self.get_gene().get_defect_fraction()
-        
-        if rule > 0.75:
+        fraction_display = 0.166
+
+        if rule >= 1.0:
             drawing += "ddd"
-        elif rule > 0.5:
+        elif rule > (5*fraction_display):
             drawing += "ddc"
-        elif rule > 0.25:
+        elif rule > (4*fraction_display):
+            drawing += "dcd"
+        elif rule > (3*fraction_display):
+            drawing += "dcc"
+        elif rule > (2*fraction_display):
+            drawing += "cdd"
+        elif rule > (1*fraction_display):
+            drawing += "cdc"
+        elif rule > (0*fraction_display):
             drawing += "ccd"
         else:
             drawing += "ccc"
