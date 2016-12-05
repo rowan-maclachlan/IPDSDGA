@@ -102,7 +102,6 @@ def get_age_stats(surface, stats):
     stats['mode_age'] = mode
     stats['stddev_age'] = stddev
 
-
 def get_rule_stats(surface, stats):
     if 0 != surface.population:
         num_tfts = 0
@@ -114,7 +113,7 @@ def get_rule_stats(surface, stats):
     else:
         frac_tfts = None
 
-    stats['frac_tfts'] = frac_tfts
+    stats['frac_tfts'] = frac_tfts * 100.0
 
 def get_stats(surface):
     """
@@ -124,6 +123,7 @@ def get_stats(surface):
     """
     stats = dict()
    
+    stats['population'] = surface.population
     init_move_stats(surface, stats)
     fraction_def_stats(surface, stats)
     gene_length_stats(surface, stats)
@@ -133,4 +133,27 @@ def get_stats(surface):
 
     return stats
     
-   
+def output_plot(path, data):
+    from plotly import offline as py
+    from plotly import graph_objs as go
+
+    plot_data = {}
+    for key in data[0].keys():
+        plot_data[key] = {
+            'x': [],
+            'y': [],
+            'mode': 'lines+markers',
+            'name': key
+        }
+
+    for i, d in enumerate(data):
+        for k, v in d.items():
+            plot_data[k]['x'].append(i)
+            plot_data[k]['y'].append(v)
+
+    to_plot = []
+    for k in sorted(plot_data.keys()):
+        to_plot.append(go.Scatter(plot_data[k]))
+
+    py.plot(to_plot, filename=path, auto_open=False)
+
