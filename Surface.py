@@ -261,6 +261,9 @@ if __name__ == "__main__":
         surface.set(c_init.get_position(), c_init)
     
     sim_stats = list()
+    
+    # add initial state
+    sim_stats.append(s.get_stats(surface))
 
     for i in range(gens):
         print(surface)
@@ -272,5 +275,7 @@ if __name__ == "__main__":
 
     with open("out/{}_{}.json".format(file_start, start), "w+") as out:
         json.dump(sim_stats, out, indent=4)
+
+    s.output_plot("out/{}_{}.html".format(file_start, start), sim_stats)
 
 
