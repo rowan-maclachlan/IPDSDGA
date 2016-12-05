@@ -1,5 +1,10 @@
 #!/bin/bash
 
+haste() {
+    a=$(cat);
+    curl -X POST -s -d "${a}" 'http://hastebin.com/documents' | awk -F '"' '{print "http://hastebin.com/"$4}';
+}
+
 sprunge() {
     curl -sF 'sprunge=<-' http://sprunge.us
 }
@@ -7,16 +12,19 @@ sprunge() {
 TOKEN=$(cat .secret/token)
 EMAIL=$(cat .secret/email)
 
-mkdir -p out
-
 params_file=${1:-params/default.json}
 params=$(basename -s .json ${params_file})
-output="out/${params}_$(date +"%Y-%m-%d_%H:%M:%S")"
+out="out/${params}_$(date +"%Y-%m-%d_%H.%M.%S")/"
 
-python3 Surface.py ${params_file} | tee ${output}.log
+mkdir -p ${out}
+cd ${out}
 
-log_url=$(sprunge < ${output}.log)
-json_url=$(sprunge < ${output}.json)
+python3 ../../Surface.py ../../${params_file} | tee run.log
+
+log_url=$(haste < run.log)
+json_url=$(haste < data.json)
+
+cd -
 
 # Do not send notification if token and email are empty
 [[ "${TOKEN}" == "" ]] && exit
@@ -26,5 +34,6 @@ python3 pushbullet-notify.py \
     -a $TOKEN \
     -e $EMAIL \
     -t "Simulation Done: ${params}" \
-       "log: $log_url json: $json_url"
+       "log: ${log_url} json: ${json_url}" 
+
 

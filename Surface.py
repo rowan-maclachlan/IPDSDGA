@@ -238,8 +238,6 @@ if __name__ == "__main__":
     from os import path
     from time import strftime
 
-    start = strftime("%Y-%m-%d_%H:%M:%S")
-
     if len(sys.argv) == 2:
         file_start = path.splitext(path.basename(sys.argv[1]))[0]
         p.init(sys.argv[1])
@@ -273,9 +271,8 @@ if __name__ == "__main__":
     for c in surface.get_best_x(0.02):
         print(str(c))
 
-    with open("out/{}_{}.json".format(file_start, start), "w+") as out:
+    with open("data.json", "w+") as out:
         json.dump(sim_stats, out, indent=4)
 
-    s.output_plot("out/{}_{}.html".format(file_start, start), sim_stats)
-
+    s.output_plot("plot.html", sim_stats)
 
