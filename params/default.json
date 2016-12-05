@@ -1,19 +1,30 @@
 {
-    "random_seed": 0,
-    "surface": {
-        "width": 20,
-        "height": 20
-    },
-    "generations": 200,
-    "interactions": 10,
-    "score_matrix": {
-        "c": { "c": 3, "d": 0 },
-        "d": { "c": 5, "d": 1 }
-    },
-    "loss_per_tick": 2,
-    "initial_score": 50,
+    "age_of_death": 10,
+    "ageing": false,
     "default_memory_size": 3,
-    "mutation_chance_insert": 0.05,
-    "mutation_chance_delete": 0.05,
-    "mutation_chance_flip": 0.05
+    "generations": 300,
+    "initial_score": 20,
+    "interactions": 10,
+    "loss_per_tick": 2.5,
+    "move_chance": 0.1,
+    "move_ratio": 0.1,
+    "mutation_chance_delete": 0.1,
+    "mutation_chance_flip": 0.2,
+    "mutation_chance_insert": 0.1,
+    "random_seed": 0,
+    "reproduction_ratio": 0.05,
+    "score_matrix": {
+        "c": {
+            "c": 3,
+            "d": 0
+        },
+        "d": {
+            "c": 5,
+            "d": 1
+        }
+    },
+    "surface": {
+        "height": 30,
+        "width": 30
+    }
 }
