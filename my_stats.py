@@ -3,6 +3,7 @@ import Cell as c
 import Gene as g
 import statistics as s
 
+
 def init_move_stats(surface, stats):
     # get initial move statistics
     if 0 != surface.population:
@@ -20,6 +21,7 @@ def init_move_stats(surface, stats):
         stats['init_move_frac'] = init_move_frac
     else:
         stats['init_move_frac'] = None
+
 
 def fraction_def_stats(surface, stats):
     # get gene defection fraction stats
@@ -44,6 +46,7 @@ def fraction_def_stats(surface, stats):
     stats['mode_def_frac'] = mode
     stats['stddev_def_frac'] = stddev
 
+
 def gene_length_stats(surface, stats):
 
     if 0 != surface.population:
@@ -64,6 +67,7 @@ def gene_length_stats(surface, stats):
     stats['mode_length'] = mode
     stats['stddev_length'] = stddev
 
+
 def get_score_stats(surface, stats):
     if 0 != surface.population:
         scores = list()
@@ -82,6 +86,7 @@ def get_score_stats(surface, stats):
     stats['mean_scores'] = mean
     stats['mode_scores'] = mode
     stats['stddev_scores'] = stddev
+
 
 def get_age_stats(surface, stats):
     if 0 != surface.population:
@@ -106,15 +111,21 @@ def get_age_stats(surface, stats):
 def get_rule_stats(surface, stats):
     if 0 != surface.population:
         num_tfts = 0
+        num_t2ts = 0
         for c in surface.get_all():
             if c.is_tft():
                 num_tfts += 1
-            # elif ...
+            elif c.is_t2t():
+                num_t2ts += 1
         frac_tfts = float(num_tfts)/surface.population
+        frac_t2ts = float(num_tfts)/surface.population
     else:
         frac_tfts = None
+        frac_t2ts = None
 
     stats['frac_tfts'] = frac_tfts
+    stats['frac_t2ts'] = frac_t2ts
+
 
 def get_stats(surface):
     """
