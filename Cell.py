@@ -178,12 +178,46 @@ class Cell:
         g = self.get_gene().get_seq()
         if 'c' != g[1]:
             return False
+        if not len(g) >= 4:
+            return False
         for x in range(2, len(g)):
             dec = 'c' if x % 2 == 0 else 'd'
             if dec != g[x]:
                 return False
         return True
-    
+
+    def is_ftf(self):
+        """
+        Mean tit for tat
+        :return: return true if this cell is a
+        mean tit-for-tat
+        """
+        g = self.get_gene().get_seq()
+        if 'd' != g[1]:
+            return False
+        if not len(g) >= 4:
+            return False
+        for x in range(2, len(g)):
+            dec = 'c' if x % 2 == 0 else 'd'
+            if dec != g[x]:
+                return False
+        return True
+
+    def is_t2t(self):
+        g = self.get_gene().get_seq()
+        if 'c' != g[1]:
+            return False
+        if not len(g) >= 8:
+            return False
+        for x in range(2, 4):
+            if g[x] is not 'c':
+                return False
+        for x in range(1, len(g)-3):
+            dec = 'd' if x%4 == 0 else 'c'
+            if g[x+3] is not dec:
+                return False
+        return True
+
     def draw(self):
         """
         Return a string that represents the Cell and its rule
@@ -199,7 +233,13 @@ class Cell:
         if self.is_tft():
             drawing += "tft"
             return drawing
-        
+        elif self.is_t2t():
+            drawing += "t2t"
+            return drawing
+        elif self.is_ftf():
+            drawing += "ftf"
+            return drawing
+
         rule = self.get_gene().get_defect_fraction()
         
         if rule > 0.75:
