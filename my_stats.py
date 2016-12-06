@@ -17,7 +17,7 @@ def init_move_stats(surface, stats):
                 init_move_frac += 1
         init_move_frac = float(init_move_frac)/len(initial_moves)
         
-        stats['init_move_frac'] = init_move_frac
+        stats['init_move_frac'] = init_move_frac * 100.0
     else:
         stats['init_move_frac'] = None
 
@@ -30,19 +30,13 @@ def fraction_def_stats(surface, stats):
                 lambda c: fraction_defect.append(
                     c.get_gene().get_defect_fraction()))
         mean = s.mean(fraction_defect)
-        try:
-            mode = s.mode(fraction_defect)
-        except s.StatisticsError:
-            mode = None
         stddev = s.pstdev(fraction_defect, mean)
     else:
         mean = None
-        mode = None
         stddev = None
 
-    stats['mean_def_frac'] = mean
-    stats['mode_def_frac'] = mode
-    stats['stddev_def_frac'] = stddev
+    stats['def_frac_mean'] = mean * 100.0
+    stats['def_frac_stddev'] = stddev * 100.0
 
 def gene_length_stats(surface, stats):
 
@@ -50,70 +44,71 @@ def gene_length_stats(surface, stats):
         lengths = list()
         surface.my_map(lambda c: lengths.append(len(c.get_gene().get_seq())-1))
         mean = s.mean(lengths)
-        try:
-            mode = s.mode(lengths)
-        except s.StatisticsError:
-            mode = None
         stddev = s.pstdev(lengths, mean)
     else:
         mean = None
-        mode = None
         stddev = None
 
-    stats['mean_length'] = mean
-    stats['mode_length'] = mode
-    stats['stddev_length'] = stddev
+    stats['length_mean'] = mean
+    stats['length_stddev'] = stddev
 
 def get_score_stats(surface, stats):
     if 0 != surface.population:
         scores = list()
         surface.my_map(lambda c: scores.append(c.get_score()))
         mean = s.mean(scores)
-        try:
-            mode = s.mode(scores)
-        except s.StatisticsError:
-            mode = None
         stddev = s.pstdev(scores, mean)
     else:
         mean = None
-        mode = None
         stddev = None
 
-    stats['mean_scores'] = mean
-    stats['mode_scores'] = mode
-    stats['stddev_scores'] = stddev
+    stats['scores_mean'] = mean
+    stats['scores_stddev'] = stddev
 
 def get_age_stats(surface, stats):
     if 0 != surface.population:
         ages = list()
         surface.my_map(lambda c: ages.append(c.get_age()))
         mean = s.mean(ages)
-        try:
-            mode = s.mode(ages)
-        except s.StatisticsError:
-            mode = None
         stddev = s.pstdev(ages, mean)
     else:
         mean = None
-        mode = None
         stddev = None
 
-    stats['mean_age'] = mean
-    stats['mode_age'] = mode
-    stats['stddev_age'] = stddev
+    stats['age_mean'] = mean
+    stats['age_stddev'] = stddev
 
 def get_rule_stats(surface, stats):
     if 0 != surface.population:
         num_tfts = 0
+        num_t2ts = 0
+        num_ftfs = 0
         for c in surface.get_all():
             if c.is_tft():
                 num_tfts += 1
-            # elif ...
+            elif c.is_t2t():
+                num_t2ts += 1
+            elif c.is_ftf():
+                num_ftfs += 1
         frac_tfts = float(num_tfts)/surface.population
+        frac_t2ts = float(num_t2ts)/surface.population
+        frac_ftfs = float(num_ftfs)/surface.population
     else:
         frac_tfts = None
+        frac_t2ts = None
+        frac_ftfs = None
 
-    stats['frac_tfts'] = frac_tfts * 100.0
+    stats['rule_frac_tfts'] = frac_tfts * 100.0
+    stats['rule_frac_t2ts'] = frac_t2ts * 100.0
+    stats['rule_frac_ftfs'] = frac_ftfs * 100.0
+
+def get_population_stats(surface, stats):
+    
+    map_size = surface.width * surface.height
+    rel_population = float(surface.population) / float(map_size)
+    stats['pop_rel'] = rel_population * 100.0
+    stats['pop_abs'] = surface.population
+    
 
 def get_stats(surface):
     """
@@ -123,7 +118,6 @@ def get_stats(surface):
     """
     stats = dict()
    
-    stats['population'] = surface.population
     init_move_stats(surface, stats)
     fraction_def_stats(surface, stats)
     gene_length_stats(surface, stats)

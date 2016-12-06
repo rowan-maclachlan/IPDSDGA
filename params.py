@@ -6,11 +6,11 @@ params = dict()
 params['random_seed'] = 0
 
 params['surface'] = {
-    'width': 30,
-    'height': 30,
+    'width': 20,
+    'height': 20,
 }
 
-params['generations'] = 300
+params['generations'] = 200
 params['interactions'] = 10
 
 params['score_matrix'] = {

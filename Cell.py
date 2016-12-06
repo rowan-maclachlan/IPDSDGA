@@ -213,7 +213,7 @@ class Cell:
             if g[x] is not 'c':
                 return False
         for x in range(1, len(g)-3):
-            dec = 'd' if x%4 == 0 else 'c'
+            dec = 'd' if x % 4 == 0 else 'c'
             if g[x+3] is not dec:
                 return False
         return True

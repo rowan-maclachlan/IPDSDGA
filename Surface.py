@@ -228,8 +228,7 @@ class Surface:
         out += "*\n"
         out += " | population: "    + str(self.population) \
                 + " | born: "       + str(self.total_alive) \
-                + " | died: "       + str(self.total_dead) + "\n"
-        
+                + " | died: "       + str(self.total_dead)
         return out
 
 if __name__ == "__main__":
@@ -265,6 +264,7 @@ if __name__ == "__main__":
 
     for i in range(gens):
         print(surface)
+        print(" | generation: " + str(i))
         surface.tick(interactions)
         sim_stats.append(s.get_stats(surface))
 
