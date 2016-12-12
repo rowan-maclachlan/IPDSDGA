@@ -83,6 +83,8 @@ def get_rule_stats(surface, stats):
         num_tfts = 0
         num_t2ts = 0
         num_ftfs = 0
+        num_alld = 0
+        num_allc = 0
         for c in surface.get_all():
             if c.is_tft():
                 num_tfts += 1
@@ -90,17 +92,27 @@ def get_rule_stats(surface, stats):
                 num_t2ts += 1
             elif c.is_ftf():
                 num_ftfs += 1
+            elif c.is_alld():
+                num_alld += 1
+            elif c.is_allc():
+                num_allc += 1
         frac_tfts = float(num_tfts)/surface.population
         frac_t2ts = float(num_t2ts)/surface.population
         frac_ftfs = float(num_ftfs)/surface.population
+        frac_alld = float(num_alld)/surface.population
+        frac_allc = float(num_allc)/surface.population
     else:
         frac_tfts = None
         frac_t2ts = None
         frac_ftfs = None
+        frac_alld = None
+        frac_allc = None
 
     stats['rule_frac_tfts'] = frac_tfts * 100.0
     stats['rule_frac_t2ts'] = frac_t2ts * 100.0
     stats['rule_frac_ftfs'] = frac_ftfs * 100.0
+    stats['rule_frac_alld'] = frac_alld * 100.0
+    stats['rule_frac_allc'] = frac_allc * 100.0
 
 def get_population_stats(surface, stats):
     

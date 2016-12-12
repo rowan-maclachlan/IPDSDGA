@@ -229,6 +229,7 @@ class Surface:
         out += " | population: "    + str(self.population) \
                 + " | born: "       + str(self.total_alive) \
                 + " | died: "       + str(self.total_dead)
+
         return out
 
 if __name__ == "__main__":
@@ -260,14 +261,25 @@ if __name__ == "__main__":
     sim_stats = list()
     
     # add initial state
-    sim_stats.append(s.get_stats(surface))
+    stat = s.get_stats(surface)
+    sim_stats.append(stat)
 
     for i in range(gens):
+        surface.tick(interactions)
+        stat = s.get_stats(surface)
+        sim_stats.append(stat)
         print(surface)
         print(" | generation: " + str(i))
-        surface.tick(interactions)
-        sim_stats.append(s.get_stats(surface))
+        print(" | def.frac  : " + '{0:2f}'.format(stat['def_frac_mean']) \
+            + " | init.move : " + '{0:2f}'.format(stat['init_move_frac']))
+        
+        print(" | tfts  : "   + '{0:2f}'.format(stat['rule_frac_tfts']) \
+            + " | ftfs  : "   + '{0:2f}'.format(stat['rule_frac_ftfs']) \
+            + " | t2ts  : "   + '{0:2f}'.format(stat['rule_frac_t2ts']) \
+            + " | all_d : "   + '{0:2f}'.format(stat['rule_frac_alld']) \
+            + " | all_c : "   + '{0:2f}'.format(stat['rule_frac_allc']))
 
+        
     for c in surface.get_best_x(0.02):
         print(str(c))
 

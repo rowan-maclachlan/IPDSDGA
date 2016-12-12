@@ -218,6 +218,20 @@ class Cell:
                 return False
         return True
 
+    def is_alld(self):
+        g = self.get_gene().get_seq()
+        for i in range(1, len(g)):
+            if g[i] is 'c':
+                return False
+        return True
+    
+    def is_allc(self):
+        g = self.get_gene().get_seq()
+        for i in range(1, len(g)):
+            if g[i] is 'd':
+                return False
+        return True
+
     def draw(self):
         """
         Return a string that represents the Cell and its rule
