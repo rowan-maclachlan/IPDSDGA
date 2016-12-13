@@ -1,39 +1,94 @@
+"""
+This module serves as a repository for
+simulation parameters.  Dictionary values can 
+be overwritten for any particular simulation run
+to enable changing parameter values all across
+the simulation.  Otherwise, changing parameter values
+would require navigating to any number of other files.
+"""
+
 import json
 import random
 
+""" 
+keys are the names of model parameters.
+values are particular simulation parameter values.
+"""
 params = dict()
 
+""" Copied and varied to allow for reproducible results """
 params['random_seed'] = 0
 
+""" The size of the surface """
 params['surface'] = {
     'width': 20,
     'height': 20,
 }
 
+""" The number of generations to run the simulation """
 params['generations'] = 200
+""" The number of interactions with neighbours per generation """
 params['interactions'] = 10
 
+"""
+The payoff matrix for the iterated prisoner's dilemma.
+General rules should be followed:
+    T > R > P > S and
+    ( T + P ) / 2 < R
+where 
+    T = 5,
+    R = 3, 
+    P = 1, and
+    S = 0
+"""
 params['score_matrix'] = {
     'c': { 'c': 3, 'd': 0 },
     'd': { 'c': 5, 'd': 1 }
 }
+""" Cell score loss per interaction """
 params['loss_per_tick'] = 2.5
+""" The base score of a cell at the start of a generation """
 params['initial_score'] = 20
 
+""" 
+The initial size of Gene sequence is
+between 2^2 and 2^3.
+"""
 params['default_memory_size'] = 3
-
+""" 
+The chance of a particular choice being 
+inserted into a gene """
 params['mutation_chance_insert'] = 0.1
+""" 
+The chance of a particular choice being 
+deleted from a gene. """
 params['mutation_chance_delete'] = 0.1
+""" 
+The chance of a particular choice 
+being flipped from one to the other. 
+"""
 params['mutation_chance_flip'] = 0.2
-
+""" The probability that a poorly performing cell will move """
 params['move_chance'] = 0.1
+""" The fraction of a population that may move """
 params['move_ratio'] = 0.1
 
+""" The fraction of the population that may reproduce """
 params['reproduction_ratio'] = 0.05
-
+""" The age at which cells die """
 params['age_of_death'] = 10
+""" Whether or not the simulation is being run with ageing """
 params['ageing'] = False
 
+"""
+Retrieve the score from the score matrix.
+:param me: The choice of the calling Cell
+:type me: char
+:param them: The choice of the calling Cell's neighbour
+:type them: char
+:return: The score of the two choices
+:rtype: int
+"""
 def get_score(me, them):
     return params['score_matrix'][me][them]
 

@@ -4,10 +4,15 @@ from params import params
 
 def recombine(parent_a, parent_b):
     """
-    :param parent_a: Gene Parent A's Gene
-    :param parent_b: Gene Parent B's Gene
+    Recombine the code sequences of parent_a and parent_b
+    into a new code sequence.
+    :param parent_a: Parent A's Gene
+    :type parent_a: Gene
+    :param parent_b: Parent B's Gene
+    :type parent_b: Gene:
     :return: A new code formed from parent A' gene's
     code and parent B's gene's code.
+    :rtype: A list of characters
     """
     code_a = parent_a.get_seq()
     code_b = parent_b.get_seq()
@@ -38,7 +43,10 @@ def produce_random_gene(size_mem):
     Produce a randomly generated _gene of size 2^_size_mem.
     The relevant portions of the gene extend from offset
     0 through 2^_size_mem ( inclusive )
+    :param size_mem: the size of a Cell's memory
+    :type size_mem: int
     :return: A _gene sequence
+    :rtype: a list of characters
     """
     # If the size is provided, make sure
     # to update this gene's memory size
@@ -53,7 +61,11 @@ def get_random_choice(chance=0.5):
     """
     Produce a choice, 'c' or 'd',
     depending on the random value chance
-    :return:
+    :param chance: The chance that a random choice
+        will be a 'd' instead of a 'c'
+    :type chance: float Representing a probability
+    :return: a 'd' or a 'c'
+    :rtype: char
     """
     return 'd' if chance > random.random() else 'c'
 
@@ -62,7 +74,9 @@ def get_other_choice(choice):
     """
     Return the opposite choice of the argument provided
     :param choice: the choice character for which the opposite is desired
+    :type choice: char
     :return: the character of the opposite choice
+    :rtype: char
     """
     return 'd' if choice == 'c' else 'c'
 
@@ -72,7 +86,10 @@ def is_valid_choice(choice):
     Return true if the 'choice' is a valid choice.
     Return false otherwise.
     :param choice: A choice 'c' or 'd'
-    :return: Boolean true or false
+    :type choice: char
+    :return: true if the choice is valid,
+        or false otherwise.
+    :rtype: boolean
     """
     if choice != 'd' or choice != 'c':
         return False
@@ -85,8 +102,12 @@ def is_valid_position(code, pos):
     Return true if the 'pos' is a valid _position.
     Return false otherwise.
     :param pos: An offset in this code
+    :type pos: int
     :param code: A list of choices
-    :return: Boolean true or false
+    :type code: list(char)
+    :return: true if the position in the code
+        is valid, and false otherwise.
+    :rtype: boolean
     """
     if 1 > pos: return False
     if len(code) <= pos: return False
@@ -95,7 +116,9 @@ def is_valid_position(code, pos):
 
 def mutate(code):
     """
-    Apply the simulation mutations to this Gene's _gene
+    Apply the simulation mutations to a Gene's _gene
+    :param code: A list of choices, a Gene's sequence.
+    :type code: list(char)
     """
     apply_flips(code)
     applyDeletions(code)
@@ -106,8 +129,8 @@ def apply_flips(code):
     """
     Proceed over the code and apply flip mutations
     according to the probabilty of a flip.
-    :param code: List<char> a list of character as code
-    :return: None
+    :param code: a list of character as code
+    :type code: list(char)
     """
     for x in range(1, len(code)):
         if params['mutation_chance_flip'] > random.random():
@@ -118,7 +141,8 @@ def applyDeletions(code):
     Apply deletions over this Gene's _gene according
      to the probability of a deletion per choice in
      the length of the Gene's _gene
-    :param code: List<char> a list of character as code
+    :param code: a Gene's code sequence
+    :type code: list(char)
     """
     # We cannot delete a choice if the length of the
     # code is already only 2 long. 2 long is just
@@ -135,8 +159,8 @@ def apply_insertions(code):
     Apply any mutational insertions to this Gene's _gene
     according to the probability of insertion per choice
     over the length of the Gene's gene.
-    :param code: List<char> a list of character as code
-    :return: None
+    :param code: a list of character as code
+    :type code: list(char)
     """
     for x in range(1, len(code)):
         if params['mutation_chance_insert'] > random.random():
@@ -147,10 +171,12 @@ def insert_choice(code, choice, pos):
     """
     insert the choice 'c' or 'd' into the _position in the gene
     directly after 'pos'.
-    :param code: List<char> a list of character as code
-    :param choice: char The choice of 'c' or 'd'
-    :param pos: int The _position after which to insert the choice
-    :return: None
+    :param code: A list of character as code
+    :type code: list(char)
+    :param choice: The choice of 'c' or 'd'
+    :type choice: char
+    :param pos: The position in the code after which to insert the choice
+    :type pos: int
     """
     if not is_valid_choice(choice):
         choice = get_random_choice()
@@ -164,9 +190,10 @@ def insert_choice(code, choice, pos):
 def append_choice(code, choice):
     """
     Append the choice to the this gene
-    :param code: List<char> a list of character as code
+    :param code: A list of character as code
+    :type code: list(char)
     :param choice: the choice to append
-    :return: None
+    :type choice: char
     """
     if not is_valid_choice(choice):
         choice = get_random_choice()
@@ -178,9 +205,10 @@ def remove_choice(code, pos):
     """
     Remove the choice at _position 'pos' in the code.
     If the _position is not valid, the last choice is removed.
-    :param code: List<char> a list of character as code
-    :param pos: the _position of the choice to remove
-    :return: None
+    :param code: A Gene sequence
+    :type code: list(char)
+    :param pos: the position of the choice to remove
+    :type pos: int
     """
     if not is_valid_position(code, pos):
         pos = len(code) - 1
