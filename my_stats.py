@@ -1,9 +1,27 @@
+"""
+A module to collect statistical information about
+values of population for a surface.  By calling
+the get_stats method a dictionary full of these
+values is returned.
+This module also contains functionality for producing
+scatter plots with this data from module plotly.
+"""
 import Surface
 import Cell as c
 import Gene as g
 import statistics as s
 
 def init_move_stats(surface, stats):
+    """
+    Create the keys 'init_move_frac' in the
+    'stats' dictionary and populate it with
+    data about the default choice of the surface's
+    population.
+    :param surface: The surface from which to collect data
+    :type surface: Surface
+    :param stats: The dictionary into which the data should be inserted
+    :type stats: dict(str,float)
+    """
     # get initial move statistics
     if 0 != surface.population:
         initial_moves = list()
@@ -22,7 +40,16 @@ def init_move_stats(surface, stats):
         stats['init_move_frac'] = None
 
 def fraction_def_stats(surface, stats):
-    # get gene defection fraction stats
+    """
+    Create the keys 'def_frac_mean' and 'def_frac_stddev' in the
+    'stats' dictionary and populate it with data about the 
+    fraction of Cell's Gene's which are 'd'.
+    :param surface: The surface from which to collect data
+    :type surface: Surface
+    :param stats: The dictionary into which the data should be inserted
+    :type stats: dict(str,float)
+    """
+   # get gene defection fraction stats
     if 0 != surface.population:
         fraction_defect = list()
 
@@ -39,6 +66,15 @@ def fraction_def_stats(surface, stats):
     stats['def_frac_stddev'] = stddev * 100.0
 
 def gene_length_stats(surface, stats):
+    """
+    Create the keys 'length_mean' and 'length_stddev' in the
+    'stats' dictionary and populate it with data about the 
+    length of the surface's Cells' Genes.
+    :param surface: The surface from which to collect data
+    :type surface: Surface
+    :param stats: The dictionary into which the data should be inserted
+    :type stats: dict(str,float)
+    """
 
     if 0 != surface.population:
         lengths = list()
@@ -53,6 +89,15 @@ def gene_length_stats(surface, stats):
     stats['length_stddev'] = stddev
 
 def get_score_stats(surface, stats):
+    """
+    Create the keys 'scores_mean' and 'scores_stddev' in the
+    'stats' dictionary and populate it with data about the 
+    scores of the surface's Cells.
+    :param surface: The surface from which to collect data
+    :type surface: Surface
+    :param stats: The dictionary into which the data should be inserted
+    :type stats: dict(str,float)
+    """
     if 0 != surface.population:
         scores = list()
         surface.my_map(lambda c: scores.append(c.get_score()))
@@ -66,6 +111,15 @@ def get_score_stats(surface, stats):
     stats['scores_stddev'] = stddev
 
 def get_age_stats(surface, stats):
+    """
+    Create the keys 'age_mean' and 'age_stddev' in the
+    'stats' dictionary and populate it with data about the 
+    ages of the surface's Cells.
+    :param surface: The surface from which to collect data
+    :type surface: Surface
+    :param stats: The dictionary into which the data should be inserted
+    :type stats: dict(str,float)
+    """
     if 0 != surface.population:
         ages = list()
         surface.my_map(lambda c: ages.append(c.get_age()))
@@ -79,6 +133,20 @@ def get_age_stats(surface, stats):
     stats['age_stddev'] = stddev
 
 def get_rule_stats(surface, stats):
+    """
+    Create the keys:
+        'rule_frac_tfts'
+        'rule_frac_t2ts'
+        'rule_frac_ftfs'
+        'rule_frac_alld'
+        'rule_frac_allc'
+    in the 'stats' dictionary and populate it with data about the 
+    fraction of the surface's population which are specific rules.
+    :param surface: The surface from which to collect data
+    :type surface: Surface
+    :param stats: The dictionary into which the data should be inserted
+    :type stats: dict(str,float)
+    """
     if 0 != surface.population:
         num_tfts = 0
         num_t2ts = 0
@@ -115,7 +183,15 @@ def get_rule_stats(surface, stats):
     stats['rule_frac_allc'] = frac_allc * 100.0
 
 def get_population_stats(surface, stats):
-    
+    """
+    Create the keys 'pop_rel' and 'pop_abs' in the
+    'stats' dictionary and populate it with data about the 
+    relative and absolute population of the surface.
+    :param surface: The surface from which to collect data
+    :type surface: Surface
+    :param stats: The dictionary into which the data should be inserted
+    :type stats: dict(str,float)
+    """
     map_size = surface.width * surface.height
     rel_population = float(surface.population) / float(map_size)
     stats['pop_rel'] = rel_population * 100.0
@@ -126,7 +202,10 @@ def get_stats(surface):
     """
     Retrieve statistics about the Surface and the
     Cellular population.
-    :return: dict() A dictionary full of statistics
+    :param surface: The surface of a simulation
+    :type surface: Surface
+    :return: A dictionary full of statistics
+    :rtype: dict(str, float)
     """
     stats = dict()
    

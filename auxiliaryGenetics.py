@@ -184,7 +184,6 @@ def insert_choice(code, choice, pos):
         code.append(choice)
     else:
         code.insert(pos, choice)
-    return None
 
 
 def append_choice(code, choice):
@@ -198,7 +197,6 @@ def append_choice(code, choice):
     if not is_valid_choice(choice):
         choice = get_random_choice()
     code.append(choice)
-    return None
 
 
 def remove_choice(code, pos):
@@ -213,4 +211,3 @@ def remove_choice(code, pos):
     if not is_valid_position(code, pos):
         pos = len(code) - 1
     del code[pos]
-    return None
