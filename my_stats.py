@@ -32,8 +32,8 @@ def fraction_def_stats(surface, stats):
         mean = s.mean(fraction_defect)
         stddev = s.pstdev(fraction_defect, mean)
     else:
-        mean = None
-        stddev = None
+        mean = 0
+        stddev = 0
 
     stats['def_frac_mean'] = mean * 100.0
     stats['def_frac_stddev'] = stddev * 100.0
@@ -102,11 +102,11 @@ def get_rule_stats(surface, stats):
         frac_alld = float(num_alld)/surface.population
         frac_allc = float(num_allc)/surface.population
     else:
-        frac_tfts = None
-        frac_t2ts = None
-        frac_ftfs = None
-        frac_alld = None
-        frac_allc = None
+        frac_tfts = 0
+        frac_t2ts = 0
+        frac_ftfs = 0
+        frac_alld = 0
+        frac_allc = 0
 
     stats['rule_frac_tfts'] = frac_tfts * 100.0
     stats['rule_frac_t2ts'] = frac_t2ts * 100.0
