@@ -3,9 +3,11 @@ import Memory
 import params as p
 
 class Cell:
-    """ The Cell is the entity which contains the rule-defining Gene.
+    """ 
+    The Cell is the entity which contains the rule-defining Gene.
     The Cell hosts the Gene, and explicitly defines the viability of the
-    rule through realizing associated scores and health metrics. """
+    rule through realizing associated scores and health metrics. 
+    """
 
     def __init__(self, id, position, parent_a=None, parent_b=None):
         """
@@ -35,10 +37,14 @@ class Cell:
     def reproduce(self, id, position, partner):
         """
         Produce a new Cell by combining this cell and another
-        :param id: int The ID for the new Cell
-        :param position: Position The new Cell's Position in the world
-        :param partner: Cell another Cell to reproduce with
+        :param id: The ID for the new Cell
+        :type id: int
+        :param position: The new Cell's Position in the world
+        :type position: Position
+        :param partner: another Cell to reproduce with
+        :type partner: Cell
         :return: a new Cell
+        :rtype: Cell
         """
         return Cell(id, position, self, partner)
 
@@ -47,9 +53,9 @@ class Cell:
         Process the interaction stages for this cell interacting with all 
         its neighbours. For every neighbour, this Cell and its neighbour
         trade decisions, adjust scores, and adjust memories for a single tick.
-        :param neighbours: Set<Cell> The list of neighbouring cells this 
-        Cell will interact with.
-        :return: None
+        :param neighbours: The list of neighbouring cells this 
+                           Cell will interact with.
+        :type neighbours: list(Cell)
         """
         for neighbour in neighbours:
             if not self.__eq__(neighbour):
@@ -75,6 +81,7 @@ class Cell:
         Is this Cell dead?
         :return: True if this Cell's energy is 0
         or lower, and False otherwise.
+        :rtype: boolean
         """
         dead = True if 0 >= self._score else False
         if p.params['ageing'] and self._age > p.params['age_of_death']:
@@ -88,10 +95,11 @@ class Cell:
         with its neighbour.  The decision is retrieved from the gene
         of this cell, using the memory the Cell has of its neighbour
         as input.
-        :param neighbour: Cell Another cell to interact with
-        :param choice: char A choice 'c' or 'd'
-        :return: char The response of this cell to its memory
+        :param neighbour: Another cell to interact with
+        :type neighbour: Cell
+        :return: The response of this cell to its memory
         of the neighbour cell.
+        :rtype: char
         """
         if neighbour not in self._memory:
             self._memory[neighbour] = Memory.Memory()
@@ -100,31 +108,45 @@ class Cell:
         return my_choice
 
     def get_position(self):
+        """
+        Get this Cell's position.
+        :return: This Cell's position on the toroidal world.
+        :rtype: Position
+        """
         return self._position
 
     def set_position(self, new_pos):
+        """
+        Set this Cell's position.
+        :param new_pos: The new position for this Cell.
+        :type new_pos: Position
+        """
         self._position = new_pos
 
     def get_score(self):
+        """
+        Get this Cell's score.
+        :return: This Cell's score.
+        :rtype: float
+        """
         return self._score
 
     def _adjust_score(self, my_choice, their_choice):
         """
         Adjust the score of this Cell according to the
         score matrix values and the two input choices.
-        Also subtract the energy bleed from this Cell
-        :param my_choice: char A choice 'c' or 'd'
-        :param their_choice: char A choice 'c' or 'd'
-        :return: None
+        Also subtract the score bleed from this Cell
+        :param my_choice: A choice 'c' or 'd'
+        :type my_choice: char
+        :param their_choice: A choice 'c' or 'd'
+        :type their_choice: char
         """
         self._score += p.params['score_matrix'][my_choice][their_choice]
         self._score -= p.params['loss_per_tick']
 
     def reset_score(self):
         """
-        Resets the score of this Cell to the
-        default score
-        :return: None
+        Resets the score of this Cell to the default score.
         """
         self._score = p.params['initial_score']
 
@@ -133,9 +155,10 @@ class Cell:
         Adjust the memory of this cell by looking at
         the memory dictionary for a past relationship with the
         neighbour, and adding the new interaction to that memory.
-        :param neighbour: Cell the cell involved in the interaction
+        :param neighbour: the cell involved in the interaction
+        :type neighbour: Cell
         :param neighbour_choice: a choice 'c' or 'd' from the other cell
-        :return: None
+        :type neighbour_choice: char
         """
         if neighbour in self._memory:
             self.get_memory_of(neighbour).add_choice_to_memory(
@@ -148,17 +171,20 @@ class Cell:
         """
         Get the unique identifier self._id from
         this cell.
-        :return: int This Cell's unique ID
+        :return: This Cell's unique ID
+        :rtype: int
         """
         return self._id
 
     def get_memory_of(self, cell):
         """
         Retrieve the memory associated with the Cell cell
-        :param cell: Cell The Cell who is the subject
-         of the memory that is wanted.
-        :return: Memory A memory of a Cell cell, or
-        None if no memory of 'cell' exists
+        :param cell: The Cell who is the subject
+                     of the memory that is wanted.
+        :type cell: Cell
+        :return: A memory of a Cell cell, 
+                 or None if no memory of 'cell' exists
+        :rtype: Memory || None
         """
         if cell not in self._memory:
             return None
@@ -166,15 +192,34 @@ class Cell:
             return self._memory[cell]
 
     def age(self):
+        """
+        Increment the age of this Cell by 1.
+        """
         self._age += 1
 
     def get_age(self):
+        """
+        Get the age of this Cell.
+        :return: The age of this Cell.
+        :rtype: int
+        """
         return self._age
 
     def get_gene(self):
+        """
+        Get this Cell's Gene.
+        :return: This Cell's Gene.
+        :rtype: Gene
+        """
         return self._gene
 
     def is_tft(self):
+        """
+        Is this Cell's rule a perfect Tit-For-Tat?
+        :return: True if this Cell's rule is a perfect TFT,
+                 False if it is not.
+        :rtype: boolean
+        """
         g = self.get_gene().get_seq()
         if 'c' != g[1]:
             return False
@@ -188,9 +233,9 @@ class Cell:
 
     def is_ftf(self):
         """
-        Mean tit for tat
-        :return: return true if this cell is a
-        mean tit-for-tat
+        Is this Cell's rule a mean tit for tat
+        :return: True if this Cell is a mean TFT, false otherwise.
+        :rtype: boolean
         """
         g = self.get_gene().get_seq()
         if 'd' != g[1]:
@@ -204,6 +249,12 @@ class Cell:
         return True
 
     def is_t2t(self):
+        """
+        Is this Cell's rule a perfect Tit-For-Two-Tats?
+        :return: True if this Cell's rule is a perfect T2T,
+                 False if it is not.
+        :rtype: boolean
+        """
         g = self.get_gene().get_seq()
         if 'c' != g[1]:
             return False
@@ -219,6 +270,12 @@ class Cell:
         return True
 
     def is_alld(self):
+        """
+        Is this Cell's rule strictly defect?
+        :return: True if this Cell's rule always defects,
+                 False if it does not.
+        :rtype: boolean
+        """
         g = self.get_gene().get_seq()
         for i in range(1, len(g)):
             if g[i] is 'c':
@@ -226,6 +283,12 @@ class Cell:
         return True
     
     def is_allc(self):
+        """
+        Is this Cell's rule strictly cooperate?
+        :return: True if this Cell's rule always cooperates,
+                 False if it does not.
+        :rtype: boolean
+        """
         g = self.get_gene().get_seq()
         for i in range(1, len(g)):
             if g[i] is 'd':
@@ -235,7 +298,8 @@ class Cell:
     def draw(self):
         """
         Return a string that represents the Cell and its rule
-        :return: String A string that represent's this Cell's rule
+        :return: A string that represent's this Cell's rule
+        :rtype: str
         """
         drawing = ""
         
@@ -308,9 +372,11 @@ class Cell:
 
     def __eq__(self, other):
         """
-        :param other: Cell The Cell being compared to.
-        :return: True if the ID of this Cell is
-        equal to the ID of the other Cell, False otherwise
+        :param other: The Cell being compared to.
+        :type other: Cell
+        :return: True if the ID of this Cell is equal 
+                 to the ID of the other Cell, False otherwise
+        :rtype: boolean
         """
         if other == None:
             return False
@@ -320,9 +386,11 @@ class Cell:
         """
         Check for interaction between this Cell and the other Cell.
         Test function only.
-        :param other: Cell Another cell who may have been interacted with
+        :param other: Another Cell who may have been interacted with
+        :type other: Cell
         :return: True if the other cell has been
-        interacted with, False otherwise.
+                 interacted with, False otherwise.
+        :rtype: boolean
         """
         if other in self._memory:
             if self.get_memory_of(other).has_interacted():
