@@ -1,3 +1,9 @@
+"""
+This class is a wrapper for the list of characters that
+the gene is.  In our genetic algorithm, the rule is defined
+by a binary decision tree, encoded as a string of 'c's and 'd's.
+The logic of a rule's decision making is within this class.
+"""
 import auxiliaryGenetics as ag
 import random
 import math
@@ -5,6 +11,7 @@ import math
 from params import params
 
 class Gene():
+    
     def __init__(self, gene_a=None, gene_b=None):
         """
         :type gene_a: Gene Parent A's Gene
@@ -28,6 +35,11 @@ class Gene():
             self.update_mem_size()
 
     def get_seq(self):
+        """
+        Get this Gene's genetic sequence.
+        :return: the genetic sequence of this Gene
+        :rtype: list(char)
+        """
         return self._code
 
     def get_decision(self, history):
@@ -36,8 +48,10 @@ class Gene():
         history provided.  If the move is a 'c', get the left
         child.  If it a 'd', get the right child.  If we reach
         a leaf node, return that value
-        :param history: Memory The history or moves provided
+        :param history: The history or moves provided
+        :type history: Memory
         :return: the choice dictated by the gene and history provided
+        :rtype: char
         """
         offset = 1
         for x in history.get_mem_seq():
@@ -58,8 +72,10 @@ class Gene():
     def get_choice_at(self, x):
         """
         Retrieve the character at offset 'x' from this Gene's code
-        :param x: (int) the offset
+        :param x: the offset in this Gene's genetic sequence
+        :type x: int
         :return: the character at offset 'x' in the gene
+        :rtype: char
         """
         return self._code[x]
 
@@ -73,6 +89,7 @@ class Gene():
     def get_defect_fraction(self):
         """
         :return: The percentage of this Gene which is 'd'
+        :rtype: float Between 0.0 and 1.0
         """
         count_defect = 0
         for x in range(1, len(self._code)):
@@ -83,7 +100,8 @@ class Gene():
     def get_mem_size(self):
         """
         Retrieve and return the size of this Gene's memory
-        :return: int This Gene's memory size
+        :return: This Gene's memory size
+        :rtype: int
         """
         return self._size_mem
 
@@ -91,7 +109,7 @@ class Gene():
         """
         Prints a string representation of all
         important information of the Gene
-        :return:
+        :return: str
         """
         display = "\nmemory size: "
         display += str(self._size_mem)

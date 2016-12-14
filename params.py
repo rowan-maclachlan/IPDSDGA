@@ -36,10 +36,10 @@ General rules should be followed:
     T > R > P > S and
     ( T + P ) / 2 < R
 where 
-    T = 5,
-    R = 3, 
-    P = 1, and
-    S = 0
+    T = 5, ( 5 - cost )
+    R = 3, ( 3 - cost )
+    P = 1, ( 1 - cost ), and
+    S = 0  ( 0 - cost )
 """
 params['score_matrix'] = {
     'c': { 'c': 3, 'd': 0 },
