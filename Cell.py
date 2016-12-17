@@ -80,12 +80,11 @@ class Cell:
         """
         Is this Cell dead?
         :return: True if this Cell's energy is 0
-        or lower, and False otherwise.
+        or lower or it is too old, and False otherwise.
         :rtype: boolean
         """
         dead = True if 0 >= self._score else False
         if p.params['ageing'] and self._age > p.params['age_of_death']:
-            print("ageing")
             dead = True
         return dead
 

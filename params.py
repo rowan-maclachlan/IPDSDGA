@@ -26,7 +26,7 @@ params['surface'] = {
 }
 
 """ The number of generations to run the simulation """
-params['generations'] = 200
+params['generations'] = 300
 """ The number of interactions with neighbours per generation """
 params['interactions'] = 10
 
@@ -50,33 +50,32 @@ params['loss_per_tick'] = 2.5
 """ The base score of a cell at the start of a generation """
 params['initial_score'] = 20
 
-""" 
-The initial size of Gene sequence is
-between 2^2 and 2^3.
-"""
+""" The initial size of Gene sequence is
+between 2^2 and 2^3. """
 params['default_memory_size'] = 3
-""" 
-The chance of a particular choice being 
+
+""" The chance of a particular choice being 
 inserted into a gene """
 params['mutation_chance_insert'] = 0.1
-""" 
-The chance of a particular choice being 
+
+""" The chance of a particular choice being 
 deleted from a gene. """
 params['mutation_chance_delete'] = 0.1
-""" 
-The chance of a particular choice 
-being flipped from one to the other. 
-"""
-params['mutation_chance_flip'] = 0.2
+
+""" The chance of a particular choice 
+being flipped from one to the other. """
+params['mutation_chance_flip'] = 0.1
+
 """ The probability that a poorly performing cell will move """
-params['move_chance'] = 0.1
+params['move_chance'] = 0.2
+
 """ The fraction of a population that may move """
-params['move_ratio'] = 0.1
+params['move_ratio'] = 0.2
 
 """ The fraction of the population that may reproduce """
 params['reproduction_ratio'] = 0.05
 """ The age at which cells die """
-params['age_of_death'] = 10
+params['age_of_death'] = 20
 """ Whether or not the simulation is being run with ageing """
 params['ageing'] = False
 
