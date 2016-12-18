@@ -5,13 +5,35 @@ import random
 import my_stats as s 
 import params as p
 
+"""
+These are the 9 offsets on the surface which represent
+the neighbourhoord of a cell.  A cell at position (3, 5) will
+have a neighbourhood of 9 positions.  From left to right and 
+top to bottom, these include:
+    (2, 4), (3, 4), (4, 4),
+    (2, 5), (3, 5), (4, 5), and
+    (2, 6), (3, 6), (4, 6)
+When used to get the neighbours of any cell for its interactions,
+the position which is the cell's position must be ignored.
+"""
 neighbour_offsets = [Position(-1,-1), Position( 0,-1), Position( 1,-1),
                      Position(-1, 0), Position( 0, 0), Position( 1, 0),
                      Position(-1, 1), Position( 0, 1), Position( 1, 1)]
 
-
 class Surface:
+    """
+    This class provides encapsulation and operations for
+    the 2 dimensional toroidal surface upon which the simulation
+    runs.  The highest level method for this class is "tick()",
+    which processes a single simulation time-step.
+    """
     def __init__(self, width, height):
+        """
+        :param width: The width of the surface in open spots.
+        :type width: int
+        :param height: The height of the surface in open spots.
+        :type height: int
+        """
         self.population = 0
         self.width = width
         self.height = height
@@ -24,6 +46,11 @@ class Surface:
             self.map.append([ None ] * width)
 
     def get_all(self):
+        """
+        Get a list of all this Surface's living Cells.
+        :return: All this Surface's living Cells.
+        :rtype: list(Cell)
+        """
         living_cells = list()
         for y in range(self.height):
             for x in range(self.width):
@@ -32,22 +59,52 @@ class Surface:
         return living_cells
 
     def get(self, pos):
+        """
+        Retrieve the Cell at position 'pos' in this Surface's map.
+        If there is no cell there, return None
+        :return: The Cell at position 'pos'.
+        :rtype: Cell, None
+        """
         return self.map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width]
 
     def set(self, pos, c):
+        """
+        Set the position 'pos' to the cell 'c'.  This means
+        removing the cell 'c' from its current position, updating
+        the cell's current position, and inserting the cell
+        into its new position.
+        :param pos: The new position for the cell.
+        :type pos: Position
+        :param c: The cell being moved to the new position.
+        :type c: Cell
+        """
         if c is None:
             self._all_cells.remove(self.get(pos))
         else:
             self._all_cells.add(c)
         self.map[(self.height + pos.y) % self.height][(self.width + pos.x) % self.width] = c
-
+    
     def my_map(self, method):
+        """
+        Apply the method 'method' to every living Cell
+        on this Surface's map.
+        :param method: The function to apply to all living Cells.
+        :type method: function
+        """
         for column in self.map:
             for c in column:
                 if c is not None:
                     method(c)
 
     def get_neighbours(self, cell):
+        """
+        Get the set of all the neighbours of the cell 'cell'.
+        This includes the cell 'cell' itself.
+        :param cell: The Cell for which we want its neighbours.
+        :type cell: Cell
+        :return: The set of all cells in the neighbourhood of the cell 'cell'.
+        :rtype: set(Cell)
+        """
         neighbours = set()
         for offset in neighbour_offsets:
             neighbour = self.get(cell.get_position() + offset)
@@ -57,10 +114,13 @@ class Surface:
     
     def get_empty_neighbour_position(self, c):
         """
-        Return the _position of a neighbouring empty cell
-        :param c: A cell
-        :return: A random open _position from among neighbouring
-        open _position, or None if there are no open positions.
+        Return the position of a neighbouring empty spot on 
+        this Surface's map.
+        :param c: The Cell for which we want to find an empty adjacent spot.
+        :type c: Cell
+        :return: A random open position from among neighbouring
+        open position, or None if there are no open positions.
+        :rtype: Position
         """
         candidates = []
         for offset in neighbour_offsets:
@@ -72,9 +132,17 @@ class Surface:
         return random.choice(candidates)
 
     def __interaction_tick(self):
+        """
+        Perform the interaction tick on every living Cell 
+        on this Surface's map.
+        """
         self.my_map(lambda c: c.interact(self.get_neighbours(c)))
     
     def __death_tick(self):
+        """ 
+        Perform the death tick on every living Cell 
+        on this Surface's map.
+        """
         for y in range(self.height):
             for x in range(self.width):
                 if self.map[x][y] is not None:
@@ -84,6 +152,10 @@ class Surface:
                         self.total_dead += 1
     
     def __reproduction_tick(self):
+        """ 
+        Perform the reproduciton tick on every living Cell 
+        on this Surface's map.
+        """
         ratio = p.params['reproduction_ratio']        
         top_cells = sorted(
                 self._all_cells, 
@@ -118,6 +190,10 @@ class Surface:
         Move the Cell 'c' to the its destination.  Set its current
         position to none, set its new position to destination,
         and set the map slot at 'destination' to hold the cell 'c'.
+        :param c: The Cell to be moved.
+        :type c: Cell
+        :param destination: The destination position for the moving cell.
+        :type destination: Position
         """
         destination.x = (destination.x + self.width) % self.width
         destination.y = (destination.y + self.height) % self.height
@@ -130,7 +206,6 @@ class Surface:
         This method could be expanded in functionality to encourage moving
         when performing poorly.  Right now it will just have a random chance
         to move.
-        :return:
         """
         move_chance = p.params['move_chance']        
         # shuffle so that priority is not given to cells at map[0][0]
@@ -171,13 +246,19 @@ class Surface:
 
     def get_best_x(self, ratio):
         """
-        Return the best 'ratio' percent of Cells
+        Get a fraction 'ratio' of the population which 
+        are the best performing Cells in this generation.
+        :return: The best performing Cells in this simulation.
+        :rtype: list(Cell)
         """
         all_cells = self.get_all()
         sorted_cells = sorted(all_cells, key=lambda c: -c.get_score())
         return sorted_cells[:round(len(all_cells) * ratio)]
 
     def __age_tick(self):
+        """
+        Age all the living cells in this simulation.
+        """
         self.my_map(lambda c: c.age())
 
     def tick(self, inters):
@@ -185,8 +266,8 @@ class Surface:
         Run a tick.  Reset scores and memories, and run
         the interaction tick, death tick, and movement tick
         for inters times.  Then, run the reproduction tick.
-        :param inters: int the number of interactions per tick
-        :return: None
+        :param inters: the number of interactions per tick
+        :type inters: int
         """
         self.__clean()
         if p.params['ageing']:
@@ -199,8 +280,7 @@ class Surface:
 
     def __clean(self):
         """
-        Clear and reset the scores of all Cells alive
-        :return:
+        Clear and reset the scores of all living Cells.
         """
         self.my_map(lambda c: c.clear_interactions())
         self.my_map(lambda c: c.reset_score())
